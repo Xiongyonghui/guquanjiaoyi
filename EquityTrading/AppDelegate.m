@@ -7,6 +7,10 @@
 //
 
 #import "AppDelegate.h"
+#import "MainViewController.h"
+#import "MyViewController.h"
+#import "MoreViewController.h"
+#import "CPVTabViewController.h"
 
 @interface AppDelegate ()
 
@@ -16,9 +20,57 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    
+    _loginUser = [[NSMutableDictionary alloc] init];
+    _window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    _window.backgroundColor = [UIColor whiteColor];
+    
+    [self initTabBarControllerUI];
+    [_window makeKeyAndVisible];
     return YES;
 }
+
+-(void)initTabBarControllerUI{
+    _tabBarController = [[CPVTabViewController alloc] init];
+    
+    MainViewController *fisrtVC = [[MainViewController alloc] init];
+    UINavigationController *nav1 = [[UINavigationController alloc] initWithRootViewController:fisrtVC];
+    nav1.delegate = self;
+    MyViewController *tranferVC = [[MyViewController alloc] init];
+    UINavigationController *nav3 = [[UINavigationController alloc] initWithRootViewController:tranferVC];
+    nav3.delegate = self;
+    MoreViewController *myVC = [[MoreViewController alloc] init];
+    UINavigationController *nav4 = [[UINavigationController alloc] initWithRootViewController:myVC];
+    nav4.delegate = self;
+     _tabBarController.viewControllers =[[NSArray alloc] initWithObjects:nav1,nav3,nav4, nil];
+    
+   // _tabBarController.viewControllers =[[NSArray alloc] initWithObjects:fisrtVC,proVC,myVC,tranferVC, nil];
+    
+    NSArray *tbNormalArray = @[[UIImage imageNamed:@"11"],[UIImage imageNamed:@"22"],[UIImage imageNamed:@"44"]];
+    [_tabBarController setTabBarItemsImage:tbNormalArray];
+    
+    NSArray *tbHighlightArray = @[[UIImage imageNamed:@"1"],[UIImage imageNamed:@"2"],[UIImage imageNamed:@"4"]];
+    [_tabBarController setItemSelectedImages:tbHighlightArray];
+    
+    NSMutableArray *txtArr=[NSMutableArray arrayWithObjects:@"首页",@"专场",@"我的",nil];
+    
+    [self.tabBarController setTabBarItemsTitle:txtArr];
+    self.tabBarController.delegate = (id <UITabBarControllerDelegate>)self;
+    
+    [_tabBarController.tabBar setBackgroundColor:[ConMethods colorWithHexString:@"eeeeee"]];
+    [_tabBarController.tabBar setTintColor:[ConMethods colorWithHexString:@"fe8103"]];
+    
+    self.window.rootViewController = _tabBarController;
+}
+
+
+#pragma mark - UINavigationController Delegate Methods
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    navigationController.navigationBarHidden = YES;
+}
+
+
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
