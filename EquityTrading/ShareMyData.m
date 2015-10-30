@@ -31,7 +31,7 @@
 -(id)init {
     if (self = [super init]) {
         
-        myDic = [[NSDictionary alloc] init];
+        myDic = [[NSMutableDictionary alloc] init];
     }
     return self;
     

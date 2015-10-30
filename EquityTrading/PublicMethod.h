@@ -11,6 +11,8 @@
 
 @interface PublicMethod : NSObject
 
+//添加逗号
++ (NSString *)AddComma:(NSString *)string;
 + (NSString *)convertArrayToString:(NSArray *)array;
 + (NSArray *)convertURLToArray:(NSString *)string;
 + (NSURL *)suburlString:(NSURL *)urlString;

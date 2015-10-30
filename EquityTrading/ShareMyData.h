@@ -10,10 +10,10 @@
 
 @interface ShareMyData : NSObject
 {
-    NSDictionary *myDic;
+    NSMutableDictionary *myDic;
 }
 
-@property(nonatomic, readonly) NSDictionary *myDic;
+@property(nonatomic, strong) NSMutableDictionary *myDic;
 
 +(id)sharedManager;
 

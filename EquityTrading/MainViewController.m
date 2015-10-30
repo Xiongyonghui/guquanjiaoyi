@@ -58,9 +58,29 @@
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    if ( [strCount isEqualToString:@"1"]) {
-       [self isLogin];
+    [self selectBtn];
+    
+}
+
+
+//是否选定第一个按钮
+-(void) selectBtn {
+    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    if ([delegate.loginStr isEqualToString:@"1"]) {
+        segmented.selectedSegmentIndex = 0;
+        /*
+         __weak typeof(self) weakSelf = self;
+         [weakSelf.scrollView scrollRectToVisible:CGRectMake(0 , 0, ScreenWidth, ScreenHeight  - 64 - 49) animated:YES];
+         */
+        [self segmentAction:segmented];
+            delegate.loginStr = @"";
+    } else {
+        if ( [strCount isEqualToString:@"1"]) {
+            [self isLogin];
+        }
+    
     }
+
 }
 
 

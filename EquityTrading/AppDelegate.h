@@ -23,6 +23,7 @@
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic)CPVTabViewController *tabBarController;
 @property (strong, nonatomic) NSMutableDictionary *loginUser;
+@property (strong, nonatomic) NSString *loginStr;
 
 @end
 

@@ -26,6 +26,30 @@
 
 @implementation PublicMethod
 
++ (NSString *)AddComma:(NSString *)string{//添加逗号
+    
+    NSString *str=[string stringByReplacingOccurrencesOfString:@"," withString:@""];
+    
+    
+    int numl=(int)[str length];
+    NSLog(@"%d",numl);
+    
+    if (numl>3&&numl<7) {
+        return [NSString stringWithFormat:@"%@,%@",
+                [str substringWithRange:NSMakeRange(0,numl-3)],
+                [str substringWithRange:NSMakeRange(numl-3,3)]];
+    }else if (numl>6){
+        return [NSString stringWithFormat:@"%@,%@,%@",
+                [str substringWithRange:NSMakeRange(0,numl-6)],
+                [str substringWithRange:NSMakeRange(numl-6,3)],
+                [str substringWithRange:NSMakeRange(numl-3,3)]];
+    }else{
+        return str;
+    }
+    
+}
+
+
 //把数组转换为字符串。
 + (NSString *)convertArrayToString:(NSArray *)array{
     NSMutableString *string = [NSMutableString stringWithCapacity:0];

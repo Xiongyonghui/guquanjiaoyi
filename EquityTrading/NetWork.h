@@ -18,7 +18,7 @@
 //#define SERVERURL @"http://192.168.1.110:8805"
 
 //连接失败提示语
-#define notNetworkConnetTip @"网络不稳定，请检查网络是否连接；或者服务器是否开启"
+#define notNetworkConnetTip @"网络不稳定，请检查网络是否连接；或者服务器是否开启。"
 
 
 #define USERLogin @"/service/checkLogin"
@@ -32,9 +32,8 @@
 #define USERqueryEquityMarket @"/app/gqjy/market/queryEquityMarket"
 //我的股权资产分页数据
 #define USERmyGqzcPaging @"/app/wdzh/wdzc/myGqzcPaging"
-//股权挂牌行情
-#define USERqueryEquityHangMarket @"/app/gqjy/market/queryEquityHangMarket"
-//股权类别字典查询
+
+//股权类别字典查询-当日委托/撤单
 #define USERqueryDdztDict @"/app/gqjy/entrust/queryDdztDict"
 //客户当日委托查询
 #define USERqueryTodayEntrust @"/app/gqjy/entrust/queryTodayEntrust"
@@ -52,8 +51,15 @@
 #define USERfxjsAgreement @"/app/gqjy/trade/fxjsAgreement"
 //股权买卖提交
 #define USERequityTradeSubmit @"/app/gqjy/trade/equityTradeSubmit"
+
+
+
+
 //股权挂牌详情页
 #define USERequityHangMarketDetail @"/app/gqjy/trade/equityHangMarketDetail"
+//股权挂牌行情
+#define USERqueryEquityHangMarket @"/app/gqjy/market/queryEquityHangMarket"
+
 //股权买卖交易日与交易时段判断
 #define USERequityTradeCheck @"/app/gqjy/trade/equityTradeCheck"
 //股权挂牌手续费

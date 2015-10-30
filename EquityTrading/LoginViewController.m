@@ -449,6 +449,9 @@
         
         
     } else {
+        AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        delegate.loginStr = @"1";
+        
         [self.navigationController popViewControllerAnimated:YES];
         
     }

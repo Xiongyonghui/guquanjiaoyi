@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MyViewController : UIViewController
+@interface MyViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>
 - (IBAction)loginBtn:(id)sender;
 
 @end

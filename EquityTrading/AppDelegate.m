@@ -52,7 +52,7 @@
     NSArray *tbHighlightArray = @[[UIImage imageNamed:@"1"],[UIImage imageNamed:@"2"],[UIImage imageNamed:@"4"]];
     [_tabBarController setItemSelectedImages:tbHighlightArray];
     
-    NSMutableArray *txtArr=[NSMutableArray arrayWithObjects:@"首页",@"专场",@"我的",nil];
+    NSMutableArray *txtArr=[NSMutableArray arrayWithObjects:@"首页",@"我的资产",@"更多",nil];
     
     [self.tabBarController setTabBarItemsTitle:txtArr];
     self.tabBarController.delegate = (id <UITabBarControllerDelegate>)self;
