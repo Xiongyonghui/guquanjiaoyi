@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
-@interface MoneyInfoViewController : UIViewController <UIScrollViewDelegate,UITableViewDataSource,UITableViewDelegate,SRRefreshDelegate,NetworkModuleDelegate>
+@interface MoneyInfoViewController : UIViewController <UIScrollViewDelegate,UITableViewDataSource,UITableViewDelegate>
 
 - (IBAction)back:(id)sender;
 

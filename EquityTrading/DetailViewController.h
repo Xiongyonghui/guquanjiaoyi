@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface DetailViewController : UIViewController
+
+@property (nonatomic,strong)NSString *gqdm;
 - (IBAction)back:(id)sender;
 
 @end

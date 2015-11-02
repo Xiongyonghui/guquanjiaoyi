@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
 
-@interface MyGainViewController : UIViewController<NetworkModuleDelegate,MBProgressHUDDelegate,UITableViewDataSource,UITableViewDelegate,SRRefreshDelegate,UIGestureRecognizerDelegate,UIScrollViewDelegate>
+@interface MyGainViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate,UIScrollViewDelegate>
 - (IBAction)back:(id)sender;
 
 @end

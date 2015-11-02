@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
 
-@interface MyTransferDetailViewController : UIViewController<MBProgressHUDDelegate,NetworkModuleDelegate,UITextFieldDelegate>
+@interface MyTransferDetailViewController : UIViewController<UITextFieldDelegate>
 
 @property(nonatomic,strong)NSString *gqdm;
 - (IBAction)back:(id)sender;

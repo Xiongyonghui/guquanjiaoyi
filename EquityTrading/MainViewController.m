@@ -43,10 +43,10 @@
 
 @property (strong, nonatomic) UIScrollView *scrollView;
 @property (nonatomic, weak) SDRefreshFooterView *refreshFooter;
-@property (nonatomic, weak) SDRefreshHeaderView *refreshHeader;
+//@property (nonatomic, weak) SDRefreshHeaderView *refreshHeader;
 
 @property (nonatomic, weak) SDRefreshFooterView *refreshFooterPast;
-@property (nonatomic, weak) SDRefreshHeaderView *refreshHeaderPast;
+//@property (nonatomic, weak) SDRefreshHeaderView *refreshHeaderPast;
 
 
 @end
@@ -693,7 +693,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
             
             DetailViewController *cv = [[DetailViewController alloc] init];
             //cv.title = [[dataList objectAtIndex:indexPath.row] objectForKey:@"cpmc"];
-           // cv.strGqdm = [[dataList objectAtIndex:indexPath.row] objectForKey:@"gqdm"];
+            cv.gqdm = [[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_GQDM"];
             cv.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:cv animated:YES];
             
@@ -1093,10 +1093,10 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 }
 
 -(void)dealloc {
-    [self.refreshHeader removeFromSuperview];
+    //[self.refreshHeader removeFromSuperview];
     [self.refreshFooter removeFromSuperview];
     
-    [self.refreshHeaderPast removeFromSuperview];
+   // [self.refreshHeaderPast removeFromSuperview];
     [self.refreshFooterPast removeFromSuperview];
     
 }

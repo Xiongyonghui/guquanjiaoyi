@@ -33,11 +33,11 @@
 //我的股权资产分页数据
 #define USERmyGqzcPaging @"/app/wdzh/wdzc/myGqzcPaging"
 
-//股权类别字典查询-当日委托/撤单
+//股权类别字典查询-当日委托/撤单 （状态）
 #define USERqueryDdztDict @"/app/gqjy/entrust/queryDdztDict"
-//客户当日委托查询
+//客户当日委托查询（列表）
 #define USERqueryTodayEntrust @"/app/gqjy/entrust/queryTodayEntrust"
-//客户当日委托撤单
+//客户当日委托撤单（操作）
 #define USERentrustWithdraw @"/app/gqjy/entrust/entrustWithdraw"
 //成交数据
 #define USERtransactionPageData @"/app/gqjy/transaction/transactionPageData"

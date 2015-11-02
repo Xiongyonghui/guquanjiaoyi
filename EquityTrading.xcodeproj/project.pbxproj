@@ -78,8 +78,6 @@
 		047C3BFC1BE35E1300EAEF67 /* MyTransferPrococalViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 047C3BF21BE35E1300EAEF67 /* MyTransferPrococalViewController.xib */; };
 		047C3BFD1BE35E1300EAEF67 /* MyTransferSuccessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 047C3BF41BE35E1300EAEF67 /* MyTransferSuccessViewController.m */; };
 		047C3BFE1BE35E1300EAEF67 /* MyTransferSuccessViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 047C3BF51BE35E1300EAEF67 /* MyTransferSuccessViewController.xib */; };
-		047C3BFF1BE35E1300EAEF67 /* MyTransferViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 047C3BF71BE35E1300EAEF67 /* MyTransferViewController.m */; };
-		047C3C001BE35E1300EAEF67 /* MyTransferViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 047C3BF81BE35E1300EAEF67 /* MyTransferViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -213,9 +211,6 @@
 		047C3BF31BE35E1300EAEF67 /* MyTransferSuccessViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyTransferSuccessViewController.h; sourceTree = "<group>"; };
 		047C3BF41BE35E1300EAEF67 /* MyTransferSuccessViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyTransferSuccessViewController.m; sourceTree = "<group>"; };
 		047C3BF51BE35E1300EAEF67 /* MyTransferSuccessViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyTransferSuccessViewController.xib; sourceTree = "<group>"; };
-		047C3BF61BE35E1300EAEF67 /* MyTransferViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyTransferViewController.h; sourceTree = "<group>"; };
-		047C3BF71BE35E1300EAEF67 /* MyTransferViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyTransferViewController.m; sourceTree = "<group>"; };
-		047C3BF81BE35E1300EAEF67 /* MyTransferViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyTransferViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -507,9 +502,6 @@
 				047C3BF31BE35E1300EAEF67 /* MyTransferSuccessViewController.h */,
 				047C3BF41BE35E1300EAEF67 /* MyTransferSuccessViewController.m */,
 				047C3BF51BE35E1300EAEF67 /* MyTransferSuccessViewController.xib */,
-				047C3BF61BE35E1300EAEF67 /* MyTransferViewController.h */,
-				047C3BF71BE35E1300EAEF67 /* MyTransferViewController.m */,
-				047C3BF81BE35E1300EAEF67 /* MyTransferViewController.xib */,
 			);
 			name = "我的股权卖出";
 			sourceTree = "<group>";
@@ -586,7 +578,6 @@
 				046590881BE1EDDD0071601F /* MoreViewController.xib in Resources */,
 				046590981BE1EE8A0071601F /* WebDetailViewController.xib in Resources */,
 				046590931BE1EE450071601F /* PublicViewController.xib in Resources */,
-				047C3C001BE35E1300EAEF67 /* MyTransferViewController.xib in Resources */,
 				040B2DD61BDF17CD00A2F1FE /* MainViewController.xib in Resources */,
 				040B2DDE1BDF17D700A2F1FE /* MyViewController.xib in Resources */,
 			);
@@ -618,7 +609,6 @@
 				040B2D8A1BDF14F000A2F1FE /* Base64XD.m in Sources */,
 				041A21B01BE0995700216EEE /* SDRefreshFooterView.m in Sources */,
 				040B2DA81BDF152300A2F1FE /* AFURLResponseSerialization.m in Sources */,
-				047C3BFF1BE35E1300EAEF67 /* MyTransferViewController.m in Sources */,
 				040B2DA61BDF152300A2F1FE /* AFURLConnectionOperation.m in Sources */,
 				040B2D511BDF111600A2F1FE /* AppDelegate.m in Sources */,
 				040B2D7A1BDF14CB00A2F1FE /* Circle.m in Sources */,

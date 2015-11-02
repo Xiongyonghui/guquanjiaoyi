@@ -148,7 +148,7 @@
     
   
         //获取类别信息
-        [self requestMethods];
+       // [self requestMethods];
         
        // [self requestMoney:start withSize:limit tag:kBusinessTagGetJRmyJrzcPaging];
     

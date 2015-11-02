@@ -8,7 +8,6 @@
 
 #import "MoneyInfoViewController.h"
 #import "AppDelegate.h"
-#import "HMSegmentedControl.h"
 #define TSEGSCROLLVIEW 10005
 @interface MoneyInfoViewController ()
 {
@@ -20,7 +19,7 @@
     NSMutableArray *dataList;
     BOOL hasMore;
     UITableViewCell *moreCell;
-    SRRefreshView   *_slimeView;
+    
     //历史
     UITableView *tableViewPast;
     NSString *startPast;
@@ -29,7 +28,7 @@
     NSMutableArray *dataListPast;
     BOOL hasMorePast;
     UITableViewCell *moreCellPast;
-    SRRefreshView   *_slimeViewPast;
+   
     UIDatePicker *datePicker;
     UIDatePicker *timePicker;
     UIToolbar *tooBar;
@@ -147,17 +146,7 @@
     
     [self.scrollView addSubview:tableView];
     
-    //加入下拉刷新
-    _slimeView = [[SRRefreshView alloc] init];
-    _slimeView.delegate = self;
-    _slimeView.upInset = 0;
-    _slimeView.slimeMissWhenGoingBack = YES;
-    _slimeView.slime.bodyColor = [UIColor blackColor];
-    _slimeView.slime.skinColor = [UIColor whiteColor];
-    _slimeView.slime.lineWith = 1;
-    _slimeView.slime.shadowBlur = 4;
-    _slimeView.slime.shadowColor = [UIColor blackColor];
-    [tableView addSubview:_slimeView];
+   
     
     
     tableViewPast = [[UITableView alloc] initWithFrame:CGRectMake(ScreenWidth , 40, ScreenWidth,  scrollViewHeight - 40)];
@@ -169,17 +158,7 @@
     
     [self.scrollView addSubview:tableViewPast];
     
-    //加入下拉刷新
-    _slimeViewPast = [[SRRefreshView alloc] init];
-    _slimeViewPast.delegate = self;
-    _slimeViewPast.upInset = 0;
-    _slimeViewPast.slimeMissWhenGoingBack = YES;
-    _slimeViewPast.slime.bodyColor = [UIColor blackColor];
-    _slimeViewPast.slime.skinColor = [UIColor whiteColor];
-    _slimeViewPast.slime.lineWith = 1;
-    _slimeViewPast.slime.shadowBlur = 4;
-    _slimeViewPast.slime.shadowColor = [UIColor blackColor];
-    [tableViewPast addSubview:_slimeViewPast];
+   
     
     datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(ScreenWidth, self.scrollView.frame.size.height - 200, ScreenWidth, 200)];
     datePicker.backgroundColor = [UIColor whiteColor];
@@ -235,11 +214,7 @@
     
     
     //添加指示器及遮罩
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.dimBackground = YES; //加层阴影
-    hud.mode = MBProgressHUDModeIndeterminate;
-    hud.labelText = @"加载中...";
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+   /*
         //获取类别信息
         NSString *str =[self dateToStringDate:[NSDate date]];
         
@@ -247,12 +222,9 @@
         
         [self requestRecordList:str withEndDate:str withStart:start withSize:limit tag:kBusinessTagGetJRFundsList];
         
-        [self requestRecordList:notStarDate withEndDate:notEddDate withStart:startPast withSize:limitPast tag:kBusinessTagGetJRFundsListPast];
+       [self requestRecordList:notStarDate withEndDate:notEddDate withStart:startPast withSize:limitPast tag:kBusinessTagGetJRFundsListPast];
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-        });
-    });
+       */
     
 }
 
@@ -277,7 +249,7 @@
     endLabTip.text = @"开始日期";
     endLabTip.font = [UIFont systemFontOfSize:13];
     endLabTip.backgroundColor = [UIColor clearColor];
-    endLabTip.textColor = [ColorUtil colorWithHexString:@"999999"];
+    endLabTip.textColor = [ConMethods colorWithHexString:@"999999"];
     [self.scrollView addSubview:endLabTip];
     
     
@@ -285,7 +257,7 @@
     UIView *startView = [[UIView alloc] initWithFrame:CGRectMake(ScreenWidth + 62, 0, (ScreenWidth - 184)/2, 30)];
     startView.backgroundColor = [UIColor whiteColor];
     startView.layer.borderWidth = 1;
-    startView.layer.borderColor = [[ColorUtil colorWithHexString:@"dedede"] CGColor];
+    startView.layer.borderColor = [[ConMethods colorWithHexString:@"dedede"] CGColor];
     startView.layer.cornerRadius = 3;
     startView.layer.masksToBounds = YES;
 
@@ -293,7 +265,7 @@
     
     dateLStarabel = [[UILabel alloc] initWithFrame:CGRectMake( 5, 0, (ScreenWidth - 184)/2 - 7 , 30)];
     dateLStarabel.backgroundColor = [UIColor whiteColor];
-    dateLStarabel.textColor = [ColorUtil colorWithHexString:@"333333"];
+    dateLStarabel.textColor = [ConMethods colorWithHexString:@"333333"];
     dateLStarabel.lineBreakMode = NSLineBreakByTruncatingTail;
     dateLStarabel.font = [UIFont systemFontOfSize:13];
    // dateLStarabel.textAlignment = NSTextAlignmentCenter;
@@ -324,14 +296,14 @@
     starLabel.font = [UIFont systemFontOfSize:13];
     starLabel.text = @"结束日期";
     starLabel.backgroundColor = [UIColor clearColor];
-    starLabel.textColor = [ColorUtil colorWithHexString:@"999999"];
+    starLabel.textColor = [ConMethods colorWithHexString:@"999999"];
     starLabel.textAlignment = NSTextAlignmentCenter;
     [self.scrollView addSubview:starLabel];
     
     UIView *endView = [[UIView alloc] initWithFrame:CGRectMake(ScreenWidth + 124 + (ScreenWidth - 184)/2, 0, (ScreenWidth - 184)/2, 30)];
     endView.backgroundColor = [UIColor whiteColor];
     endView.layer.borderWidth = 1;
-    endView.layer.borderColor = [[ColorUtil colorWithHexString:@"dedede"] CGColor];
+    endView.layer.borderColor = [[ConMethods colorWithHexString:@"dedede"] CGColor];
     endView.layer.cornerRadius = 3;
     endView.layer.masksToBounds = YES;
     
@@ -339,7 +311,7 @@
     
     dateLEndabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, (ScreenWidth - 184)/2 - 7, 30)];
     dateLEndabel.font = [UIFont systemFontOfSize:13];
-    dateLEndabel.textColor = [ColorUtil colorWithHexString:@"333333"];
+    dateLEndabel.textColor = [ConMethods colorWithHexString:@"333333"];
    // dateLEndabel.textAlignment = NSTextAlignmentCenter;
     
     notEddDate = [self dateToStringDate:[self getPriousorLaterDateFromDate:[NSDate date] withMonth:0 withDay:-1]];
@@ -357,7 +329,7 @@
     
     
     UIButton *queryBtn = [[UIButton alloc] initWithFrame:CGRectMake( ScreenWidth*2 - 50, 0,  40, 30)];
-    queryBtn.backgroundColor = [ColorUtil colorWithHexString:@"fe8103"];
+    queryBtn.backgroundColor = [ConMethods colorWithHexString:@"fe8103"];
     //queryBtn.layer.borderWidth = 1;
     //queryBtn.layer.borderColor = [[UIColor blackColor] CGColor];
     queryBtn.layer.cornerRadius = 3;
@@ -426,7 +398,7 @@
         [self alterMessage:@"结束时间不得晚于今天"];
         return;
     } else {
-        
+        /*
         //添加指示器及遮罩
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         hud.dimBackground = YES; //加层阴影
@@ -444,7 +416,7 @@
                 
             });
         });
-        
+        */
         
         
         
@@ -551,84 +523,7 @@
 
 
 
-#pragma mark - slimeRefresh delegate
-- (void)slimeRefreshStartRefresh:(SRRefreshView *)refreshView
-{
-    if (refreshView == _slimeView) {
-        startBak = [NSString stringWithString:start];
-        start = @"0";
-        NSString *str =[self dateToStringDate:[NSDate date]];
-        [self requestRecordList:str withEndDate:str withStart:start withSize:limit tag:kBusinessTagGetJRFundsListAgain];
-    } else if (refreshView == _slimeViewPast){
-        startBakPast = [NSString stringWithString:startPast];
-        startPast = @"0";
-        [self requestRecordList:notStarDate withEndDate:notEddDate withStart:startPast withSize:limitPast tag:kBusinessTagGetJRFundsListPastAgain];
-        
-    }
-    
-}
-#pragma mark - UIScrollView Delegate Methods
-- (void)scrollViewDidScroll:(UIScrollView *)scView
-{
-    if (scView == tableView) {
-        [_slimeView scrollViewDidScroll];
-    } else if (scView == tableViewPast){
-        [_slimeViewPast scrollViewDidScroll];
-        
-    }
-    
-}
 
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-{
-    if (scrollView == tableView) {
-        [_slimeView scrollViewDidEndDraging];
-    } else if (scrollView == tableViewPast) {
-        [_slimeViewPast scrollViewDidEndDraging];
-    }
-    
-}
-
-- (void)tableView:(UITableView *)tbleView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (tbleView == tableView) {
-        
-        if ([indexPath row] == [dataList count]) {
-            if (hasMore) {
-                for (UILabel *label in [cell.contentView subviews]) {
-                    if ([label.text isEqualToString:@"*****正在加载*****"]) {
-                        
-                    } else {
-                        label.text = @"*****正在加载*****";
-                        NSString *str =[self dateToStringDate:[NSDate date]];
-                       
-                        [self requestRecordList:str withEndDate:str withStart:start withSize:limit tag:kBusinessTagGetJRFundsList];
-                       // [self requestRecordList:[str stringByReplacingOccurrencesOfString:@"-" withString:@""] withEndDate:[str stringByReplacingOccurrencesOfString:@"-" withString:@""] withStart:start withSize:limit tag:kBusinessTagGetJRFundsList];
-                        [tbleView deselectRowAtIndexPath:indexPath animated:YES];
-                    }
-                }
-            }
-        }
-        
-    } else if (tbleView == tableViewPast) {
-        
-        if ([indexPath row] == [dataListPast count]) {
-            if (hasMorePast) {
-                for (UILabel *label in [cell.contentView subviews]) {
-                    if ([label.text isEqualToString:@"*****正在加载*****"]) {
-                        
-                    } else {
-                        label.text = @"*****正在加载*****";
-                        //[self requestRecordList:[dateLStarabel.text stringByReplacingOccurrencesOfString:@"-" withString:@""] withEndDate:[dateLEndabel.text stringByReplacingOccurrencesOfString:@"-" withString:@""] withStart:startPast withSize:limitPast tag:kBusinessTagGetJRFundsListPast]
-                        [self requestRecordList:notStarDate withEndDate:notEddDate withStart:startPast withSize:limitPast tag:kBusinessTagGetJRFundsListPast];
-                        [tbleView deselectRowAtIndexPath:indexPath animated:YES];
-                    }
-                }
-            }
-        }
-        
-    }
-}
 
 #pragma mark - UITableView DataSource Methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -695,7 +590,7 @@
             cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 200)];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 50)];
-            [backView setBackgroundColor:[ColorUtil colorWithHexString:@"ececec"]];
+            [backView setBackgroundColor:[ConMethods colorWithHexString:@"ececec"]];
             //图标
             UIImageView *iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake((ScreenWidth - 57)/2, 100, 57, 57)];
             [iconImageView setImage:[UIImage imageNamed:@"none_charger_icon"]];
@@ -704,7 +599,7 @@
             UILabel *tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, iconImageView.frame.origin.y + iconImageView.frame.size.height + 27, ScreenWidth, 15)];
             [tipLabel setFont:[UIFont systemFontOfSize:15]];
             [tipLabel setTextAlignment:NSTextAlignmentCenter];
-            [tipLabel setTextColor:[ColorUtil colorWithHexString:@"404040"]];
+            [tipLabel setTextColor:[ConMethods colorWithHexString:@"404040"]];
             tipLabel.backgroundColor = [UIColor clearColor];
             [tipLabel setText:@"您还没有相关记录哦~"];
             [backView addSubview:tipLabel];
@@ -719,7 +614,7 @@
                 UILabel *toastLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 10, 160, 59)];
                 [toastLabel setFont:[UIFont systemFontOfSize:12]];
                 toastLabel.backgroundColor = [UIColor clearColor];
-                [toastLabel setTextColor:[ColorUtil colorWithHexString:@"999999"]];
+                [toastLabel setTextColor:[ConMethods colorWithHexString:@"999999"]];
                 toastLabel.numberOfLines = 0;
                 toastLabel.text = @"更多...";
                 toastLabel.textAlignment = NSTextAlignmentCenter;
@@ -743,7 +638,7 @@
                    
                     
                     classLabTip.font = [UIFont systemFontOfSize:15];
-                    classLabTip.textColor = [ColorUtil colorWithHexString:@"999999"];
+                    classLabTip.textColor = [ConMethods colorWithHexString:@"999999"];
                     [backView addSubview:classLabTip];
                     
                     
@@ -752,12 +647,12 @@
                    // NSString *adc;
                     
                     if (![[[dataList objectAtIndex:[indexPath row]] objectForKey:@"FID_SRJE"] floatValue] <= 0) {
-                        remainLab.textColor = [ColorUtil colorWithHexString:@"fe8103"];
+                        remainLab.textColor = [ConMethods colorWithHexString:@"fe8103"];
                         remainLab.text = [NSString stringWithFormat:@"%.2f",[[[dataList objectAtIndex:[indexPath row]] objectForKey:@"FID_SRJE"]  floatValue]];
                         
                     } else{
                         remainLab.text = [NSString stringWithFormat:@"%.2f",[[[dataList objectAtIndex:[indexPath row]] objectForKey:@"FID_FCJE"]  floatValue]];
-                        remainLab.textColor = [ColorUtil colorWithHexString:@"047f47"];
+                        remainLab.textColor = [ConMethods colorWithHexString:@"047f47"];
                     }
 
                     
@@ -781,7 +676,7 @@
                     
                     UILabel *flagLabel = [[UILabel alloc] initWithFrame:CGRectMake(remainLab.frame.size.width + remainLab.frame.origin.x, 10, 13, 15)];
                     flagLabel.font = [UIFont systemFontOfSize:15];
-                    [flagLabel setTextColor:[ColorUtil colorWithHexString:@"333333"]];
+                    [flagLabel setTextColor:[ConMethods colorWithHexString:@"333333"]];
                     flagLabel.textAlignment = NSTextAlignmentLeft;
                     flagLabel.text = @"元";
                     [backView addSubview:flagLabel];
@@ -792,7 +687,7 @@
                     UILabel *reLabTip = [[UILabel alloc] initWithFrame:CGRectMake(10 , 32,65 , 15)];
                     reLabTip.text = @"资金余额";
                     reLabTip.font = [UIFont systemFontOfSize:15];
-                    reLabTip.textColor = [ColorUtil colorWithHexString:@"999999"];
+                    reLabTip.textColor = [ConMethods colorWithHexString:@"999999"];
                     [backView addSubview:reLabTip];
                     
                     
@@ -823,20 +718,20 @@
                     
                     reLab.text =[NSString stringWithFormat:@"%.2f",[[[dataList objectAtIndex:[indexPath row]] objectForKey:@"FID_BCZJYE"] doubleValue]];
                     reLab.font = [UIFont systemFontOfSize:15];
-                    reLab.textColor = [ColorUtil colorWithHexString:@"333333"];
+                    reLab.textColor = [ConMethods colorWithHexString:@"333333"];
                     [backView addSubview:reLab];
                     
                     // 处理结果
                     UILabel *endLabTip = [[UILabel alloc] initWithFrame:CGRectMake(10, 54,65 , 15)];
                     endLabTip.text = @"处理摘要";
                     endLabTip.font = [UIFont systemFontOfSize:15];
-                    endLabTip.textColor = [ColorUtil colorWithHexString:@"999999"];
+                    endLabTip.textColor = [ConMethods colorWithHexString:@"999999"];
                     [backView addSubview:endLabTip];
                     
                     UILabel *endLab = [[UILabel alloc] initWithFrame:CGRectMake(75, 54,ScreenWidth - 85 , 15)];
                     endLab.text =[[dataList objectAtIndex:[indexPath row]] objectForKey:@"FID_ZY"];
                     endLab.font = [UIFont systemFontOfSize:13];
-                    endLab.textColor = [ColorUtil colorWithHexString:@"333333"];
+                    endLab.textColor = [ConMethods colorWithHexString:@"333333"];
                     [backView addSubview:endLab];
                     
                     
@@ -848,11 +743,11 @@
                     [strDate insertString:@"-" atIndex:(strDate.length - 2)];
                     dateLab.text = [NSString stringWithFormat:@"%@  %@",strDate,[[dataList objectAtIndex:[indexPath row]] objectForKey:@"FID_FSSJ"]];
                     dateLab.font = [UIFont systemFontOfSize:14];
-                    dateLab.textColor = [ColorUtil colorWithHexString:@"999999"];
+                    dateLab.textColor = [ConMethods colorWithHexString:@"999999"];
                     [backView addSubview:dateLab];
                     
                     UIView *subView = [[UIView alloc] initWithFrame:CGRectMake(10, 0, ScreenWidth - 10, 1)];
-                    [subView setBackgroundColor:[ColorUtil colorWithHexString:@"eeeeee"]];
+                    [subView setBackgroundColor:[ConMethods colorWithHexString:@"eeeeee"]];
                     if ([indexPath row] != 0) {
                         [backView addSubview:subView];
                     }
@@ -871,7 +766,7 @@
             cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 200)];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 50)];
-            [backView setBackgroundColor:[ColorUtil colorWithHexString:@"ececec"]];
+            [backView setBackgroundColor:[ConMethods colorWithHexString:@"ececec"]];
             //图标
             UIImageView *iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake((ScreenWidth - 57)/2, 100, 57, 57)];
             [iconImageView setImage:[UIImage imageNamed:@"none_charger_icon"]];
@@ -880,7 +775,7 @@
             UILabel *tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, iconImageView.frame.origin.y + iconImageView.frame.size.height + 27, ScreenWidth, 15)];
             [tipLabel setFont:[UIFont systemFontOfSize:13]];
             [tipLabel setTextAlignment:NSTextAlignmentCenter];
-            [tipLabel setTextColor:[ColorUtil colorWithHexString:@"404040"]];
+            [tipLabel setTextColor:[ConMethods colorWithHexString:@"404040"]];
             [tipLabel setText:@"您还没有相关记录哦~"];
             tipLabel.backgroundColor = [UIColor clearColor];
             [backView addSubview:tipLabel];
@@ -895,7 +790,7 @@
                 UILabel *toastLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 10, 160, 59)];
                 [toastLabel setFont:[UIFont systemFontOfSize:12]];
                 toastLabel.backgroundColor = [UIColor clearColor];
-                [toastLabel setTextColor:[ColorUtil colorWithHexString:@"999999"]];
+                [toastLabel setTextColor:[ConMethods colorWithHexString:@"999999"]];
                 toastLabel.numberOfLines = 0;
                 toastLabel.text = @"更多...";
                 toastLabel.textAlignment = NSTextAlignmentCenter;
@@ -921,7 +816,7 @@
                     
                     
                     classLabTip.font = [UIFont systemFontOfSize:15];
-                    classLabTip.textColor = [ColorUtil colorWithHexString:@"999999"];
+                    classLabTip.textColor = [ConMethods colorWithHexString:@"999999"];
                     [backView addSubview:classLabTip];
                     
                     
@@ -935,12 +830,12 @@
                     
                     
                     if (![[[dataListPast objectAtIndex:[indexPath row]] objectForKey:@"FID_SRJE"] floatValue] <= 0) {
-                        remainLab.textColor = [ColorUtil colorWithHexString:@"047f47"];
+                        remainLab.textColor = [ConMethods colorWithHexString:@"047f47"];
                         remainLab.text = [NSString stringWithFormat:@"%.2f",[[[dataListPast objectAtIndex:[indexPath row]] objectForKey:@"FID_SRJE"]  floatValue]];
                         
                     } else{
                         remainLab.text = [NSString stringWithFormat:@"%.2f",[[[dataListPast objectAtIndex:[indexPath row]] objectForKey:@"FID_FCJE"]  floatValue]];
-                        remainLab.textColor = [ColorUtil colorWithHexString:@"fe8103"];
+                        remainLab.textColor = [ConMethods colorWithHexString:@"fe8103"];
                     }
                     
                     /*
@@ -974,7 +869,7 @@
                     
                     UILabel *flagLabel = [[UILabel alloc] initWithFrame:CGRectMake(remainLab.frame.size.width + remainLab.frame.origin.x, 10, 15, 15)];
                     flagLabel.font = [UIFont systemFontOfSize:15];
-                    [flagLabel setTextColor:[ColorUtil colorWithHexString:@"333333"]];
+                    [flagLabel setTextColor:[ConMethods colorWithHexString:@"333333"]];
                     flagLabel.textAlignment = NSTextAlignmentLeft;
                     flagLabel.text = @"元";
                     [backView addSubview:flagLabel];
@@ -985,7 +880,7 @@
                     UILabel *reLabTip = [[UILabel alloc] initWithFrame:CGRectMake(10, 32,65 , 15)];
                     reLabTip.text = @"资金余额";
                     reLabTip.font = [UIFont systemFontOfSize:15];
-                    reLabTip.textColor = [ColorUtil colorWithHexString:@"999999"];
+                    reLabTip.textColor = [ConMethods colorWithHexString:@"999999"];
                     [backView addSubview:reLabTip];
                     
                     
@@ -1022,20 +917,20 @@
                     }
                     */
                     reLab.font = [UIFont systemFontOfSize:15];
-                    reLab.textColor = [ColorUtil colorWithHexString:@"333333"];
+                    reLab.textColor = [ConMethods colorWithHexString:@"333333"];
                     [backView addSubview:reLab];
                     
                     // 处理结果
                     UILabel *endLabTip = [[UILabel alloc] initWithFrame:CGRectMake(10, 54,65 , 15)];
                     endLabTip.text = @"处理摘要";
                     endLabTip.font = [UIFont systemFontOfSize:15];
-                    endLabTip.textColor = [ColorUtil colorWithHexString:@"999999"];
+                    endLabTip.textColor = [ConMethods colorWithHexString:@"999999"];
                     [backView addSubview:endLabTip];
                     
                     UILabel *endLab = [[UILabel alloc] initWithFrame:CGRectMake(75, 54,ScreenWidth - 85 , 15)];
                     endLab.text =[[dataListPast objectAtIndex:[indexPath row]] objectForKey:@"FID_ZY"];
                     endLab.font = [UIFont systemFontOfSize:15];
-                    endLab.textColor = [ColorUtil colorWithHexString:@"333333"];
+                    endLab.textColor = [ConMethods colorWithHexString:@"333333"];
                     [backView addSubview:endLab];
                     
                     
@@ -1047,11 +942,11 @@
                     [strDate insertString:@"-" atIndex:(strDate.length - 2)];
                     dateLab.text = [NSString stringWithFormat:@"%@  %@",strDate,[[dataListPast objectAtIndex:[indexPath row]] objectForKey:@"FID_FSSJ"]];
                     dateLab.font = [UIFont systemFontOfSize:14];
-                    dateLab.textColor = [ColorUtil colorWithHexString:@"999999"];
+                    dateLab.textColor = [ConMethods colorWithHexString:@"999999"];
                     [backView addSubview:dateLab];
                     
                     UIView *subView = [[UIView alloc] initWithFrame:CGRectMake(10, 0, ScreenWidth - 10, 1)];
-                    [subView setBackgroundColor:[ColorUtil colorWithHexString:@"eeeeee"]];
+                    [subView setBackgroundColor:[ConMethods colorWithHexString:@"eeeeee"]];
                     if ([indexPath row] != 0) {
                         [backView addSubview:subView];
                     }
@@ -1117,183 +1012,6 @@
         }
     }
     return 95;
-}
-
-#pragma mark - Recived Methods
-//处理品牌列表
-- (void)recivedCategoryList:(NSMutableArray *)dataArray
-{
-    NSLog(@"%s %d %@", __FUNCTION__, __LINE__, @"处理品牌列表数据");
-    if ([dataList count] > 0) {
-        for (NSDictionary *object in dataArray) {
-            [dataList addObject:object];
-        }
-    } else {
-        dataList = dataArray;
-    }
-    if ([dataArray count] < 10) {
-        hasMore = NO;
-    } else {
-        hasMore = YES;
-        start = [NSString stringWithFormat:@"%d", [start intValue] + 1];
-    }
-    [tableView reloadData];
-    [_slimeView endRefresh];
-}
-
-
-
-#pragma mark - Recived Methods
-//处理品牌列表
-- (void)recivedDataList:(NSMutableArray *)dataArray
-{
-    NSLog(@"%s %d %@", __FUNCTION__, __LINE__, @"处理品牌列表数据");
-    if ([dataList count] > 0) {
-        for (NSDictionary *object in dataArray) {
-            [dataList addObject:object];
-        }
-    } else {
-        dataList = dataArray;
-    }
-    if ([dataArray count] < 10) {
-        hasMore = NO;
-    } else {
-        hasMore = YES;
-        start = [NSString stringWithFormat:@"%d", [start intValue] + 10];
-    }
-    [tableView reloadData];
-    [_slimeView endRefresh];
-}
-
-- (void)recivedPastDataList:(NSMutableArray *)dataArray
-{
-    NSLog(@"%s %d %@", __FUNCTION__, __LINE__, @"处理品牌列表数据");
-    if ([dataListPast count] > 0) {
-        for (NSDictionary *object in dataArray) {
-            [dataListPast addObject:object];
-        }
-    } else {
-        dataListPast = dataArray;
-    }
-    if ([dataArray count] < 10) {
-        hasMorePast = NO;
-    } else {
-        hasMorePast = YES;
-        startPast = [NSString stringWithFormat:@"%d", [startPast intValue] + 10];
-    }
-    [tableViewPast reloadData];
-    [_slimeViewPast endRefresh];
-}
-
-
-#pragma mark - Request Methods
-//请求登陆
-- (void)requestRecordList:(NSString *)_startDate withEndDate:(NSString *)_endDate withStart:(NSString *)_start withSize:(NSString *)_size tag:(kBusinessTag)_tag
-{
-    NSLog(@"%s %d %@", __FUNCTION__, __LINE__, @"请求登陆");
-    
-    NSMutableDictionary *paraDic = [[NSMutableDictionary alloc] init];
-    [paraDic setObject:_startDate forKey:@"ksrq"];
-    [paraDic setObject:_endDate forKey:@"jsrq"];
-    [paraDic setObject:_size forKey:@"rowcount"];
-    [paraDic setObject:_start forKey:@"rowindex"];
-    [[NetworkModule sharedNetworkModule] postBusinessReqWithParamters:paraDic tag:_tag owner:self];
-}
-
-
-
-#pragma mark - NetworkModuleDelegate Methods
--(void)beginPost:(kBusinessTag)tag{
-    
-}
--(void)endPost:(NSString *)result business:(kBusinessTag)tag{
-    NSLog(@"%s %d 收到数据:%@", __FUNCTION__, __LINE__, result);
-    NSMutableDictionary *jsonDic = [result JSONValue];
-    
-    if ([[jsonDic objectForKey:@"object"] isKindOfClass:[NSString class]]) {
-        
-        if ([[jsonDic objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
-            
-            AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-            [delegate.logingUser removeAllObjects];
-            [delegate.dictionary removeAllObjects];
-            [ASIHTTPRequest setSessionCookies:nil];
-            [self.navigationController popToRootViewControllerAnimated:YES];
-        }
-    } else {
-    
-    if (tag==kBusinessTagGetJRFundsList) {
-        NSMutableArray *dataArray = [jsonDic objectForKey:@"object"];
-        if ([[jsonDic objectForKey:@"success"] boolValue] == 0) {
-            //数据异常处理
-             [self.view makeToast:@"刷新商品失败"];
-        } else {
-             if ([jsonDic objectForKey:@"object"] != [NSNull null]) {
-            [self recivedDataList:dataArray];
-             }
-        }
-    }else if (tag == kBusinessTagGetJRFundsListAgain){
-        NSMutableArray *dataArray = [jsonDic objectForKey:@"object"];
-        [_slimeView endRefresh];
-        if ([[jsonDic objectForKey:@"success"] boolValue] == 0) {
-            //数据异常处理
-            [self.view makeToast:@"刷新商品失败"];
-        } else {
-            [dataList removeAllObjects];
-             if ([jsonDic objectForKey:@"object"] != [NSNull null]) {
-            [self recivedDataList:dataArray];
-             }else {
-              [_slimeView endRefresh];
-             }
-        }
-        
-    } else if (tag==kBusinessTagGetJRFundsListPast) {
-        NSMutableArray *dataArray = [jsonDic objectForKey:@"object"];
-        if ([[jsonDic objectForKey:@"success"] boolValue] == 0) {
-            //数据异常处理
-            if ([[jsonDic objectForKey:@"object"] isEqualToString:@"loginTimeout"] == YES) {
-                
-                LoginViewController *vc = [[LoginViewController alloc] init];
-                vc.hidesBottomBarWhenPushed = YES;
-                [self.navigationController pushViewController:vc animated:NO];
-                
-            } else {
-                
-                [self.view makeToast:@"获取项目失败"];
-            }
-            
-        } else {
-             if ([jsonDic objectForKey:@"object"] != [NSNull null]) {
-            [self recivedPastDataList:dataArray];
-             }
-        }
-    }else if (tag == kBusinessTagGetJRFundsListPastAgain){
-        NSMutableArray *dataArray = [jsonDic objectForKey:@"object"];
-        [_slimeViewPast endRefresh];
-        if ([[jsonDic objectForKey:@"success"] boolValue] == 0) {
-            //数据异常处理
-            [self.view makeToast:@"刷新商品失败"];
-        } else {
-            [dataListPast removeAllObjects];
-              if ([jsonDic objectForKey:@"object"] != [NSNull null]) {
-            [self recivedPastDataList:dataArray];
-              }else {
-            [_slimeView endRefresh];
-        }
-        }
-    }
-    }
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [[NetworkModule sharedNetworkModule] cancel:tag];
-}
--(void)errorPost:(NSError *)err business:(kBusinessTag)tag{
-    NSLog(@"%s Error:%@", __FUNCTION__, @"连接数据服务器超时");
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无法连接" message:@"您所在地的网络信号微弱，无法连接到服务" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-    [alert show];
-    // if (tag==kBusinessTagGetProjectDetail) {
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    //}
-    [[NetworkModule sharedNetworkModule] cancel:tag];
 }
 
 

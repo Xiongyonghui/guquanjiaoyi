@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
 
-@interface DelegateTodayViewController : UIViewController<NetworkModuleDelegate,MBProgressHUDDelegate,UITableViewDataSource,UITableViewDelegate,SRRefreshDelegate,UIGestureRecognizerDelegate,UIScrollViewDelegate>
+@interface DelegateTodayViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate,UIScrollViewDelegate>
 - (IBAction)back:(id)sender;
 
 @end

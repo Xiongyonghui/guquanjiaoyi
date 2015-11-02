@@ -8,6 +8,10 @@
 
 #import "MyViewController.h"
 #import "LoginViewController.h"
+#import "MoneyAccountViewController.h"
+#import "MoneyInfoViewController.h"
+#import "MyGainViewController.h"
+#import "DelegateTodayViewController.h"
 
 @interface MyViewController ()
 {
@@ -257,7 +261,14 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:RepairCellIdentifier];
     }
     
-    cell.textLabel.text = [arrTitle objectAtIndex:indexPath.row];
+    if (indexPath.section == 0) {
+       cell.textLabel.text = [arrTitle objectAtIndex:indexPath.row];
+    } else {
+    cell.textLabel.text = [arrTitle objectAtIndex:indexPath.row + 3];
+    
+    }
+    
+     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     return cell;
 }
@@ -413,7 +424,34 @@
 - (void)tableView:(UITableView *)tbleView
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
+    
+    if (indexPath.row == 0) {
+        MoneyAccountViewController *vc = [[MoneyAccountViewController alloc] init];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+        
+    } else if (indexPath.row == 1){
+        MoneyAccountViewController *vc = [[MoneyAccountViewController alloc] init];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+        
+    }else if (indexPath.row == 2) {
+        DelegateTodayViewController *vc = [[DelegateTodayViewController alloc] init];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+        
+    }else if (indexPath.row == 3){
+       
+        MyGainViewController *vc = [[MyGainViewController alloc] init];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else {
+        MyGainViewController *vc = [[MyGainViewController alloc] init];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+        
+    }
+     [tbleView deselectRowAtIndexPath:indexPath animated:YES];
 }
     
 - (void)didReceiveMemoryWarning {
@@ -423,9 +461,4 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 
 
 
-- (IBAction)loginBtn:(id)sender {
-    LoginViewController *vc = [[LoginViewController alloc] init];
-    vc.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:vc animated:YES];
-}
 @end

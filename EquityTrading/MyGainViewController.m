@@ -42,10 +42,7 @@
     UITableViewCell *waitMoreCell;
     UITableViewCell *finishMoreCell;
     UITableViewCell *shipMoreCell;
-    SRRefreshView   *_slimeView;
-    SRRefreshView   *_waitSlimeView;
-    SRRefreshView   *_finishSlimeView;
-    SRRefreshView   *_shipSlimeView;
+
   // zhuan  zhuang jilu
     UIDatePicker *datePicker;
     UIDatePicker *timePicker;
@@ -73,6 +70,17 @@
 @property (strong, nonatomic) UITableView *shipTableView;
 @property (strong, nonatomic) UITableView *finishTableView;
 
+@property (nonatomic, weak) SDRefreshFooterView *refreshFooter;
+@property (nonatomic, weak) SDRefreshHeaderView *refreshHeader;
+
+@property (nonatomic, weak) SDRefreshFooterView *refreshFooterWait;
+@property (nonatomic, weak) SDRefreshHeaderView *refreshHeaderWait;
+
+@property (nonatomic, weak) SDRefreshFooterView *refreshFooterShip;
+@property (nonatomic, weak) SDRefreshHeaderView *refreshHeaderShip;
+
+@property (nonatomic, weak) SDRefreshFooterView *refreshFooterfinish;
+@property (nonatomic, weak) SDRefreshHeaderView *refreshHeaderfinish;
 
 
 @end
@@ -186,18 +194,7 @@
     [self.tableView setDataSource:self];
     [self.tableView setBackgroundColor:[UIColor clearColor]];
     
-    //加入下拉刷新
-    _slimeView = [[SRRefreshView alloc] init];
-    _slimeView.delegate = self;
-    _slimeView.upInset = 0;
-    _slimeView.tag = TTR;
-    _slimeView.slimeMissWhenGoingBack = YES;
-    _slimeView.slime.bodyColor = [UIColor blackColor];
-    _slimeView.slime.skinColor = [UIColor whiteColor];
-    _slimeView.slime.lineWith = 1;
-    _slimeView.slime.shadowBlur = 4;
-    _slimeView.slime.shadowColor = [UIColor blackColor];
-    [self.tableView addSubview:_slimeView];
+    
     [self.scrollView addSubview:self.tableView];
     
     //初始化已发货TableView
@@ -209,17 +206,7 @@
     [self.finishTableView setDataSource:self];
     [self.finishTableView setBackgroundColor:[UIColor clearColor]];
     //加入下拉刷新
-    _finishSlimeView = [[SRRefreshView alloc] init];
-    _finishSlimeView.delegate = self;
-    _finishSlimeView.upInset = 0;
-    _finishSlimeView.tag = TFINISHTR;
-    _finishSlimeView.slimeMissWhenGoingBack = YES;
-    _finishSlimeView.slime.bodyColor = [UIColor blackColor];
-    _finishSlimeView.slime.skinColor = [UIColor whiteColor];
-    _finishSlimeView.slime.lineWith = 1;
-    _finishSlimeView.slime.shadowBlur = 4;
-    _finishSlimeView.slime.shadowColor = [UIColor blackColor];
-    [self.finishTableView addSubview:_finishSlimeView];
+   
     [self.scrollView addSubview:self.finishTableView];
     
     //初始化已发货TableView
@@ -231,18 +218,7 @@
     [self.waitTableView setDataSource:self];
     [self.waitTableView setBackgroundColor:[UIColor clearColor]];
     
-    //加入下拉刷新
-    _waitSlimeView = [[SRRefreshView alloc] init];
-    _waitSlimeView.delegate = self;
-    _waitSlimeView.upInset = 0;
-    _waitSlimeView.tag = WAITTTR;
-    _waitSlimeView.slimeMissWhenGoingBack = NO;
-    _waitSlimeView.slime.bodyColor = [UIColor blackColor];
-    _waitSlimeView.slime.skinColor = [UIColor whiteColor];
-    _waitSlimeView.slime.lineWith = 1;
-    _waitSlimeView.slime.shadowBlur = 4;
-    _waitSlimeView.slime.shadowColor = [UIColor blackColor];
-    [self.waitTableView addSubview:_waitSlimeView];
+   
     [self.scrollView addSubview:self.waitTableView];
     
     
@@ -255,18 +231,7 @@
     [self.shipTableView setDataSource:self];
     [self.shipTableView setBackgroundColor:[UIColor clearColor]];
     
-    //加入下拉刷新
-    _shipSlimeView = [[SRRefreshView alloc] init];
-    _shipSlimeView.delegate = self;
-    _shipSlimeView.upInset = 0;
-    _shipSlimeView.tag = SHIPTTR;
-    _shipSlimeView.slimeMissWhenGoingBack = NO;
-    _shipSlimeView.slime.bodyColor = [UIColor blackColor];
-    _shipSlimeView.slime.skinColor = [UIColor whiteColor];
-    _shipSlimeView.slime.lineWith = 1;
-    _shipSlimeView.slime.shadowBlur = 4;
-    _shipSlimeView.slime.shadowColor = [UIColor blackColor];
-    [self.shipTableView addSubview:_shipSlimeView];
+   
     [self.scrollView addSubview:self.shipTableView];
     
    
@@ -380,11 +345,7 @@
     
     
     //添加指示器及遮罩
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.dimBackground = YES; //加层阴影
-    hud.mode = MBProgressHUDModeIndeterminate;
-    hud.labelText = @"加载中...";
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+   /*
         //获取类别信息
         // NSString *str =[self dateToStringDate:[NSDate date]];
         //购买记录
@@ -397,10 +358,7 @@
         //转让申请
         [self requestRecordPastList:@"2,60" withType:@"4" withStart:shipStart withSize:limit tag:kBusinessTagGetJRcpzrwytzPast2];
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-        });
-    });
+       */
     
     /*
     NSComparator cmptr = ^(id obj1, id obj2){
@@ -426,8 +384,229 @@
     
 }
 
-#pragma mark - 数据请求方法 1and 3
+/*************************/
 
+- (void)setupHeader
+{
+    
+    SDRefreshHeaderView *refreshHeader = [SDRefreshHeaderView refreshView];
+    
+    
+    // 默认是在navigationController环境下，如果不是在此环境下，请设置 refreshHeader.isEffectedByNavigationController = NO;
+    [refreshHeader addToScrollView:_tableView];
+    
+    __weak SDRefreshHeaderView *weakRefreshHeader = refreshHeader;
+    refreshHeader.beginRefreshingOperation = ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+            start = @"1";
+            
+            //[self requestData:[[btnArrayName objectAtIndex:btnCount] objectForKey:@"FID_GQLB"]];
+            
+            [weakRefreshHeader endRefreshing];
+        });
+    };
+    
+    // 进入页面自动加载一次数据
+    // [refreshHeader beginRefreshing];
+}
+
+
+
+- (void)setupFooter
+{
+    SDRefreshFooterView *refreshFooter = [SDRefreshFooterView refreshView];
+    [refreshFooter addToScrollView:_tableView];
+    [refreshFooter addTarget:self refreshAction:@selector(footerRefresh)];
+    _refreshFooter = refreshFooter;
+}
+
+
+- (void)footerRefresh
+{
+    if (hasMore == NO) {
+        [self.refreshFooter endRefreshing];
+    } else {
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+            //[self requestData:[[btnArrayName objectAtIndex:btnCount] objectForKey:@"FID_GQLB"]];
+            [self.refreshFooter endRefreshing];
+        });
+    }
+}
+
+/*********** Wait **************/
+
+
+- (void)setupHeaderWait
+{
+    
+    SDRefreshHeaderView *refreshHeader = [SDRefreshHeaderView refreshView];
+    
+    
+    // 默认是在navigationController环境下，如果不是在此环境下，请设置 refreshHeader.isEffectedByNavigationController = NO;
+    [refreshHeader addToScrollView:_waitTableView];
+    
+    __weak SDRefreshHeaderView *weakRefreshHeader = refreshHeader;
+    refreshHeader.beginRefreshingOperation = ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+            waitStart = @"1";
+            
+           // [self requestData:[[btnArrayName objectAtIndex:btnCount] objectForKey:@"FID_GQLB"]];
+            
+            [weakRefreshHeader endRefreshing];
+        });
+    };
+    
+    // 进入页面自动加载一次数据
+    // [refreshHeader beginRefreshing];
+}
+
+
+
+- (void)setupFooterWait
+{
+    SDRefreshFooterView *refreshFooter = [SDRefreshFooterView refreshView];
+    [refreshFooter addToScrollView:_waitTableView];
+    [refreshFooter addTarget:self refreshAction:@selector(footerRefresh)];
+    _refreshFooterWait = refreshFooter;
+}
+
+
+- (void)footerRefreshWait
+{
+    
+    
+    if (waitHasMore == NO) {
+        [self.refreshFooterWait endRefreshing];
+    } else {
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+            //[self requestData:[[btnArrayName objectAtIndex:btnCount] objectForKey:@"FID_GQLB"]];
+            [self.refreshFooterWait endRefreshing];
+        });
+    }
+}
+
+/*********** Ship **************/
+
+- (void)setupHeaderShip
+{
+    
+    SDRefreshHeaderView *refreshHeader = [SDRefreshHeaderView refreshView];
+    
+    
+    // 默认是在navigationController环境下，如果不是在此环境下，请设置 refreshHeader.isEffectedByNavigationController = NO;
+    [refreshHeader addToScrollView:_shipTableView];
+    
+    __weak SDRefreshHeaderView *weakRefreshHeader = refreshHeader;
+    refreshHeader.beginRefreshingOperation = ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+            shipStart = @"1";
+            
+           // [self requestData:[[btnArrayName objectAtIndex:btnCount] objectForKey:@"FID_GQLB"]];
+            
+            [weakRefreshHeader endRefreshing];
+        });
+    };
+    
+    // 进入页面自动加载一次数据
+    // [refreshHeader beginRefreshing];
+}
+
+
+
+- (void)setupFooterShip
+{
+    SDRefreshFooterView *refreshFooter = [SDRefreshFooterView refreshView];
+    [refreshFooter addToScrollView:_shipTableView];
+    [refreshFooter addTarget:self refreshAction:@selector(footerRefreshShip)];
+    _refreshFooterShip = refreshFooter;
+}
+
+
+- (void)footerRefreshShip
+{
+    
+    
+    if (hasMore == NO) {
+        [self.refreshFooterShip endRefreshing];
+    } else {
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+            //[self requestData:[[btnArrayName objectAtIndex:btnCount] objectForKey:@"FID_GQLB"]];
+            [self.refreshFooterShip endRefreshing];
+        });
+    }
+}
+
+/*********** Finsh **************/
+
+
+- (void)setupHeaderFinsh
+{
+    
+    SDRefreshHeaderView *refreshHeader = [SDRefreshHeaderView refreshView];
+    
+    
+    // 默认是在navigationController环境下，如果不是在此环境下，请设置 refreshHeader.isEffectedByNavigationController = NO;
+    [refreshHeader addToScrollView:_finishTableView];
+    
+    __weak SDRefreshHeaderView *weakRefreshHeader = refreshHeader;
+    refreshHeader.beginRefreshingOperation = ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+             finishStart  = @"1";
+            
+            //[self requestData:[[btnArrayName objectAtIndex:btnCount] objectForKey:@"FID_GQLB"]];
+            
+            [weakRefreshHeader endRefreshing];
+        });
+    };
+    
+    // 进入页面自动加载一次数据
+    // [refreshHeader beginRefreshing];
+}
+
+
+
+- (void)setupFooterFinsh
+{
+    SDRefreshFooterView *refreshFooter = [SDRefreshFooterView refreshView];
+    [refreshFooter addToScrollView:_finishTableView];
+    [refreshFooter addTarget:self refreshAction:@selector(footerRefreshFinsh)];
+    _refreshFooterfinish = refreshFooter;
+}
+
+
+- (void)footerRefreshFinsh
+{
+    
+    
+    if (hasMore == NO) {
+        [self.refreshFooterfinish endRefreshing];
+    } else {
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+            //[self requestData:[[btnArrayName objectAtIndex:btnCount] objectForKey:@"FID_GQLB"]];
+            [self.refreshFooterfinish endRefreshing];
+        });
+    }
+}
+
+
+
+
+
+
+#pragma mark - 数据请求方法 1and 3
+/*
 //请求登陆
 - (void)requestRecordList:(NSString *)_startDate withEndDate:(NSString *)_endDate withWtlb:(NSString *)_wtlb withType:(NSString *)_type withStart:(NSString *)_start withSize:(NSString *)_size tag:(kBusinessTag)_tag
 {
@@ -459,7 +638,7 @@
     [[NetworkModule sharedNetworkModule] postBusinessReqWithParamters:paraDic tag:_tag owner:self];
 }
 
-
+*/
 
 
 /*------------购买记录---------------*/
@@ -714,20 +893,13 @@
     } else {
         
         //添加指示器及遮罩
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        hud.dimBackground = YES; //加层阴影
-        hud.mode = MBProgressHUDModeIndeterminate;
-        hud.labelText = @"加载中...";
-        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-            //[self requestCategoryList:dateLStarabel.text withEnd:dateLEndabel.text withTag:kBusinessTagGetFundslistAgain];
+       
+        
             start = @"1";
             
-            [self requestRecordList:dateLStarabel.text withEndDate:dateLEndabel.text withWtlb:@"15,1,59" withType:@"1" withStart:start withSize:limit tag:kBusinessTagGetJRcpzrwytz];
+           // [self requestRecordList:dateLStarabel.text withEndDate:dateLEndabel.text withWtlb:@"15,1,59" withType:@"1" withStart:start withSize:limit tag:kBusinessTagGetJRcpzrwytz];
             
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-            });
-        });
+        
         
         
         
@@ -793,20 +965,10 @@
     } else {
         
         //添加指示器及遮罩
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        hud.dimBackground = YES; //加层阴影
-        hud.mode = MBProgressHUDModeIndeterminate;
-        hud.labelText = @"加载中...";
-        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-            //[self requestCategoryList:dateLStarabel.text withEnd:dateLEndabel.text withTag:kBusinessTagGetFundslistAgain];
+       
              waitStart = @"1";
             
-             [self requestRecordList:dateLStarabelPast.text withEndDate:dateLEndabelPast.text withWtlb:@"2,60" withType:@"3" withStart:waitStart withSize:limit tag:kBusinessTagGetJRcpzrwytzPast1];
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-            });
-        });
+             //[self requestRecordList:dateLStarabelPast.text withEndDate:dateLEndabelPast.text withWtlb:@"2,60" withType:@"3" withStart:waitStart withSize:limit tag:kBusinessTagGetJRcpzrwytzPast1];
         
         
     }
@@ -897,122 +1059,6 @@
 }
 
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    if (scrollView.tag == TTABLEVIEW) {
-        [_slimeView scrollViewDidScroll];
-    } else if (scrollView.tag == TFINISHTABLEVIEW) {
-        [_finishSlimeView scrollViewDidScroll];
-    } else if (scrollView.tag == WAITTABLEVIEW) {
-        [_waitSlimeView scrollViewDidScroll];
-    } else if (scrollView.tag == SHIPTABLEVIEW) {
-        [_shipSlimeView scrollViewDidScroll];
-    }
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-{
-    if (scrollView.tag == TTABLEVIEW) {
-        [_slimeView scrollViewDidEndDraging];
-    } else if (scrollView.tag == TFINISHTABLEVIEW) {
-        [_finishSlimeView scrollViewDidEndDraging];
-    } else if (scrollView.tag == WAITTABLEVIEW) {
-        [_waitSlimeView scrollViewDidEndDraging];
-    } else if (scrollView.tag == SHIPTABLEVIEW) {
-        [_shipSlimeView scrollViewDidEndDraging];
-    }
-}
-
-#pragma mark - slimeRefresh delegate
-- (void)slimeRefreshStartRefresh:(SRRefreshView *)refreshView
-{
-    // NSString *str =[self dateToStringDate:[NSDate date]];
-    if (refreshView.tag == TTR) {
-        startBak = [NSString stringWithString:start];
-        start = @"1";
-        [self requestRecordList:dateLStarabel.text withEndDate:dateLEndabel.text withWtlb:@"15,1,59" withType:@"1" withStart:start withSize:limit tag:kBusinessTagGetJRcpzrwytzAgain];
-    } else if (refreshView.tag == TFINISHTR) {
-        finishStartBak = [NSString stringWithString:finishStart];
-        finishStart = @"1";
-        [self requestRecordPastList:@"15,1,59" withType:@"2" withStart:finishStart withSize:limit tag:kBusinessTagGetJRcpzrwytzPastAgain];
-    } else if (refreshView.tag == WAITTTR) {
-        waitStartBak = [NSString stringWithString:waitStart];
-        waitStart = @"1";
-        [self requestRecordList:dateLStarabelPast.text withEndDate:dateLEndabelPast.text withWtlb:@"2,60" withType:@"3" withStart:waitStart withSize:limit tag:kBusinessTagGetJRcpzrwytzPast1Again];
-    } else if (refreshView.tag == SHIPTTR) {
-        shipStartBak = [NSString stringWithString:shipStart];
-        shipStart = @"1";
-        [self requestRecordPastList:@"2,60" withType:@"4" withStart:shipStart withSize:limit tag:kBusinessTagGetJRcpzrwytzPast2Again];
-    }
-    
-}
-
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-   // NSString *str =[self dateToStringDate:[NSDate date]];
-
-    if (tableView.tag == TTABLEVIEW) {
-        if ([indexPath row] == [dataList count]) {
-            if (hasMore) {
-                for (UILabel *label in [cell.contentView subviews]) {
-                    if ([label.text isEqualToString:@"正在加载中..."]) {
-                        
-                    } else {
-                        label.text = @"正在加载中...";
-                         [self requestRecordList:dateLStarabel.text withEndDate:dateLEndabel.text withWtlb:@"15,1,59" withType:@"1" withStart:start withSize:limit tag:kBusinessTagGetJRcpzrwytz];
-                        [tableView deselectRowAtIndexPath:indexPath animated:YES];
-                    }
-                }
-            }
-        }
-    } else if (tableView.tag == TFINISHTABLEVIEW) {
-        if ([indexPath row] == [finishDataList count]) {
-            if (finishHasMore) {
-                for (UILabel *label in [cell.contentView subviews]) {
-                    if ([label.text isEqualToString:@"正在加载中..."]) {
-                        
-                    } else {
-                        label.text = @"正在加载中...";
-                          [self requestRecordPastList:@"15,1,59" withType:@"2" withStart:finishStart withSize:limit tag:kBusinessTagGetJRcpzrwytzPast];
-                        [tableView deselectRowAtIndexPath:indexPath animated:YES];
-                    }
-                }
-            }
-        }
-    } else if (tableView.tag == WAITTABLEVIEW) {
-        if ([indexPath row] == [waitDataList count]) {
-            if (waitHasMore) {
-                for (UILabel *label in [cell.contentView subviews]) {
-                    if ([label.text isEqualToString:@"正在加载中..."]) {
-                        
-                    } else {
-                        label.text = @"正在加载中...";
-                          [self requestRecordList:dateLStarabelPast.text withEndDate:dateLEndabelPast.text withWtlb:@"2,60" withType:@"3" withStart:waitStart withSize:limit tag:kBusinessTagGetJRcpzrwytzPast1];
-                        [tableView deselectRowAtIndexPath:indexPath animated:YES];
-                    }
-                }
-            }
-        }
-    } else if (tableView.tag == SHIPTABLEVIEW) {
-        if ([indexPath row] == [shipDataList count]) {
-            if (shipHasMore) {
-                for (UILabel *label in [cell.contentView subviews]) {
-                    if ([label.text isEqualToString:@"正在加载中..."]) {
-                        
-                    } else {
-                        label.text = @"正在加载中...";
-                           [self requestRecordPastList:@"2,60" withType:@"4" withStart:shipStart withSize:limit tag:kBusinessTagGetJRcpzrwytzPast2];
-                        [tableView deselectRowAtIndexPath:indexPath animated:YES];
-                    }
-                }
-            }
-        }
-    }
-    
-    
-}
-
-
 
 #pragma mark - UITableView DataSource Methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -1070,7 +1116,7 @@
                 cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 200)];
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 cellBackView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, tbleView.frame.size.height)];
-                [cellBackView setBackgroundColor:[ColorUtil colorWithHexString:@"ececec"]];
+                [cellBackView setBackgroundColor:[ConMethods colorWithHexString:@"ececec"]];
                 //图标
                 UIImageView *iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake((ScreenWidth - 57)/2, 57, 57, 57)];
                 [iconImageView setImage:[UIImage imageNamed:@"none_product_icon"]];
@@ -1079,7 +1125,7 @@
                 UILabel *tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, iconImageView.frame.origin.y + iconImageView.frame.size.height + 27, ScreenWidth, 15)];
                 [tipLabel setFont:[UIFont systemFontOfSize:15]];
                 [tipLabel setTextAlignment:NSTextAlignmentCenter];
-                [tipLabel setTextColor:[ColorUtil colorWithHexString:@"404040"]];
+                [tipLabel setTextColor:[ConMethods colorWithHexString:@"404040"]];
                  tipLabel.backgroundColor = [UIColor clearColor];
                 [tipLabel setText:@"您还没有记录哦~"];
                 [cellBackView addSubview:tipLabel];
@@ -1094,7 +1140,7 @@
                 UILabel *toastLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 10, 160, 59)];
                 [toastLabel setFont:[UIFont systemFontOfSize:12]];
                 toastLabel.backgroundColor = [UIColor clearColor];
-                [toastLabel setTextColor:[ColorUtil colorWithHexString:@"999999"]];
+                [toastLabel setTextColor:[ConMethods colorWithHexString:@"999999"]];
                 toastLabel.numberOfLines = 0;
                 toastLabel.text = @"更多...";
                 toastLabel.textAlignment = NSTextAlignmentCenter;
@@ -1109,14 +1155,14 @@
                     //添加背景View
                     
                     UIView *firstView = [[UIView alloc] initWithFrame:CGRectMake(0,0, ScreenWidth, 60)];
-                    [firstView setBackgroundColor:[ColorUtil colorWithHexString:@"fdfdfd"]];
+                    [firstView setBackgroundColor:[ConMethods colorWithHexString:@"fdfdfd"]];
                     
                     UILabel *dateLab = [[UILabel alloc] initWithFrame:CGRectMake(10, 12,ScreenWidth - 20 , 16)];
-                    dateLab.backgroundColor = [ColorUtil colorWithHexString:@"fdfdfd"];
+                    dateLab.backgroundColor = [ConMethods colorWithHexString:@"fdfdfd"];
                     
                     dateLab.text = [[dataList objectAtIndex:[indexPath row]] objectForKey:@"FID_CPMC"];
                     dateLab.font = [UIFont systemFontOfSize:16];
-                    dateLab.textColor = [ColorUtil colorWithHexString:@"333333"];
+                    dateLab.textColor = [ConMethods colorWithHexString:@"333333"];
                     [firstView addSubview:dateLab];
                     //时间
                     UILabel *reLab = [[UILabel alloc] initWithFrame:CGRectMake(10, 36,ScreenWidth/2 - 20 , 13)];
@@ -1127,13 +1173,13 @@
                     [strDate insertString:@"-" atIndex:(strDate.length - 2)];
                     reLab.text = [NSString stringWithFormat:@"%@  %@",strDate,[[dataList objectAtIndex:[indexPath row]] objectForKey:@"FID_WTSJ"]];
                     reLab.font = [UIFont systemFontOfSize:13];
-                    reLab.textColor = [ColorUtil colorWithHexString:@"999999"];
+                    reLab.textColor = [ConMethods colorWithHexString:@"999999"];
                     [firstView addSubview:reLab];
                     
                     UILabel *reLabTip = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 23, 36,13, 13)];
                     reLabTip.text = @"元";
                     reLabTip.font = [UIFont systemFontOfSize:13];
-                    reLabTip.textColor = [ColorUtil colorWithHexString:@"333333"];
+                    reLabTip.textColor = [ConMethods colorWithHexString:@"333333"];
                     [firstView addSubview:reLabTip];
                     
                     
@@ -1143,7 +1189,7 @@
                     UILabel *endLab = [[UILabel alloc] init];
                     endLab.text =[[dataList objectAtIndex:[indexPath row]] objectForKey:@"FID_BJ"];
                     endLab.font = [UIFont systemFontOfSize:13];
-                    endLab.textColor = [ColorUtil colorWithHexString:@"fe8103"];
+                    endLab.textColor = [ConMethods colorWithHexString:@"fe8103"];
                     
                     CGSize titleSize = [endLab.text sizeWithFont:endLab.font constrainedToSize:CGSizeMake(MAXFLOAT, 13)];
                     
@@ -1154,11 +1200,11 @@
                     UILabel *endLabTip = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 23 - titleSize.width - 5 - 13*4, 36,13*4 , 13)];
                     endLabTip.text = @"购买金额";
                     endLabTip.font = [UIFont systemFontOfSize:13];
-                    endLabTip.textColor = [ColorUtil colorWithHexString:@"999999"];
+                    endLabTip.textColor = [ConMethods colorWithHexString:@"999999"];
                     [firstView addSubview:endLabTip];
                     
                     UIView *subView = [[UIView alloc] initWithFrame:CGRectMake(10, 0, ScreenWidth - 10, 1)];
-                    [subView setBackgroundColor:[ColorUtil colorWithHexString:@"eeeeee"]];
+                    [subView setBackgroundColor:[ConMethods colorWithHexString:@"eeeeee"]];
                     if ([indexPath row] != 0) {
                         [firstView addSubview:subView];
                     }
@@ -1175,7 +1221,7 @@
                 cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 200)];
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 cellBackView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, tbleView.frame.size.height)];
-                [cellBackView setBackgroundColor:[ColorUtil colorWithHexString:@"ececec"]];
+                [cellBackView setBackgroundColor:[ConMethods colorWithHexString:@"ececec"]];
                 //图标
                 UIImageView *iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake((ScreenWidth - 57)/2, 57, 57, 57)];
                 [iconImageView setImage:[UIImage imageNamed:@"none_product_icon"]];
@@ -1184,7 +1230,7 @@
                 UILabel *tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, iconImageView.frame.origin.y + iconImageView.frame.size.height + 27, ScreenWidth, 15)];
                 [tipLabel setFont:[UIFont systemFontOfSize:15]];
                 [tipLabel setTextAlignment:NSTextAlignmentCenter];
-                [tipLabel setTextColor:[ColorUtil colorWithHexString:@"404040"]];
+                [tipLabel setTextColor:[ConMethods colorWithHexString:@"404040"]];
                 tipLabel.backgroundColor = [UIColor clearColor];
                 [tipLabel setText:@"您还没有记录哦~"];
                 [cellBackView addSubview:tipLabel];
@@ -1199,7 +1245,7 @@
                 UILabel *toastLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 10, 160, 59)];
                 [toastLabel setFont:[UIFont systemFontOfSize:12]];
                 toastLabel.backgroundColor = [UIColor clearColor];
-                [toastLabel setTextColor:[ColorUtil colorWithHexString:@"999999"]];
+                [toastLabel setTextColor:[ConMethods colorWithHexString:@"999999"]];
                 toastLabel.numberOfLines = 0;
                 toastLabel.text = @"更多...";
                 toastLabel.textAlignment = NSTextAlignmentCenter;
@@ -1214,14 +1260,14 @@
                         //添加背景View
                         
                         UIView *firstView = [[UIView alloc] initWithFrame:CGRectMake(0,0, ScreenWidth, 60)];
-                        [firstView setBackgroundColor:[ColorUtil colorWithHexString:@"fdfdfd"]];
+                        [firstView setBackgroundColor:[ConMethods colorWithHexString:@"fdfdfd"]];
                         
                         UILabel *dateLab = [[UILabel alloc] initWithFrame:CGRectMake(10, 12,ScreenWidth - 20 , 16)];
-                        dateLab.backgroundColor = [ColorUtil colorWithHexString:@"fdfdfd"];
+                        dateLab.backgroundColor = [ConMethods colorWithHexString:@"fdfdfd"];
                       
                         dateLab.text = [[finishDataList objectAtIndex:[indexPath row]] objectForKey:@"FID_CPMC"];
                         dateLab.font = [UIFont systemFontOfSize:16];
-                        dateLab.textColor = [ColorUtil colorWithHexString:@"333333"];
+                        dateLab.textColor = [ConMethods colorWithHexString:@"333333"];
                         [firstView addSubview:dateLab];
                      //时间
                         UILabel *reLab = [[UILabel alloc] initWithFrame:CGRectMake(10, 36,ScreenWidth/2 - 20 , 13)];
@@ -1232,13 +1278,13 @@
                         [strDate insertString:@"-" atIndex:(strDate.length - 2)];
                         reLab.text = [NSString stringWithFormat:@"%@  %@",strDate,[[finishDataList objectAtIndex:[indexPath row]] objectForKey:@"FID_WTSJ"]];
                         reLab.font = [UIFont systemFontOfSize:13];
-                        reLab.textColor = [ColorUtil colorWithHexString:@"999999"];
+                        reLab.textColor = [ConMethods colorWithHexString:@"999999"];
                         [firstView addSubview:reLab];
                         
                         UILabel *reLabTip = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 23, 36,13, 13)];
                         reLabTip.text = @"元";
                         reLabTip.font = [UIFont systemFontOfSize:13];
-                        reLabTip.textColor = [ColorUtil colorWithHexString:@"333333"];
+                        reLabTip.textColor = [ConMethods colorWithHexString:@"333333"];
                         [firstView addSubview:reLabTip];
                         
                         
@@ -1248,7 +1294,7 @@
                         UILabel *endLab = [[UILabel alloc] init];
                         endLab.text =[[finishDataList objectAtIndex:[indexPath row]] objectForKey:@"FID_BJ"];
                         endLab.font = [UIFont systemFontOfSize:13];
-                        endLab.textColor = [ColorUtil colorWithHexString:@"fe8103"];
+                        endLab.textColor = [ConMethods colorWithHexString:@"fe8103"];
                         
                         CGSize titleSize = [endLab.text sizeWithFont:endLab.font constrainedToSize:CGSizeMake(MAXFLOAT, 13)];
                         
@@ -1259,11 +1305,11 @@
                         UILabel *endLabTip = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 23 - titleSize.width - 5 - 13*4, 36,13*4 , 13)];
                         endLabTip.text = @"购买金额";
                         endLabTip.font = [UIFont systemFontOfSize:13];
-                        endLabTip.textColor = [ColorUtil colorWithHexString:@"999999"];
+                        endLabTip.textColor = [ConMethods colorWithHexString:@"999999"];
                         [firstView addSubview:endLabTip];
                         
                         UIView *subView = [[UIView alloc] initWithFrame:CGRectMake(10, 0, ScreenWidth - 10, 1)];
-                        [subView setBackgroundColor:[ColorUtil colorWithHexString:@"eeeeee"]];
+                        [subView setBackgroundColor:[ConMethods colorWithHexString:@"eeeeee"]];
                         if ([indexPath row] != 0) {
                             [firstView addSubview:subView];
                         }
@@ -1281,7 +1327,7 @@
                 cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 200)];
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 cellBackView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, tbleView.frame.size.height)];
-                [cellBackView setBackgroundColor:[ColorUtil colorWithHexString:@"ececec"]];
+                [cellBackView setBackgroundColor:[ConMethods colorWithHexString:@"ececec"]];
                 //图标
                 UIImageView *iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake((ScreenWidth - 57)/2, 57, 57, 57)];
                 [iconImageView setImage:[UIImage imageNamed:@"none_product_icon"]];
@@ -1290,7 +1336,7 @@
                 UILabel *tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, iconImageView.frame.origin.y + iconImageView.frame.size.height + 27, ScreenWidth, 15)];
                 [tipLabel setFont:[UIFont systemFontOfSize:15]];
                 [tipLabel setTextAlignment:NSTextAlignmentCenter];
-                [tipLabel setTextColor:[ColorUtil colorWithHexString:@"404040"]];
+                [tipLabel setTextColor:[ConMethods colorWithHexString:@"404040"]];
                  tipLabel.backgroundColor = [UIColor clearColor];
                 [tipLabel setText:@"您还没有记录哦~"];
                 [cellBackView addSubview:tipLabel];
@@ -1305,7 +1351,7 @@
                 UILabel *toastLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 10, 160, 59)];
                 [toastLabel setFont:[UIFont systemFontOfSize:12]];
                 toastLabel.backgroundColor = [UIColor clearColor];
-                [toastLabel setTextColor:[ColorUtil colorWithHexString:@"999999"]];
+                [toastLabel setTextColor:[ConMethods colorWithHexString:@"999999"]];
                 toastLabel.numberOfLines = 0;
                 toastLabel.text = @"更多...";
                 toastLabel.textAlignment = NSTextAlignmentCenter;
@@ -1320,14 +1366,14 @@
                     //添加背景View
                     
                     UIView *firstView = [[UIView alloc] initWithFrame:CGRectMake(0,0, ScreenWidth, 60)];
-                    [firstView setBackgroundColor:[ColorUtil colorWithHexString:@"fdfdfd"]];
+                    [firstView setBackgroundColor:[ConMethods colorWithHexString:@"fdfdfd"]];
                     
                     UILabel *dateLab = [[UILabel alloc] initWithFrame:CGRectMake(10, 12,ScreenWidth - 20 , 16)];
-                    dateLab.backgroundColor = [ColorUtil colorWithHexString:@"fdfdfd"];
+                    dateLab.backgroundColor = [ConMethods colorWithHexString:@"fdfdfd"];
                     
                     dateLab.text = [[waitDataList objectAtIndex:[indexPath row]] objectForKey:@"FID_CPMC"];
                     dateLab.font = [UIFont systemFontOfSize:16];
-                    dateLab.textColor = [ColorUtil colorWithHexString:@"333333"];
+                    dateLab.textColor = [ConMethods colorWithHexString:@"333333"];
                     [firstView addSubview:dateLab];
                     //时间
                     UILabel *reLab = [[UILabel alloc] initWithFrame:CGRectMake(10, 36,ScreenWidth/2 - 20 , 13)];
@@ -1338,13 +1384,13 @@
                     [strDate insertString:@"-" atIndex:(strDate.length - 2)];
                     reLab.text = [NSString stringWithFormat:@"%@  %@",strDate,[[waitDataList objectAtIndex:[indexPath row]] objectForKey:@"FID_WTSJ"]];
                     reLab.font = [UIFont systemFontOfSize:13];
-                    reLab.textColor = [ColorUtil colorWithHexString:@"999999"];
+                    reLab.textColor = [ConMethods colorWithHexString:@"999999"];
                     [firstView addSubview:reLab];
                     
                     UILabel *reLabTip = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 23, 36,13, 13)];
                     reLabTip.text = @"元";
                     reLabTip.font = [UIFont systemFontOfSize:13];
-                    reLabTip.textColor = [ColorUtil colorWithHexString:@"333333"];
+                    reLabTip.textColor = [ConMethods colorWithHexString:@"333333"];
                     [firstView addSubview:reLabTip];
                     
                     
@@ -1354,7 +1400,7 @@
                     UILabel *endLab = [[UILabel alloc] init];
                     endLab.text =[[waitDataList objectAtIndex:[indexPath row]] objectForKey:@"FID_BJ"];
                     endLab.font = [UIFont systemFontOfSize:13];
-                    endLab.textColor = [ColorUtil colorWithHexString:@"fe8103"];
+                    endLab.textColor = [ConMethods colorWithHexString:@"fe8103"];
                     
                     CGSize titleSize = [endLab.text sizeWithFont:endLab.font constrainedToSize:CGSizeMake(MAXFLOAT, 13)];
                     
@@ -1365,11 +1411,11 @@
                     UILabel *endLabTip = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 23 - titleSize.width - 5 - 13*4, 36,13*4 , 13)];
                     endLabTip.text = @"购买金额";
                     endLabTip.font = [UIFont systemFontOfSize:13];
-                    endLabTip.textColor = [ColorUtil colorWithHexString:@"999999"];
+                    endLabTip.textColor = [ConMethods colorWithHexString:@"999999"];
                     [firstView addSubview:endLabTip];
                     
                     UIView *subView = [[UIView alloc] initWithFrame:CGRectMake(10, 0, ScreenWidth - 10, 1)];
-                    [subView setBackgroundColor:[ColorUtil colorWithHexString:@"eeeeee"]];
+                    [subView setBackgroundColor:[ConMethods colorWithHexString:@"eeeeee"]];
                     if ([indexPath row] != 0) {
                         [firstView addSubview:subView];
                     }
@@ -1387,7 +1433,7 @@
                 cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 200)];
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 cellBackView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, tbleView.frame.size.height)];
-                [cellBackView setBackgroundColor:[ColorUtil colorWithHexString:@"ececec"]];
+                [cellBackView setBackgroundColor:[ConMethods colorWithHexString:@"ececec"]];
                 //图标
                 UIImageView *iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake((ScreenWidth - 57)/2, 57, 57, 57)];
                 [iconImageView setImage:[UIImage imageNamed:@"none_product_icon"]];
@@ -1396,7 +1442,7 @@
                 UILabel *tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, iconImageView.frame.origin.y + iconImageView.frame.size.height + 27, ScreenWidth, 15)];
                 [tipLabel setFont:[UIFont systemFontOfSize:15]];
                 [tipLabel setTextAlignment:NSTextAlignmentCenter];
-                [tipLabel setTextColor:[ColorUtil colorWithHexString:@"404040"]];
+                [tipLabel setTextColor:[ConMethods colorWithHexString:@"404040"]];
                  tipLabel.backgroundColor = [UIColor clearColor];
                 [tipLabel setText:@"您还没有记录哦~"];
                 [cellBackView addSubview:tipLabel];
@@ -1412,7 +1458,7 @@
                 UILabel *toastLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 10, 160, 59)];
                 [toastLabel setFont:[UIFont systemFontOfSize:12]];
                 toastLabel.backgroundColor = [UIColor clearColor];
-                [toastLabel setTextColor:[ColorUtil colorWithHexString:@"999999"]];
+                [toastLabel setTextColor:[ConMethods colorWithHexString:@"999999"]];
                 toastLabel.numberOfLines = 0;
                 toastLabel.text = @"更多...";
                 toastLabel.textAlignment = NSTextAlignmentCenter;
@@ -1427,14 +1473,14 @@
                     //添加背景View
                     
                     UIView *firstView = [[UIView alloc] initWithFrame:CGRectMake(0,0, ScreenWidth, 60)];
-                    [firstView setBackgroundColor:[ColorUtil colorWithHexString:@"fdfdfd"]];
+                    [firstView setBackgroundColor:[ConMethods colorWithHexString:@"fdfdfd"]];
                     
                     UILabel *dateLab = [[UILabel alloc] initWithFrame:CGRectMake(10, 12,ScreenWidth - 20 , 16)];
-                    dateLab.backgroundColor = [ColorUtil colorWithHexString:@"fdfdfd"];
+                    dateLab.backgroundColor = [ConMethods colorWithHexString:@"fdfdfd"];
                     
                     dateLab.text = [[shipDataList objectAtIndex:[indexPath row]] objectForKey:@"FID_CPMC"];
                     dateLab.font = [UIFont systemFontOfSize:16];
-                    dateLab.textColor = [ColorUtil colorWithHexString:@"333333"];
+                    dateLab.textColor = [ConMethods colorWithHexString:@"333333"];
                     [firstView addSubview:dateLab];
                     //时间
                     UILabel *reLab = [[UILabel alloc] initWithFrame:CGRectMake(10, 36,ScreenWidth/2 - 20 , 13)];
@@ -1445,13 +1491,13 @@
                     [strDate insertString:@"-" atIndex:(strDate.length - 2)];
                     reLab.text = [NSString stringWithFormat:@"%@  %@",strDate,[[shipDataList objectAtIndex:[indexPath row]] objectForKey:@"FID_WTSJ"]];
                     reLab.font = [UIFont systemFontOfSize:13];
-                    reLab.textColor = [ColorUtil colorWithHexString:@"999999"];
+                    reLab.textColor = [ConMethods colorWithHexString:@"999999"];
                     [firstView addSubview:reLab];
                     
                     UILabel *reLabTip = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 23, 36,13, 13)];
                     reLabTip.text = @"元";
                     reLabTip.font = [UIFont systemFontOfSize:13];
-                    reLabTip.textColor = [ColorUtil colorWithHexString:@"333333"];
+                    reLabTip.textColor = [ConMethods colorWithHexString:@"333333"];
                     [firstView addSubview:reLabTip];
                     
                     
@@ -1461,7 +1507,7 @@
                     UILabel *endLab = [[UILabel alloc] init];
                     endLab.text =[[shipDataList objectAtIndex:[indexPath row]] objectForKey:@"FID_BJ"];
                     endLab.font = [UIFont systemFontOfSize:13];
-                    endLab.textColor = [ColorUtil colorWithHexString:@"fe8103"];
+                    endLab.textColor = [ConMethods colorWithHexString:@"fe8103"];
                     
                     CGSize titleSize = [endLab.text sizeWithFont:endLab.font constrainedToSize:CGSizeMake(MAXFLOAT, 13)];
                     
@@ -1472,11 +1518,11 @@
                     UILabel *endLabTip = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 23 - titleSize.width - 5 - 13*4, 36,13*4 , 13)];
                     endLabTip.text = @"购买金额";
                     endLabTip.font = [UIFont systemFontOfSize:13];
-                    endLabTip.textColor = [ColorUtil colorWithHexString:@"999999"];
+                    endLabTip.textColor = [ConMethods colorWithHexString:@"999999"];
                     [firstView addSubview:endLabTip];
                     
                     UIView *subView = [[UIView alloc] initWithFrame:CGRectMake(10, 0, ScreenWidth - 10, 1)];
-                    [subView setBackgroundColor:[ColorUtil colorWithHexString:@"eeeeee"]];
+                    [subView setBackgroundColor:[ConMethods colorWithHexString:@"eeeeee"]];
                     if ([indexPath row] != 0) {
                         [firstView addSubview:subView];
                     }
@@ -1563,7 +1609,7 @@
     }
    
     [self.tableView reloadData];
-    [_slimeView endRefresh];
+   
 }
 
 
@@ -1623,7 +1669,7 @@
     }
     
     [self.finishTableView reloadData];
-    [_finishSlimeView endRefresh];
+   
 }
 
 //处理已完成订单
@@ -1645,7 +1691,7 @@
     }
     
     [self.waitTableView reloadData];
-    [_waitSlimeView endRefresh];
+    
 }
 
 //处理已完成订单
@@ -1667,132 +1713,11 @@
     }
     
     [self.shipTableView reloadData];
-    [_shipSlimeView endRefresh];
-}
-
-
-
-
-#pragma mark - NetworkModuleDelegate Methods
--(void)beginPost:(kBusinessTag)tag{
     
 }
--(void)endPost:(NSString *)result business:(kBusinessTag)tag{
-    NSLog(@"%s %d 收到数据:%@", __FUNCTION__, __LINE__, result);
-    NSMutableDictionary *jsonDic = [result JSONValue];
- 
-    if ([[jsonDic objectForKey:@"object"] isKindOfClass:[NSString class]]) {
-        
-        if ([[jsonDic objectForKey:@"object"] isEqualToString:@"loginTimeout"]&&[[jsonDic objectForKey:@"success"] boolValue] == NO) {
-            AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-            [delegate.logingUser removeAllObjects];
-            [delegate.dictionary removeAllObjects];
-            [ASIHTTPRequest setSessionCookies:nil];
-            
-            [self.navigationController popToRootViewControllerAnimated:YES];
-            
-        }
-    }else {
-    
-        NSMutableDictionary *dataArray = [jsonDic objectForKey:@"object"];
-        if (tag==kBusinessTagGetJRcpzrwytz) {
-            
-            if (dataArray == nil) {
-                //数据异常处理
-                [self.view makeToast:@"获取未发货订单失败"];
-            } else {
-                
-                if ([start isEqualToString:@"1"]) {
-                    [dataList removeAllObjects];
-                }
-                
-                [self recivedNoOrderList:[dataArray objectForKey:@"dataList"]];
-            }
-        } else if (tag==kBusinessTagGetJRcpzrwytzAgain){
-           
-            [_slimeView endRefresh];
-            if (dataArray == nil) {
-                //数据异常处理
-                [self.view makeToast:@"获取未发货订单失败"];
-            } else {
-                [dataList removeAllObjects];
-                [self recivedNoOrderList:[dataArray objectForKey:@"dataList"]];
-            }
-        } else if (tag == kBusinessTagGetJRcpzrwytzPast) {
-            
-            if (dataArray == nil) {
-                //数据异常处理
-                [self.view makeToast:@"获取已发货订单失败"];
-            } else {
-                [self recivedFinishOrderList:[dataArray objectForKey:@"dataList"]];
-            }
-        } else if (tag == kBusinessTagGetJRcpzrwytzPastAgain){
-           
-            [_finishSlimeView endRefresh];
-            if (dataArray == nil) {
-                //数据异常处理
-                [self.view makeToast:@"获取已发货订单失败"];
-            } else {
-                [finishDataList removeAllObjects];
-                [self recivedFinishOrderList:[dataArray objectForKey:@"dataList"]];
-            }
-        } else if (tag == kBusinessTagGetJRcpzrwytzPast1) {
-            
-            if (dataArray == nil) {
-                //数据异常处理
-                [self.view makeToast:@"获取已发货订单失败"];
-            } else {
-                if ([waitStart isEqualToString:@"1"]) {
-                    [waitDataList removeAllObjects];
-                }
-                
-                [self recivedWaitOrderList:[dataArray objectForKey:@"dataList"]];
-            }
-        } else if (tag == kBusinessTagGetJRcpzrwytzPast1Again){
-           
-            [_waitSlimeView endRefresh];
-            if (dataArray == nil) {
-                //数据异常处理
-                [self.view makeToast:@"获取已发货订单失败"];
-            } else {
-                [waitDataList removeAllObjects];
-                [self recivedWaitOrderList:[dataArray objectForKey:@"dataList"]];
-            }
-        } else if (tag == kBusinessTagGetJRcpzrwytzPast2) {
-            
-            if (dataArray == nil) {
-                //数据异常处理
-                [self.view makeToast:@"获取已发货订单失败"];
-            } else {
-                [self recivedShipOrderList:[dataArray objectForKey:@"dataList"]];
-            }
-        } else if (tag == kBusinessTagGetJRcpzrwytzPast2Again){
-            
-            [_shipSlimeView endRefresh];
-            if (dataArray == nil) {
-                //数据异常处理
-                [self.view makeToast:@"获取已发货订单失败"];
-            } else {
-                [shipDataList removeAllObjects];
-                [self recivedShipOrderList:[dataArray objectForKey:@"dataList"]];
-            }
-        }
-    }
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [[NetworkModule sharedNetworkModule] cancel:tag];
-    
-}
--(void)errorPost:(NSError *)err business:(kBusinessTag)tag{
-    NSLog(@"%s Error:%@", __FUNCTION__, @"连接数据服务器超时");
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无法连接" message:@"您所在地的网络信号微弱，无法连接到服务（＋﹏＋）" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-    [alert show];
-    
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    
-    [[NetworkModule sharedNetworkModule] cancel:tag];
 
-    
-}
+
+
 
 
 

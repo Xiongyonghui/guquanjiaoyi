@@ -39,18 +39,10 @@
     //_webView.scalesPageToFit = YES;//自动对页面进行缩放以适应屏幕
     
     //添加指示器及遮罩
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.dimBackground = YES; //加层阴影
-    hud.mode = MBProgressHUDModeIndeterminate;
-    hud.labelText = @"加载中...";
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+   
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/page/website/agreement/index_app?code=ZRXY%@",SERVERURL,_str]];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
         [_webView loadRequest:request];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-        });
-    });
     
 }
 
@@ -75,11 +67,11 @@
     [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"WebKitOfflineWebApplicationCacheEnabled"];//自己添加的，原文没有提到。
     [[NSUserDefaults standardUserDefaults] synchronize];
     
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
+   
     
 }
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    
     
 }
 
