@@ -1,15 +1,15 @@
 //
-//  DetailViewController.m
-//  GuizhouEquityTrading
+//  TransferDetailViewController.m
+//  EquityTrading
 //
-//  Created by mac on 15/10/23.
+//  Created by mac on 15/11/3.
 //  Copyright © 2015年 ApexSoft. All rights reserved.
 //
 
-#import "DetailViewController.h"
+#import "TransferDetailViewController.h"
 #import "AppDelegate.h"
 
-@interface DetailViewController ()
+@interface TransferDetailViewController ()
 {
     float addHight;
     UITextField *priceLab;
@@ -18,13 +18,14 @@
     UILabel *moneyLab;
     int count;
 }
+
 @end
 
-@implementation DetailViewController
+@implementation TransferDetailViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-     count = 0;
+    count = 0;
     
     if ([[[UIDevice currentDevice] systemVersion] doubleValue]>=7.0) {
         addHight = 20;
@@ -39,7 +40,6 @@
     }
     [self requestData:_gqdm];
 }
-
 
 -(void)refreshUI:(NSDictionary *)_dic{
     //股权代码
@@ -85,7 +85,7 @@
     countLab.layer.borderWidth = 1;
     countLab.layer.borderColor = [UIColor greenColor].CGColor;
     countLab.delegate = self;
-     countLab.clearButtonMode = UITextFieldViewModeWhileEditing;
+    countLab.clearButtonMode = UITextFieldViewModeWhileEditing;
     [self.view addSubview:countLab];
     
     //可用资金
@@ -134,7 +134,7 @@
     
     //支付按钮
     UIButton *sureBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    sureBtn.frame = CGRectMake(20,330, ScreenWidth/2 - 10 - 15, 35);
+    sureBtn.frame = CGRectMake(20,330, ScreenWidth/2 - 40, 35);
     sureBtn.backgroundColor = [ConMethods colorWithHexString:@"fe8103"];
     sureBtn.layer.masksToBounds = YES;
     sureBtn.layer.cornerRadius = 4;
@@ -180,7 +180,7 @@
     
     NSArray *countArr = @[[_dic objectForKey:@"FID_MCJG3"],[_dic objectForKey:@"FID_MCJG2"],[_dic objectForKey:@"FID_MCJG1"],[_dic objectForKey:@"FID_ZXJ"],[_dic objectForKey:@"FID_MRJG1"],[_dic objectForKey:@"FID_MRJG2"],[_dic objectForKey:@"FID_MRJG3"]];
     
-     NSArray *countArrTip = @[[_dic objectForKey:@"FID_MCSL3"],[_dic objectForKey:@"FID_MCSL2"],[_dic objectForKey:@"FID_MCSL1"],@"--",[_dic objectForKey:@"FID_MRSL1"],[_dic objectForKey:@"FID_MRSL2"],[_dic objectForKey:@"FID_MRSL3"]];
+    NSArray *countArrTip = @[[_dic objectForKey:@"FID_MCSL3"],[_dic objectForKey:@"FID_MCSL2"],[_dic objectForKey:@"FID_MCSL1"],@"--",[_dic objectForKey:@"FID_MRSL1"],[_dic objectForKey:@"FID_MRSL2"],[_dic objectForKey:@"FID_MRSL3"]];
     
     
     for (int i = 0; i < 7; i++) {
@@ -256,28 +256,28 @@
     
     
     [self.view addSubview:backView];
-
     
     
     
     
-
+    
+    
 }
 
 - (IBAction)remberMethods:(UIButton *)sender {
     
-        count++;
+    count++;
+    
+    if (count % 2 == 0) {
         
-        if (count % 2 == 0) {
-            
-            [sender setBackgroundImage:[UIImage imageNamed:@"select_0.png"] forState:UIControlStateNormal];
-            
-            
-        } else {
-            
-            [sender setBackgroundImage:[UIImage imageNamed:@"select_1.png"] forState:UIControlStateNormal];
-            
-        }
+        [sender setBackgroundImage:[UIImage imageNamed:@"select_0.png"] forState:UIControlStateNormal];
+        
+        
+    } else {
+        
+        [sender setBackgroundImage:[UIImage imageNamed:@"select_1.png"] forState:UIControlStateNormal];
+        
+    }
     
     
 }
@@ -285,9 +285,9 @@
 -(void)pushVCProtocal{
     
     //ProductProcoalViewController *vc = [[ProductProcoalViewController alloc] init];
-   // vc.str = [self.dic objectForKey:@"GQDM"];
-   // vc.hidesBottomBarWhenPushed = YES;
-   // [self.navigationController pushViewController:vc animated:YES];
+    // vc.str = [self.dic objectForKey:@"GQDM"];
+    // vc.hidesBottomBarWhenPushed = YES;
+    // [self.navigationController pushViewController:vc animated:YES];
     
     
 }
@@ -295,20 +295,23 @@
 
 - (IBAction)sureMehtods:(id)sender {
     [self.view endEditing:YES];
+    
+    NSLog(@"%.2f %.2f",[countLab.text floatValue], [buyLab.text floatValue]);
+    
     if ([priceLab.text isEqualToString:@""]) {
         [[HttpMethods Instance] activityIndicate:NO
                                       tipContent:@"价格不能为空"
                                    MBProgressHUD:nil
                                           target:self.view
                                  displayInterval:3];
-
+        
     }else if (count % 2 == 0) {
         [[HttpMethods Instance] activityIndicate:NO
                                       tipContent:@"请阅读并同意认购协议"
                                    MBProgressHUD:nil
                                           target:self.view
                                  displayInterval:3];
-      
+        
         
     }else if ([countLab.text isEqualToString:@""]) {
         [[HttpMethods Instance] activityIndicate:NO
@@ -318,7 +321,8 @@
                                  displayInterval:3];
         
         
-    }else if ([countLab.text floatValue] <= [buyLab.text floatValue]) {
+    }else if ([countLab.text floatValue] > [buyLab.text floatValue]) {
+        
         [[HttpMethods Instance] activityIndicate:NO
                                       tipContent:@"购买数量不能高于可买数量"
                                    MBProgressHUD:nil
@@ -327,7 +331,7 @@
         
         
     } else {
-
+        
         [self requestDataSubmit:_gqdm];
     }
 }
@@ -335,7 +339,7 @@
 -(void) requestDataSubmit:(NSString *)str {
     
     
-    NSDictionary *parameters = @{@"gqdm":str,@"wtlb":@"59",@"wtjg":priceLab.text,@"wtsl":countLab.text,@"ydh":@"0"};
+    NSDictionary *parameters = @{@"gqdm":str,@"wtlb":@"2",@"wtjg":priceLab.text,@"wtsl":countLab.text,@"ydh":@"0"};
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.requestSerializer = [AFHTTPRequestSerializer serializer];
@@ -395,7 +399,7 @@
     CGRect frame = textField.frame;
     int offset = frame.origin.y + 76 - (self.view.frame.size.height - 256.0);//键盘高度216
     //动画
-   
+    
     //将视图的Y坐标向上移动offset个单位，以使下面腾出地方用于软键盘的显示
     if(offset > 0)
         self.view.frame = CGRectMake(0.0f, -offset, self.view.frame.size.width, self.view.frame.size.height);
@@ -428,7 +432,7 @@
 -(void) requestBuyCount:(NSString *)str {
     
     //买入1，卖出2
-    NSDictionary *parameters = @{@"gqdm":str,@"wtlb":@"1",@"wtjg":priceLab.text};
+    NSDictionary *parameters = @{@"gqdm":str,@"wtlb":@"2",@"wtjg":priceLab.text};
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.requestSerializer = [AFHTTPRequestSerializer serializer];
@@ -442,15 +446,15 @@
         if ([[responseObject objectForKey:@"success"] boolValue] == YES){
             NSLog(@"JSON: %@", responseObject);
             
-             buyLab.text = [[responseObject objectForKey:@"object"] objectForKey:@"FID_WTSL"];
-           
+            buyLab.text = [[responseObject objectForKey:@"object"] objectForKey:@"FID_WTSL"];
+            
             [[HttpMethods Instance] activityIndicate:NO
                                           tipContent:@"加载完成"
                                        MBProgressHUD:nil
                                               target:self.view
                                      displayInterval:3];
             
-           
+            
             
         } else {
             
@@ -486,7 +490,7 @@
 
 -(void) requestData:(NSString *)str {
     
-   
+    
     NSDictionary *parameters = @{@"gqdm":str};
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
@@ -501,14 +505,14 @@
         if ([[responseObject objectForKey:@"success"] boolValue] == YES){
             NSLog(@"JSON: %@", responseObject);
             
-             [self refreshUI:[responseObject objectForKey:@"object"]];
+            [self refreshUI:[responseObject objectForKey:@"object"]];
             [[HttpMethods Instance] activityIndicate:NO
                                           tipContent:@"加载完成"
                                        MBProgressHUD:nil
                                               target:self.view
                                      displayInterval:3];
             
-           
+            
             
         } else {
             
@@ -543,11 +547,12 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    
+    // Dispose of any resources that can be recreated.
 }
 
 
+
 - (IBAction)back:(id)sender {
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 @end

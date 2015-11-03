@@ -99,6 +99,11 @@
                                      displayInterval:3];
             NSMutableArray *arr = [[responseObject objectForKey:@"object"] mutableCopy];
             [self reloadDataWith:[arr objectAtIndex:0]];
+            AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+            delegate.userMoney = [arr objectAtIndex:0];
+            
+            
+            
         } else {
             
             

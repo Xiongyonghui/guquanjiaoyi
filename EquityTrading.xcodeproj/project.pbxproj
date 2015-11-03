@@ -51,6 +51,8 @@
 		040B2DE61BDF181000A2F1FE /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 040B2DE41BDF181000A2F1FE /* LoginViewController.xib */; };
 		040B2DEB1BDF182B00A2F1FE /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 040B2DE91BDF182B00A2F1FE /* DetailViewController.m */; };
 		040B2DEC1BDF182B00A2F1FE /* DetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 040B2DEA1BDF182B00A2F1FE /* DetailViewController.xib */; };
+		0417EA961BE85A85000F2525 /* TransferDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0417EA941BE85A85000F2525 /* TransferDetailViewController.m */; };
+		0417EA971BE85A85000F2525 /* TransferDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0417EA951BE85A85000F2525 /* TransferDetailViewController.xib */; };
 		041A21AC1BE0995700216EEE /* sdRefeshView_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 041A21A21BE0995700216EEE /* sdRefeshView_arrow@2x.png */; };
 		041A21AD1BE0995700216EEE /* SDRefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = 041A21A41BE0995700216EEE /* SDRefreshView.m */; };
 		041A21AE1BE0995700216EEE /* SDRefreshHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 041A21A61BE0995700216EEE /* SDRefreshHeaderView.m */; };
@@ -168,6 +170,9 @@
 		040B2DE81BDF182B00A2F1FE /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		040B2DE91BDF182B00A2F1FE /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		040B2DEA1BDF182B00A2F1FE /* DetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailViewController.xib; sourceTree = "<group>"; };
+		0417EA931BE85A85000F2525 /* TransferDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransferDetailViewController.h; sourceTree = "<group>"; };
+		0417EA941BE85A85000F2525 /* TransferDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransferDetailViewController.m; sourceTree = "<group>"; };
+		0417EA951BE85A85000F2525 /* TransferDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TransferDetailViewController.xib; sourceTree = "<group>"; };
 		041A21A21BE0995700216EEE /* sdRefeshView_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sdRefeshView_arrow@2x.png"; sourceTree = "<group>"; };
 		041A21A31BE0995700216EEE /* SDRefreshView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDRefreshView.h; sourceTree = "<group>"; };
 		041A21A41BE0995700216EEE /* SDRefreshView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDRefreshView.m; sourceTree = "<group>"; };
@@ -434,6 +439,9 @@
 				040B2DE81BDF182B00A2F1FE /* DetailViewController.h */,
 				040B2DE91BDF182B00A2F1FE /* DetailViewController.m */,
 				040B2DEA1BDF182B00A2F1FE /* DetailViewController.xib */,
+				0417EA931BE85A85000F2525 /* TransferDetailViewController.h */,
+				0417EA941BE85A85000F2525 /* TransferDetailViewController.m */,
+				0417EA951BE85A85000F2525 /* TransferDetailViewController.xib */,
 			);
 			name = "详情界面";
 			sourceTree = "<group>";
@@ -575,6 +583,7 @@
 				040B2D591BDF111600A2F1FE /* Assets.xcassets in Resources */,
 				047C3BE11BE350FA00EAEF67 /* MyGainViewController.xib in Resources */,
 				041A21AC1BE0995700216EEE /* sdRefeshView_arrow@2x.png in Resources */,
+				0417EA971BE85A85000F2525 /* TransferDetailViewController.xib in Resources */,
 				046590881BE1EDDD0071601F /* MoreViewController.xib in Resources */,
 				046590981BE1EE8A0071601F /* WebDetailViewController.xib in Resources */,
 				046590931BE1EE450071601F /* PublicViewController.xib in Resources */,
@@ -619,6 +628,7 @@
 				040B2DA21BDF152300A2F1FE /* AFHTTPRequestOperationManager.m in Sources */,
 				040B2D891BDF14F000A2F1FE /* GTMBase64XD.m in Sources */,
 				041A21AF1BE0995700216EEE /* UIView+SDExtension.m in Sources */,
+				0417EA961BE85A85000F2525 /* TransferDetailViewController.m in Sources */,
 				047C3BDB1BE3507800EAEF67 /* DelegateTodayViewController.m in Sources */,
 				047C3BE81BE3512A00EAEF67 /* MoneyAccountViewController.m in Sources */,
 				040B2DA51BDF152300A2F1FE /* AFSecurityPolicy.m in Sources */,

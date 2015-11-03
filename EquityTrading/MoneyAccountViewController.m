@@ -63,18 +63,17 @@
     } else if(Seg.selectedSegmentIndex == 1){
         
         [weakSelf.scrollView scrollRectToVisible:CGRectMake(ScreenWidth * Seg.selectedSegmentIndex, 0, ScreenWidth, ScreenHeight  - 64 - 49) animated:YES];
+        
+         start = @"1";
+        [self requestMyGqzcPaging];
+        
+        
     }
 }
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    if ([isRefresh isEqualToString:@"1"]) {
-        startBak = [NSString stringWithString:start];
-        start = @"1";
-        //[self requestMoney:start withSize:limit tag:kBusinessTagGetJRmyJrzcPagingAgain];
-    }
-
 }
 
 
@@ -148,7 +147,7 @@
     
   
         //获取类别信息
-       // [self requestMethods];
+        [self requestMethods];
         
        // [self requestMoney:start withSize:limit tag:kBusinessTagGetJRmyJrzcPaging];
     
@@ -312,7 +311,7 @@
                                               target:self.view
                                      displayInterval:3];
             
-            [self reloadDataWith:[responseObject objectForKey:@"object"]];
+            [self reloadDataWith:[[responseObject objectForKey:@"object"] objectAtIndex:0]];
         } else {
             
             if ([[responseObject objectForKey:@"object"] isKindOfClass:[NSString class]]) {
@@ -653,13 +652,16 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         CGFloat pageWidth = ScreenWidth;
         NSInteger page = _scrollView.contentOffset.x / pageWidth ;
          segmented.selectedSegmentIndex = page;
-        //[self.segmentedControl setSelectedSegmentIndex:page animated:YES];
+        if (page == 1) {
+            start = @"1";
+            [self requestMyGqzcPaging];
+        }
     }
 }
 
 -(void)reloadDataWith:(NSMutableDictionary *)arraydata {
     NSArray *titleTip = @[@"总资产(元)",@"股权市值(元)",@"可取资金(元)",@"冻结资金(元)",@"昨日收益(元)",@"累计总收益(元)",@"累计待收益(元)"];
-    NSArray *charTip = @[[arraydata objectForKey:@"zzc"],[arraydata objectForKey:@"gqZsz"],[arraydata objectForKey:@"kqzj"],[arraydata objectForKey:@"djje"],[arraydata objectForKey:@"zrljsy"],[arraydata objectForKey:@"jrljzsy"],[arraydata objectForKey:@"jrljdsy"]];
+    NSArray *charTip = @[[arraydata objectForKey:@"FID_ZZC"],[arraydata objectForKey:@"FID_KYZJ"],[arraydata objectForKey:@"FID_KQZJ"],[arraydata objectForKey:@"FID_DJJE"],[arraydata objectForKey:@"FID_ZXSZ"],[arraydata objectForKey:@"FID_OFSS_JZ"],[arraydata objectForKey:@"FID_QTZC"]];
     
     for (int i = 0; i < 7;i++) {
         //int hight = addHight + 44 + 50;

@@ -8,6 +8,7 @@
 
 #import "MainViewController.h"
 #import "DetailViewController.h"
+#import "TransferDetailViewController.h"
 #import "AppDelegate.h"
 #import "LoginViewController.h"
 
@@ -677,44 +678,44 @@
 - (void)tableView:(UITableView *)tbleView
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (tbleView == table) {
+    
+    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    if (delegate.loginUser.count > 0) {
         
-        if (indexPath.row == [dataList count]) {
-            for (UILabel *label in [moreCell.contentView subviews]) {
-                if ([label.text isEqualToString:@"正在加载中..."]) {
-                    
-                } else {
-                    label.text = @"正在加载中...";
-                    //[self requestList:start limit:limit sortName:sortName val:sortVal tag:kBusinessTagGetJRwdtzloadData];
-                    [tbleView deselectRowAtIndexPath:indexPath animated:YES];
-                }
+        if ([[delegate.loginUser objectForKey:@"success"] boolValue]) {
+            if (tbleView == table) {
+                
+                [tbleView deselectRowAtIndexPath:indexPath animated:YES];
+                
+                DetailViewController *cv = [[DetailViewController alloc] init];
+                //cv.title = [[dataList objectAtIndex:indexPath.row] objectForKey:@"cpmc"];
+                cv.gqdm = [[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_GQDM"];
+                cv.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:cv animated:YES];
+                
+            }else if (tbleView == tablePast){
+                [tbleView deselectRowAtIndexPath:indexPath animated:YES];
+                
+                TransferDetailViewController *cv = [[TransferDetailViewController alloc] init];
+                //cv.title = [[dataList objectAtIndex:indexPath.row] objectForKey:@"cpmc"];
+                cv.gqdm = [[dataListPast objectAtIndex:indexPath.row] objectForKey:@"FID_GQDM"];
+                cv.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:cv animated:YES];
+                
             }
+
         } else {
-            
-            DetailViewController *cv = [[DetailViewController alloc] init];
-            //cv.title = [[dataList objectAtIndex:indexPath.row] objectForKey:@"cpmc"];
-            cv.gqdm = [[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_GQDM"];
-            cv.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:cv animated:YES];
-            
+            LoginViewController *vc = [[LoginViewController alloc] init];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
         }
-    }else if (tbleView == tablePast){
-        if (indexPath.row == [dataListPast count]) {
-            for (UILabel *label in [moreCellPast.contentView subviews]) {
-                if ([label.text isEqualToString:@"正在加载中..."]) {
-                    
-                } else {
-                    label.text = @"正在加载中...";
-                   // [self requestTransferList:startPast limit:limitPast sortName:sortNamePast val:sortValPast tag:kBusinessTagGetJRcpzrwytz1];
-                    [tbleView deselectRowAtIndexPath:indexPath animated:YES];
-                }
-            }
-        } else {
-            
-            
-            
-        }
+    } else {
+        LoginViewController *vc = [[LoginViewController alloc] init];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
     }
+
+    
 }
 
 
