@@ -318,7 +318,7 @@
                                  displayInterval:3];
         
         
-    }else if ([countLab.text floatValue] <= [buyLab.text floatValue]) {
+    }else if ([countLab.text floatValue] > [buyLab.text floatValue]) {
         [[HttpMethods Instance] activityIndicate:NO
                                       tipContent:@"购买数量不能高于可买数量"
                                    MBProgressHUD:nil
@@ -335,7 +335,7 @@
 -(void) requestDataSubmit:(NSString *)str {
     
     
-    NSDictionary *parameters = @{@"gqdm":str,@"wtlb":@"59",@"wtjg":priceLab.text,@"wtsl":countLab.text,@"ydh":@"0"};
+    NSDictionary *parameters = @{@"gqdm":str,@"wtlb":@"1",@"wtjg":priceLab.text,@"wtsl":countLab.text,@"ydh":@"0"};
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.requestSerializer = [AFHTTPRequestSerializer serializer];

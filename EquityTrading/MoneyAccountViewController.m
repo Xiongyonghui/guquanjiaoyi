@@ -8,8 +8,8 @@
 
 #import "MoneyAccountViewController.h"
 #import "AppDelegate.h"
-#import "MyTransferDetailViewController.h"
 #import "LoginViewController.h"
+#import "TransferDetailViewController.h"
 
 
 
@@ -382,249 +382,122 @@
     static NSString *RepairCellIdentifier = @"RepairCellIdentifier";
     UITableViewCell *cell;
     cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 50)];
-    if ([dataList count] == 0) {
-        if (YES) {
+    
+        if ([dataList count] == 0) {
             cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 200)];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 50)];
             [backView setBackgroundColor:[ConMethods colorWithHexString:@"ececec"]];
             //图标
             UIImageView *iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake((ScreenWidth - 57)/2, 100, 57, 57)];
-            [iconImageView setImage:[UIImage imageNamed:@"none_product_icon"]];
+            [iconImageView setImage:[UIImage imageNamed:@"icon_none"]];
             [backView addSubview:iconImageView];
             //提示
             UILabel *tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, iconImageView.frame.origin.y + iconImageView.frame.size.height + 27, ScreenWidth, 15)];
             [tipLabel setFont:[UIFont systemFontOfSize:15]];
             [tipLabel setTextAlignment:NSTextAlignmentCenter];
             [tipLabel setTextColor:[ConMethods colorWithHexString:@"404040"]];
-            [tipLabel setText:@"亲，还未有投资产品"];
+            [tipLabel setText:@"没有任何商品哦~"];
             tipLabel.backgroundColor = [UIColor clearColor];
             [backView addSubview:tipLabel];
             [cell.contentView addSubview:backView];
             
-        }
-    } else {
-        if ([indexPath row] == [dataList count]) {
-            moreCell = [tbleView dequeueReusableCellWithIdentifier:@"loadMoreCell"];
-            moreCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"loadMoreCell"];
-            [moreCell setBackgroundColor:[UIColor clearColor]];
-            moreCell.selectionStyle = UITableViewCellSelectionStyleNone;
-            UILabel *toastLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 10, 160, 59)];
-            [toastLabel setFont:[UIFont systemFontOfSize:12]];
-            toastLabel.backgroundColor = [UIColor clearColor];
-            [toastLabel setTextColor:[ConMethods colorWithHexString:@"999999"]];
-            toastLabel.numberOfLines = 0;
-            toastLabel.text = @"更多...";
-            toastLabel.textAlignment = NSTextAlignmentCenter;
-            [moreCell.contentView addSubview:toastLabel];
-            return moreCell;
         } else {
+            
             cell = [tbleView dequeueReusableCellWithIdentifier:RepairCellIdentifier];
             if (cell == nil) {
-                cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 130)];
+                cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 105)];
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                [cell setBackgroundColor:[UIColor clearColor]];
+                [cell setBackgroundColor:[ConMethods colorWithHexString:@"eeeeee"]];
                 //添加背景View
-                UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0,0, ScreenWidth, 120)];
-                [backView setBackgroundColor:[ConMethods colorWithHexString:@"fdfdfd"]];
-               
-                
+                UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(10, 10, ScreenWidth - 20, 95)];
+                [backView setBackgroundColor:[UIColor whiteColor]];
+                backView.layer.cornerRadius = 2;
+                backView.layer.masksToBounds = YES;
                 
                 //品牌
-                
-                UILabel *brandLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, ScreenWidth - 20, 25)];
+                UILabel *brandLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 15, ScreenWidth - 40, 15)];
                 brandLabel.font = [UIFont systemFontOfSize:15];
                 [brandLabel setTextColor:[ConMethods colorWithHexString:@"333333"]];
                 [brandLabel setBackgroundColor:[UIColor clearColor]];
-                brandLabel.text = [[dataList objectAtIndex:[indexPath row]] objectForKey:@"FID_CPMC"];
+                brandLabel.text = [[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_GQMC"];
                 [backView addSubview:brandLabel];
                 
+                //持有份额
+                UILabel *fenLabTip = [[UILabel alloc] initWithFrame:CGRectMake(10, 43, 52, 13)];
+                fenLabTip.font = [UIFont systemFontOfSize:13];
+                [fenLabTip setTextColor:[ConMethods colorWithHexString:@"999999"]];
                 
-                UILabel *numYQH = [[UILabel alloc] init];
-                numYQH.text = [NSString stringWithFormat:@"%.2f",[[[dataList objectAtIndex:[indexPath row]] objectForKey:@"FID_GZLL"] floatValue]*100];
-                numYQH.font = [UIFont systemFontOfSize:25];
-                numYQH.textColor = [ConMethods colorWithHexString:@"fe8103"];
-                CGSize titleSize = [numYQH.text sizeWithFont:numYQH.font constrainedToSize:CGSizeMake(MAXFLOAT, 25)];
-                numYQH.frame = CGRectMake(10, 35, titleSize.width, 25);
-                [backView addSubview:numYQH];
+                fenLabTip.text = @"持有份额";
+                [backView addSubview:fenLabTip];
                 
-                UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(10 + titleSize.width, 60 - 13, 15, 13)];
-                lab.text = @"%";
-                lab.textColor = [ConMethods colorWithHexString:@"fe8103"];
-                lab.font = [UIFont systemFontOfSize:13];
-                [backView addSubview:lab];
+                UILabel *fenLabel = [[UILabel alloc] initWithFrame:CGRectMake(65, 42, ScreenWidth/2 - 10 - 65, 13)];
+                fenLabel.font = [UIFont systemFontOfSize:13];
+                [fenLabel setTextColor:[ConMethods colorWithHexString:@"333333"]];
+                fenLabel.text = [NSString stringWithFormat:@"%ld",[[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_JCCL"] integerValue]];
+                [backView addSubview:fenLabel];
                 
- //投资金额
-                UILabel *labMoney = [[UILabel alloc] initWithFrame:CGRectMake(10, 70, 60, 14)];
-                labMoney.text = @"投资金额";
-                labMoney.textColor = [ConMethods colorWithHexString:@"999999"];
-                labMoney.font = [UIFont systemFontOfSize:14];
-                [backView addSubview:labMoney];
+                //最新价
+                UILabel *newLabTip = [[UILabel alloc] initWithFrame:CGRectMake( ScreenWidth/2 - 10, 43, 50, 13)];
+                newLabTip.font = [UIFont systemFontOfSize:13];
+                [newLabTip setTextColor:[ConMethods colorWithHexString:@"999999"]];
                 
+                newLabTip.text = @"最新价";
+                [backView addSubview:newLabTip];
                 
-                UILabel *moneyLabel = [[UILabel alloc] initWithFrame:CGRectMake(70, 70, ScreenWidth/2 - 20, 14)];
-                moneyLabel.font = [UIFont systemFontOfSize:14];
-                [moneyLabel setTextColor:[ConMethods colorWithHexString:@"333333"]];
-                [moneyLabel setBackgroundColor:[UIColor clearColor]];
-                //moneyLabel.textAlignment = NSTextAlignmentRight;
-               // moneyLabel.text = [NSString stringWithFormat:@"%.2f元",[[self AddComma:[[dataList objectAtIndex:[indexPath row]] objectForKey:@"FID_TZJE"]] floatValue]];
-                moneyLabel.text = [NSString stringWithFormat:@"%@元",[PublicMethod AddComma:[[dataList objectAtIndex:[indexPath row]] objectForKey:@"FID_TZJE"]]];
-                [backView addSubview:moneyLabel];
+                UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth/2 + 55 - 10, 42, ScreenWidth/2 - 20 - 45, 13)];
+                newLabel.font = [UIFont systemFontOfSize:13];
+                [newLabel setTextColor:[ConMethods colorWithHexString:@"333333"]];
+                newLabel.text = [NSString stringWithFormat:@"%@元",[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_ZXJ"]];
+                [backView addSubview:newLabel];
                 
+                //累计盈亏
+                UILabel *kuiLabTip = [[UILabel alloc] initWithFrame:CGRectMake(10, 63, 52, 13)];
+                kuiLabTip.font = [UIFont systemFontOfSize:13];
+                [kuiLabTip setTextColor:[ConMethods colorWithHexString:@"999999"]];
                 
-                if ([[[dataList objectAtIndex:[indexPath row]] objectForKey:@"sell"] isEqualToString:@"can"]) {
-                    
-                    if ([[[dataList objectAtIndex:[indexPath row]] objectForKey:@"FID_KMCSL"] integerValue] > 0 ) {
-                        
-                        if (![[[dataList objectAtIndex:[indexPath row]] objectForKey:@"FID_GQLB"] isEqualToString:@"Z9"]) {
-                            UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 90, 30, 80, 30)];
-                            lab.backgroundColor = [ConMethods colorWithHexString:@"fe8103"];
-                            lab.font = [UIFont systemFontOfSize:14];
-                            //lab.layer.borderWidth = 1;
-                            
-                            lab.layer.masksToBounds = YES;
-                            lab.layer.cornerRadius = 4;
-                            lab.text = @"转让";
-                            lab.textColor = [UIColor whiteColor];
-                            lab.textAlignment = NSTextAlignmentCenter;
-                            [backView addSubview:lab];
-                            
-                            
-                        } else {
-                        
-                            UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 80, 30, 70, 30)];
-                            lab.backgroundColor = [UIColor grayColor];
-                            lab.font = [UIFont systemFontOfSize:14];
-                            //lab.layer.borderWidth = 1;
-                            lab.textColor = [UIColor whiteColor];
-                            lab.layer.masksToBounds = YES;
-                            
-                            lab.layer.cornerRadius = 4;
-                            lab.text = @"转让";
-                            lab.textAlignment = NSTextAlignmentCenter;
-                            [backView addSubview:lab];
-                        }
-                        
-                    } else {
-                    
-                    
-                    
-                    UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 90, 30, 80, 30)];
-                    lab.backgroundColor = [ConMethods colorWithHexString:@"fe8103"];
-                    lab.font = [UIFont systemFontOfSize:14];
-                    //lab.layer.borderWidth = 1;
-                    
-                    lab.layer.masksToBounds = YES;
-                    lab.layer.cornerRadius = 4;
-                    lab.text = @"转让";
-                    lab.textColor = [UIColor whiteColor];
-                     lab.textAlignment = NSTextAlignmentCenter;
-                    [backView addSubview:lab];
-                    }
-                } else {
+                kuiLabTip.text = @"累计盈亏";
+                [backView addSubview:kuiLabTip];
                 
-                    UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 80, 30, 70, 30)];
-                    lab.backgroundColor = [UIColor grayColor];
-                    lab.font = [UIFont systemFontOfSize:14];
-                    //lab.layer.borderWidth = 1;
-                     lab.textColor = [UIColor whiteColor];
-                    lab.layer.masksToBounds = YES;
-                    
-                    lab.layer.cornerRadius = 4;
-                    lab.text = @"转让";
-                    lab.textAlignment = NSTextAlignmentCenter;
-                     [backView addSubview:lab];
-                }
+                UILabel *kuiLabel = [[UILabel alloc] initWithFrame:CGRectMake(65, 62, ScreenWidth/2 - 75, 13)];
+                kuiLabel.font = [UIFont systemFontOfSize:13];
+                [kuiLabel setTextColor:[ConMethods colorWithHexString:@"333333"]];
+                kuiLabel.text = [NSString stringWithFormat:@"%@元",[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_LJYK"] ];
+                [backView addSubview:kuiLabel];
+                //盈亏比例
+                
+                UILabel *biliLabTip = [[UILabel alloc] initWithFrame:CGRectMake( ScreenWidth/2 - 10, 63, 52, 13)];
+                biliLabTip.font = [UIFont systemFontOfSize:13];
+                [biliLabTip setTextColor:[ConMethods colorWithHexString:@"999999"]];
+                
+                biliLabTip.text = @"盈亏比例";
+                [backView addSubview:biliLabTip];
+                
+                UILabel *biliLabel = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth/2 - 10 + 55, 62, ScreenWidth/2 - 20 - 45, 13)];
+                biliLabel.font = [UIFont systemFontOfSize:13];
+                [biliLabel setTextColor:[ConMethods colorWithHexString:@"333333"]];
+                
+                float bili = [[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_LJYK"] floatValue]/[[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_TZJE"] floatValue]*100;
                 
                 
-                
-          //付息方式
-                UILabel *moneyLabelTip = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth/2, 70, ScreenWidth/2 - 10, 14)];
-                moneyLabelTip.font = [UIFont systemFontOfSize:14];
-                [moneyLabelTip setTextColor:[ConMethods colorWithHexString:@"333333"]];
-                [moneyLabelTip setBackgroundColor:[UIColor clearColor]];
-                moneyLabelTip.textAlignment = NSTextAlignmentRight;
-                moneyLabelTip.text = [[dataList objectAtIndex:[indexPath row]] objectForKey:@"FID_JXFS"];
-                [backView addSubview:moneyLabelTip];
-                
-                
-                //到期日期
-                
-                UILabel *lab2Tip = [[UILabel alloc] initWithFrame:CGRectMake(10, 94, 60, 13)];
-                //lab2Tip.textAlignment = NSTextAlignmentCenter;
-                lab2Tip.textColor = [ConMethods colorWithHexString:@"999999"];
-                lab2Tip.font = [UIFont systemFontOfSize:14];
-                lab2Tip.text = @"到期日期";
-                [backView addSubview:lab2Tip];
-                
-                
-                UILabel *labRQ = [[UILabel alloc] initWithFrame:CGRectMake(70, 94, 99, 13)];
-                labRQ.textAlignment = NSTextAlignmentCenter;
-                labRQ.textColor = [ConMethods colorWithHexString:@"333333"];
-                labRQ.font = [UIFont systemFontOfSize:13];
-                
-                //日期格式转化
-                NSMutableString *strDate = [[NSMutableString alloc] initWithString:[[dataList objectAtIndex:[indexPath row]] objectForKey:@"FID_DQRQ"]];
-                // NSString *newStr = [strDate insertring:@"-" atIndex:3];
-                [strDate insertString:@"-" atIndex:4];
-                [strDate insertString:@"-" atIndex:(strDate.length - 2)];
-                labRQ.text = [NSString stringWithFormat:@"%@",strDate];
-                [backView addSubview:labRQ];
-
-                
-                
-    //可转让日期
-                UILabel *transferTip = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 95 - 60 - 5, 94, 70, 13)];
-                transferTip.textAlignment = NSTextAlignmentCenter;
-                transferTip.textColor = [ConMethods colorWithHexString:@"999999"];
-                transferTip.font = [UIFont systemFontOfSize:13];
-                transferTip.text = @"可转让日期";
-                [backView addSubview:transferTip];
-                
-                
-                UILabel *transferRQ = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 90, 94, 85, 13)];
-                transferRQ.textAlignment = NSTextAlignmentCenter;
-                transferRQ.textColor = [ConMethods colorWithHexString:@"333333"];
-                transferRQ.font = [UIFont systemFontOfSize:14];
-                
-                //日期格式转化
-                NSMutableString *strDateTip = [[NSMutableString alloc] initWithString:[[dataList objectAtIndex:[indexPath row]] objectForKey:@"FID_CPCLRQ"]];
-                // NSString *newStr = [strDate insertring:@"-" atIndex:3];
-                [strDateTip insertString:@"-" atIndex:4];
-                [strDateTip insertString:@"-" atIndex:(strDate.length - 3)];
-                transferRQ.text = [NSString stringWithFormat:@"%@",strDateTip];
-                [backView addSubview:transferRQ];
-                
-                
+                biliLabel.text = [NSString stringWithFormat:@"%.2f%@",bili,@"%"];
+                [backView addSubview:biliLabel];
                 [cell.contentView addSubview:backView];
-                
-                
             }
+            // return cell;
         }
         return cell;
-    }
-    return cell;
+   
 }
 
 - (void)tableView:(UITableView *)tbleView
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([[[dataList objectAtIndex:[indexPath row]] objectForKey:@"sell"] isEqualToString:@"can"]) {
-        
-             if ([[[dataList objectAtIndex:[indexPath row]] objectForKey:@"FID_KMCSL"] integerValue] > 0 ) {
-                
-                 if ([[[dataList objectAtIndex:[indexPath row]] objectForKey:@"FID_GQLB"] isEqualToString:@"Z9"] == NO) {
-                 MyTransferDetailViewController *cv = [[MyTransferDetailViewController alloc] init];
-                 
-                 cv.gqdm = [[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_GQDM"];
-                 cv.hidesBottomBarWhenPushed = YES;
-                 [self.navigationController pushViewController:cv animated:YES];
-                     
-            }
-                     
-        }
-    }
-    
+    TransferDetailViewController *cv = [[TransferDetailViewController alloc] init];
+    //cv.title = [[dataList objectAtIndex:indexPath.row] objectForKey:@"cpmc"];
+    cv.gqdm = [[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_GQDM"];
+    cv.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:cv animated:YES];
 }
 
 
@@ -635,7 +508,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     if ([indexPath row] == [dataList count]) {
         return 40;
     } else {
-        return 130;
+        return 105;
     }
     return 95;
 }

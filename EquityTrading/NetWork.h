@@ -13,9 +13,18 @@
 #define ScreenWidth  [[UIScreen mainScreen] bounds].size.width
 
 //股权交易
-#define SERVERURL @"http://192.168.1.84:8080"
+//#define SERVERURL @"http://192.168.1.84:8080"
+
+#define SERVERURL @"http://192.168.1.84:8082"
+//拼接大立
+//#define SERVERURL @"http://192.168.2.12:8080/account"
+
+
 //天津投
 //#define SERVERURL @"http://192.168.1.110:8805"
+
+//#define SERVERURL @"http://118.242.27.51:8080"
+//192.168.1.110:8801
 
 //连接失败提示语
 #define notNetworkConnetTip @"网络不稳定，请检查网络是否连接；或者服务器是否开启。"

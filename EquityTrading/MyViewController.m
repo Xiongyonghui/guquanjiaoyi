@@ -436,12 +436,13 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         [self.navigationController pushViewController:vc animated:YES];
         
     } else if (indexPath.row == 1){
-        MoneyAccountViewController *vc = [[MoneyAccountViewController alloc] init];
+        DelegateTodayViewController *vc = [[DelegateTodayViewController alloc] init];
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
+       
         
     }else if (indexPath.row == 2) {
-        DelegateTodayViewController *vc = [[DelegateTodayViewController alloc] init];
+        MoneyAccountViewController *vc = [[MoneyAccountViewController alloc] init];
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
         

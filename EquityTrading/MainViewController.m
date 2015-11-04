@@ -746,7 +746,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.requestSerializer = [AFHTTPRequestSerializer serializer];
     //manager.responseSerializer.acceptableContentTypes =  [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];//设置相应内容类型
-    
+    [manager.requestSerializer setValue:@"ios" forHTTPHeaderField:@"Request-By"];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     
     
@@ -839,7 +839,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.requestSerializer = [AFHTTPRequestSerializer serializer];
     //manager.responseSerializer.acceptableContentTypes =  [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];//设置相应内容类型
-    
+     [manager.requestSerializer setValue:@"ios" forHTTPHeaderField:@"Request-By"];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     
     
@@ -919,7 +919,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.requestSerializer = [AFHTTPRequestSerializer serializer];
     //manager.responseSerializer.acceptableContentTypes =  [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];//设置相应内容类型
-    
+     [manager.requestSerializer setValue:@"ios" forHTTPHeaderField:@"Request-By"];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     
     

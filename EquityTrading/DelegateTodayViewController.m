@@ -21,13 +21,9 @@
 
 @interface DelegateTodayViewController (){
     NSString *start;
-    NSString *startBak;
     NSString *finishStart;
-    NSString *finishStartBak;
     NSString *shipStart;
-    NSString *shipStartBak;
     NSString *waitStart;
-    NSString *waitStartBak;
     NSString *limit;
     NSMutableArray *dataList;
     NSMutableArray *finishDataList;
@@ -41,26 +37,10 @@
     UITableViewCell *waitMoreCell;
     UITableViewCell *finishMoreCell;
     UITableViewCell *shipMoreCell;
-
-    // zhuan  zhuang jilu
-    UIDatePicker *datePicker;
-    UIDatePicker *timePicker;
-    UIToolbar *tooBar;
-    UIToolbar *timeTooBar;
-    UILabel *dateLStarabel;
-    UILabel *dateLEndabel;
-    
-    UIDatePicker *datePickerPast;
-    UIDatePicker *timePickerPast;
-    UIToolbar *tooBarPast;
-    UIToolbar *timeTooBarPast;
-    UILabel *dateLStarabelPast;
-    UILabel *dateLEndabelPast;
-    
     UIView *cellBackView;
+
     float addHight;
-     NSString *chedanTag;
-    
+    NSString *bagFlag;
      UISegmentedControl  *segmented;
 }
 
@@ -111,6 +91,16 @@
     }
 }
 
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollV
+{
+    
+    if (scrollV == _scrollView) {
+        CGFloat pageWidth = ScreenWidth;
+        NSInteger page = _scrollView.contentOffset.x / pageWidth ;
+        segmented.selectedSegmentIndex = page;
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     start = @"1";
@@ -132,13 +122,8 @@
     NSArray *segmentedArray = [[NSArray alloc]initWithObjects:@"全部",@"已成交",@"已申报",@"已撤销",nil];
     
     segmented = [[UISegmentedControl alloc]initWithItems:segmentedArray];
-    
-    
-    
     segmented.frame = CGRectMake(10, 54 + addHight, ScreenWidth - 20, 30);
-    
-    
-    
+ 
     NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor colorWithPatternImage:[UIImage imageNamed:@"title_bg"]],UITextAttributeTextColor,  [UIFont systemFontOfSize:16],UITextAttributeFont ,[UIColor colorWithPatternImage:[UIImage imageNamed:@"title_bg"]],UITextAttributeTextShadowColor ,nil];
     
     [segmented setTitleTextAttributes:dic forState:UIControlStateNormal];
@@ -156,12 +141,6 @@
     segmented.backgroundColor = [UIColor whiteColor];
     
     segmented.tintColor= [UIColor colorWithPatternImage:[UIImage imageNamed:@"title_bg"]];
-    
-    
-    
-    
-    
-    
     
     segmented.multipleTouchEnabled = NO;
     
@@ -219,7 +198,7 @@
     
     //初始化已发货TableView
     
-    self.finishTableView = [[UITableView alloc] initWithFrame:CGRectMake(ScreenWidth*2, 0, ScreenWidth, scrollViewHeight)];
+    self.finishTableView = [[UITableView alloc] initWithFrame:CGRectMake(ScreenWidth, 0, ScreenWidth, scrollViewHeight)];
     self.finishTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.finishTableView setTag:TFINISHTABLEVIEW];
     [self.finishTableView setDelegate:self];
@@ -230,7 +209,7 @@
     
     //初始化已发货TableView
     
-    self.waitTableView = [[UITableView alloc] initWithFrame:CGRectMake(ScreenWidth, 0, ScreenWidth, scrollViewHeight)];
+    self.waitTableView = [[UITableView alloc] initWithFrame:CGRectMake(ScreenWidth*2, 0, ScreenWidth, scrollViewHeight)];
     self.waitTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.waitTableView setTag:WAITTABLEVIEW];
     [self.waitTableView setDelegate:self];
@@ -249,39 +228,316 @@
     [self.shipTableView setDelegate:self];
     [self.shipTableView setDataSource:self];
     [self.shipTableView setBackgroundColor:[UIColor clearColor]];
-    
     //加入下拉刷新
     [self.scrollView addSubview:self.shipTableView];
     
-    //添加指示器及遮罩
-   /*
-        //获取类别信息
-        //购买记录
+    
+    //全部 2.6.8
+    [self requestMethods];
+    //全部成交  6
+    [self requestFinshMethods];
+    // 已申报未成交  2
+    [self requestWiatMethods];
+    //全部撤单  8
+    [self requestshipMethods];
+    
+}
+
+//请求数据方法
+-(void)requestMethods {
+    [[HttpMethods Instance] activityIndicate:YES tipContent:@"正在加载..." MBProgressHUD:nil target:self.view displayInterval:2.0];
+    
+    
+    NSDictionary *parameters = @{@"sbjg":@"8,6,2"};
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    //manager.responseSerializer.acceptableContentTypes =  [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];//设置相应内容类型
+    
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    
+    [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERqueryTodayEntrust] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-            start = @"1";
-            [self requestRecordPastList:@"" tag:kBusinessTagGetJRtodayEntrustPage];
-       
-            //购买申请
-            finishStart = @"1";
+        if ([[responseObject objectForKey:@"success"] boolValue]){
+            NSLog(@"JSON: %@", responseObject);
+           
+               dataList = [[responseObject objectForKey:@"object"] mutableCopy];
+            [self.tableView reloadData];
             
-            [self requestRecordPastList:@"2" tag:kBusinessTagGetJRtodayEntrustPage1];;
-       
-            //转让记录
-            waitStart = @"1";
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:@"加载完成"
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
             
-            [self requestRecordPastList:@"6" tag:kBusinessTagGetJRtodayEntrustPage2];
+            //[self reloadDataWith:[[responseObject objectForKey:@"object"] objectAtIndex:0]];
+        } else {
             
-     
-            //转让申请
-            shipStart = @"1";
+            if ([[responseObject objectForKey:@"object"] isKindOfClass:[NSString class]]) {
+                
+                if ([[responseObject objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
+                    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+                    [delegate.loginUser removeAllObjects];
+                    
+                    [[HttpMethods Instance] activityIndicate:NO
+                                                  tipContent:[responseObject objectForKey:@"msg"]
+                                               MBProgressHUD:nil
+                                                      target:self.navigationController.view
+                                             displayInterval:3];
+                    
+                    [self.navigationController popToRootViewControllerAnimated:YES];
+                }
+                
+            } else {
+                
+                
+                [[HttpMethods Instance] activityIndicate:NO
+                                              tipContent:[responseObject objectForKey:@"msg"]
+                                           MBProgressHUD:nil
+                                                  target:self.view
+                                         displayInterval:3];
+            }
+            NSLog(@"JSON: %@", responseObject);
+            NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
             
-            [self requestRecordPastList:@"8" tag:kBusinessTagGetJRtodayEntrustPage3];
-            
-        */
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        [[HttpMethods Instance] activityIndicate:NO
+                                      tipContent:notNetworkConnetTip
+                                   MBProgressHUD:nil
+                                          target:self.view
+                                 displayInterval:3];
+        
+        NSLog(@"Error: %@", error);
+    }];
     
     
 }
 
+
+-(void)requestFinshMethods {
+    [[HttpMethods Instance] activityIndicate:YES tipContent:@"正在加载..." MBProgressHUD:nil target:self.view displayInterval:2.0];
+    
+    
+    NSDictionary *parameters = @{@"sbjg":@"6"};
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    //manager.responseSerializer.acceptableContentTypes =  [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];//设置相应内容类型
+    
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    
+    [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERqueryTodayEntrust] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        if ([[responseObject objectForKey:@"success"] boolValue]){
+            NSLog(@"JSON: %@", responseObject);
+            
+            finishDataList = [[responseObject objectForKey:@"object"] mutableCopy];
+            [self.finishTableView reloadData];
+            
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:@"加载完成"
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
+            
+            //[self reloadDataWith:[[responseObject objectForKey:@"object"] objectAtIndex:0]];
+        } else {
+            
+            if ([[responseObject objectForKey:@"object"] isKindOfClass:[NSString class]]) {
+                
+                if ([[responseObject objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
+                    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+                    [delegate.loginUser removeAllObjects];
+                    
+                    [[HttpMethods Instance] activityIndicate:NO
+                                                  tipContent:[responseObject objectForKey:@"msg"]
+                                               MBProgressHUD:nil
+                                                      target:self.navigationController.view
+                                             displayInterval:3];
+                    
+                    [self.navigationController popToRootViewControllerAnimated:YES];
+                }
+                
+            } else {
+                
+                
+                [[HttpMethods Instance] activityIndicate:NO
+                                              tipContent:[responseObject objectForKey:@"msg"]
+                                           MBProgressHUD:nil
+                                                  target:self.view
+                                         displayInterval:3];
+            }
+            NSLog(@"JSON: %@", responseObject);
+            NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
+            
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        [[HttpMethods Instance] activityIndicate:NO
+                                      tipContent:notNetworkConnetTip
+                                   MBProgressHUD:nil
+                                          target:self.view
+                                 displayInterval:3];
+        
+        NSLog(@"Error: %@", error);
+    }];
+    
+    
+}
+
+
+-(void)requestWiatMethods {
+    [[HttpMethods Instance] activityIndicate:YES tipContent:@"正在加载..." MBProgressHUD:nil target:self.view displayInterval:2.0];
+    
+    
+    NSDictionary *parameters = @{@"sbjg":@"2"};
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    //manager.responseSerializer.acceptableContentTypes =  [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];//设置相应内容类型
+    
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    
+    [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERqueryTodayEntrust] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        if ([[responseObject objectForKey:@"success"] boolValue]){
+            NSLog(@"JSON: %@", responseObject);
+            
+            waitDataList = [[responseObject objectForKey:@"object"] mutableCopy];
+            [self.waitTableView reloadData];
+            
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:@"加载完成"
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
+            
+            //[self reloadDataWith:[[responseObject objectForKey:@"object"] objectAtIndex:0]];
+        } else {
+            
+            if ([[responseObject objectForKey:@"object"] isKindOfClass:[NSString class]]) {
+                
+                if ([[responseObject objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
+                    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+                    [delegate.loginUser removeAllObjects];
+                    
+                    [[HttpMethods Instance] activityIndicate:NO
+                                                  tipContent:[responseObject objectForKey:@"msg"]
+                                               MBProgressHUD:nil
+                                                      target:self.navigationController.view
+                                             displayInterval:3];
+                    
+                    [self.navigationController popToRootViewControllerAnimated:YES];
+                }
+                
+            } else {
+                
+                
+                [[HttpMethods Instance] activityIndicate:NO
+                                              tipContent:[responseObject objectForKey:@"msg"]
+                                           MBProgressHUD:nil
+                                                  target:self.view
+                                         displayInterval:3];
+            }
+            NSLog(@"JSON: %@", responseObject);
+            NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
+            
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        [[HttpMethods Instance] activityIndicate:NO
+                                      tipContent:notNetworkConnetTip
+                                   MBProgressHUD:nil
+                                          target:self.view
+                                 displayInterval:3];
+        
+        NSLog(@"Error: %@", error);
+    }];
+    
+    
+}
+
+
+-(void)requestshipMethods {
+    [[HttpMethods Instance] activityIndicate:YES tipContent:@"正在加载..." MBProgressHUD:nil target:self.view displayInterval:2.0];
+    
+    
+    NSDictionary *parameters = @{@"sbjg":@"8"};
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    //manager.responseSerializer.acceptableContentTypes =  [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];//设置相应内容类型
+    
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    
+    [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERqueryTodayEntrust] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        if ([[responseObject objectForKey:@"success"] boolValue]){
+            NSLog(@"JSON: %@", responseObject);
+            
+            shipDataList = [[responseObject objectForKey:@"object"] mutableCopy];
+            [self.shipTableView reloadData];
+            
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:@"加载完成"
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
+            
+            //[self reloadDataWith:[[responseObject objectForKey:@"object"] objectAtIndex:0]];
+        } else {
+            
+            if ([[responseObject objectForKey:@"object"] isKindOfClass:[NSString class]]) {
+                
+                if ([[responseObject objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
+                    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+                    [delegate.loginUser removeAllObjects];
+                    
+                    [[HttpMethods Instance] activityIndicate:NO
+                                                  tipContent:[responseObject objectForKey:@"msg"]
+                                               MBProgressHUD:nil
+                                                      target:self.navigationController.view
+                                             displayInterval:3];
+                    
+                    [self.navigationController popToRootViewControllerAnimated:YES];
+                }
+                
+            } else {
+                
+                
+                [[HttpMethods Instance] activityIndicate:NO
+                                              tipContent:[responseObject objectForKey:@"msg"]
+                                           MBProgressHUD:nil
+                                                  target:self.view
+                                         displayInterval:3];
+            }
+            NSLog(@"JSON: %@", responseObject);
+            NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
+            
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        [[HttpMethods Instance] activityIndicate:NO
+                                      tipContent:notNetworkConnetTip
+                                   MBProgressHUD:nil
+                                          target:self.view
+                                 displayInterval:3];
+        
+        NSLog(@"Error: %@", error);
+    }];
+    
+    
+}
 
 
 #pragma mark - UITableView DataSource Methods
@@ -420,7 +676,7 @@
                     brandLabel.font = [UIFont systemFontOfSize:14];
                     [brandLabel setTextColor:[ConMethods colorWithHexString:@"333333"]];
                     [brandLabel setBackgroundColor:[UIColor clearColor]];
-                    brandLabel.text = [[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_CPMC"];
+                    brandLabel.text = [[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_GQMC"];
                     [backView addSubview:brandLabel];
                     //认购发行
                     
@@ -545,7 +801,7 @@
                     
                    
                     
-                    if (![[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_WTLB"] isEqualToString:@"15"]&&[[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_SBJG"] isEqualToString:@"2"]) {
+                    if ((![[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_WTLB"] isEqualToString:@"15"]&&[[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_SBJG"] isEqualToString:@"2"]) || (![[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_WTLB"] isEqualToString:@"15"]&&[[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_SBJG"] isEqualToString:@"5"])) {
                         //投资按钮
                         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
                         button.frame = CGRectMake(ScreenWidth - 20 - 80, 50, 80, 30);
@@ -632,7 +888,7 @@
                     brandLabel.font = [UIFont systemFontOfSize:14];
                     [brandLabel setTextColor:[ConMethods colorWithHexString:@"333333"]];
                     [brandLabel setBackgroundColor:[UIColor clearColor]];
-                    brandLabel.text = [[finishDataList objectAtIndex:indexPath.row] objectForKey:@"FID_CPMC"];
+                    brandLabel.text = [[finishDataList objectAtIndex:indexPath.row] objectForKey:@"FID_GQMC"];
                     [backView addSubview:brandLabel];
                     //认购发行
                     
@@ -759,29 +1015,6 @@
                     [backView addSubview:flagLabel];
                     
                     
-                    
-                    
-                    
-                    if (![[[finishDataList objectAtIndex:indexPath.row] objectForKey:@"FID_WTLB"] isEqualToString:@"15"]&&[[[finishDataList objectAtIndex:indexPath.row] objectForKey:@"FID_SBJG"] isEqualToString:@"2"]) {
-                        //投资按钮
-                        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-                        button.frame = CGRectMake(ScreenWidth - 20 - 80, 50, 80, 30);
-                        button.tag = [indexPath row];
-                        button.backgroundColor = [UIColor orangeColor];
-                        [button setTitle:@"撤单" forState:UIControlStateNormal];
-                        button.layer.cornerRadius = 3;
-                        button.titleLabel.font = [UIFont systemFontOfSize:15];
-                        [button addTarget:self action:@selector(touziBtn:) forControlEvents:UIControlEventTouchUpInside];
-                        button.backgroundColor = [ConMethods colorWithHexString:@"087dcd"];
-                        button.layer.cornerRadius = 4;
-                        button.layer.masksToBounds = YES;
-                        
-                        [backView addSubview:button];
-                    }
-                    
-                    
-                    
-                    
                     [cell.contentView addSubview:backView];
                 }
             }
@@ -852,7 +1085,7 @@
                     brandLabel.font = [UIFont systemFontOfSize:14];
                     [brandLabel setTextColor:[ConMethods colorWithHexString:@"333333"]];
                     [brandLabel setBackgroundColor:[UIColor clearColor]];
-                    brandLabel.text = [[waitDataList objectAtIndex:indexPath.row] objectForKey:@"FID_CPMC"];
+                    brandLabel.text = [[waitDataList objectAtIndex:indexPath.row] objectForKey:@"FID_GQMC"];
                     [backView addSubview:brandLabel];
                     //认购发行
                     
@@ -979,7 +1212,7 @@
                     
                     
                     
-                    if (![[[waitDataList objectAtIndex:indexPath.row] objectForKey:@"FID_WTLB"] isEqualToString:@"15"]&&[[[waitDataList objectAtIndex:indexPath.row] objectForKey:@"FID_SBJG"] isEqualToString:@"2"]) {
+                    if ((![[[waitDataList objectAtIndex:indexPath.row] objectForKey:@"FID_WTLB"] isEqualToString:@"15"]&&[[[waitDataList objectAtIndex:indexPath.row] objectForKey:@"FID_SBJG"] isEqualToString:@"2"]) || (![[[waitDataList objectAtIndex:indexPath.row] objectForKey:@"FID_WTLB"] isEqualToString:@"15"]&&[[[waitDataList objectAtIndex:indexPath.row] objectForKey:@"FID_SBJG"] isEqualToString:@"5"])) {
                         //投资按钮
                         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
                         button.frame = CGRectMake(ScreenWidth - 20 - 80, 50, 80, 30);
@@ -988,7 +1221,7 @@
                         [button setTitle:@"撤单" forState:UIControlStateNormal];
                         button.layer.cornerRadius = 3;
                         button.titleLabel.font = [UIFont systemFontOfSize:15];
-                        [button addTarget:self action:@selector(touziBtn:) forControlEvents:UIControlEventTouchUpInside];
+                        [button addTarget:self action:@selector(touziBtn1:) forControlEvents:UIControlEventTouchUpInside];
                         button.backgroundColor = [ConMethods colorWithHexString:@"087dcd"];
                         button.layer.cornerRadius = 4;
                         button.layer.masksToBounds = YES;
@@ -1069,7 +1302,7 @@
                     brandLabel.font = [UIFont systemFontOfSize:14];
                     [brandLabel setTextColor:[ConMethods colorWithHexString:@"333333"]];
                     [brandLabel setBackgroundColor:[UIColor clearColor]];
-                    brandLabel.text = [[shipDataList objectAtIndex:indexPath.row] objectForKey:@"FID_CPMC"];
+                    brandLabel.text = [[shipDataList objectAtIndex:indexPath.row] objectForKey:@"FID_GQMC"];
                     [backView addSubview:brandLabel];
                     //认购发行
                     
@@ -1193,31 +1426,7 @@
                     flagLabel.text = @"元";
                     [backView addSubview:flagLabel];
                     
-                    
-                    
-                    
-                    
-                    if (![[[shipDataList objectAtIndex:indexPath.row] objectForKey:@"FID_WTLB"] isEqualToString:@"15"]&&[[[shipDataList objectAtIndex:indexPath.row] objectForKey:@"FID_SBJG"] isEqualToString:@"2"]) {
-                        //投资按钮
-                        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-                        button.frame = CGRectMake(ScreenWidth - 20 - 80, 50, 80, 30);
-                        button.tag = [indexPath row];
-                        button.backgroundColor = [UIColor orangeColor];
-                        [button setTitle:@"撤单" forState:UIControlStateNormal];
-                        button.layer.cornerRadius = 3;
-                        button.titleLabel.font = [UIFont systemFontOfSize:15];
-                        [button addTarget:self action:@selector(touziBtn:) forControlEvents:UIControlEventTouchUpInside];
-                        button.backgroundColor = [ConMethods colorWithHexString:@"087dcd"];
-                        button.layer.cornerRadius = 4;
-                        button.layer.masksToBounds = YES;
-                        
-                        [backView addSubview:button];
-                    }
-                    
-                    
-                    
-                    
-                    [cell.contentView addSubview:backView];
+                     [cell.contentView addSubview:backView];
                 }
             }
         }
@@ -1303,7 +1512,12 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex != 0) {
+        if ([bagFlag isEqualToString:@"1"]) {
+            [self requestSelselectMethods:[[dataList objectAtIndex:alertView.tag] objectForKey:@"FID_WTH"] withwtfs:[[dataList objectAtIndex:alertView.tag] objectForKey:@"FID_WTH"]];
+        } else if ([bagFlag isEqualToString:@"2"]){
+        [self requestSelselectMethods:[[waitDataList objectAtIndex:alertView.tag] objectForKey:@"FID_WTH"] withwtfs:[[waitDataList objectAtIndex:alertView.tag] objectForKey:@"FID_WTH"]];
         
+        }
         
     }
 }
@@ -1316,10 +1530,10 @@
     
     UIAlertView *outAlert = [[UIAlertView alloc] initWithTitle:@"撤单" message:@"是否要进行撤单操作" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     outAlert.tag = btn.tag;
-    chedanTag = @"1";
+    
     [outAlert show];
     
-    
+    bagFlag = @"1";
     
     
 }
@@ -1327,116 +1541,96 @@
 -(void)touziBtn1:(UIButton *)btn{
     UIAlertView *outAlert = [[UIAlertView alloc] initWithTitle:@"撤单" message:@"是否要进行撤单操作" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     outAlert.tag = btn.tag;
-    chedanTag = @"2";
+    
     [outAlert show];
     
-    
-}
-
--(void)touziBtn2:(UIButton *)btn{
-    UIAlertView *outAlert = [[UIAlertView alloc] initWithTitle:@"撤单" message:@"是否要进行撤单操作" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-    outAlert.tag = btn.tag;
-    chedanTag = @"3";
-    [outAlert show];
-    
-}
-
--(void)touziBtn3:(UIButton *)btn{
-    UIAlertView *outAlert = [[UIAlertView alloc] initWithTitle:@"撤单" message:@"是否要进行撤单操作" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-    outAlert.tag = btn.tag;
-    chedanTag = @"4";
-    [outAlert show];
+    bagFlag = @"2";
     
 }
 
 
-#pragma mark - Recived Methods
-//处理未发货订单
-- (void)recivedNoOrderList:(NSMutableArray *)dataArray
-{
-    NSLog(@"%s %d %@", __FUNCTION__, __LINE__, @"处理未发货订单");
-    if ([dataList count] > 0) {
-        for (NSDictionary *object in dataArray) {
-            [dataList addObject:object];
+//撤单操作
+//请求数据方法
+-(void)requestSelselectMethods:(NSString *)str withwtfs:(NSString *)_wtfs {
+    [[HttpMethods Instance] activityIndicate:YES tipContent:@"正在加载..." MBProgressHUD:nil target:self.view displayInterval:2.0];
+    
+    NSDictionary *parameters = @{@"wth":str,@"wtfs":_wtfs};
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    //manager.responseSerializer.acceptableContentTypes =  [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];//设置相应内容类型
+    
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    
+    [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERentrustWithdraw] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        if ([[responseObject objectForKey:@"success"] boolValue]){
+            NSLog(@"JSON: %@", responseObject);
+            
+            
+            
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:@"加载完成"
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
+            if (dataList.count > 0) {
+                [dataList removeAllObjects];
+            }
+            
+            if (waitDataList.count > 0) {
+                [waitDataList removeAllObjects];
+            }
+            
+            [self requestMethods];
+            
+            [self requestWiatMethods];
+            
+        } else {
+            
+            if ([[responseObject objectForKey:@"object"] isKindOfClass:[NSString class]]) {
+                
+                if ([[responseObject objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
+                    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+                    [delegate.loginUser removeAllObjects];
+                    
+                    [[HttpMethods Instance] activityIndicate:NO
+                                                  tipContent:[responseObject objectForKey:@"msg"]
+                                               MBProgressHUD:nil
+                                                      target:self.navigationController.view
+                                             displayInterval:3];
+                    
+                    [self.navigationController popToRootViewControllerAnimated:YES];
+                }
+                
+            } else {
+                
+                
+                [[HttpMethods Instance] activityIndicate:NO
+                                              tipContent:[responseObject objectForKey:@"msg"]
+                                           MBProgressHUD:nil
+                                                  target:self.view
+                                         displayInterval:3];
+            }
+            NSLog(@"JSON: %@", responseObject);
+            NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
+            
         }
-    } else {
-        dataList = dataArray;
-    }
-    if ([dataArray count] < 10) {
-        hasMore = NO;
-    } else {
-        hasMore = YES;
-        start = [NSString stringWithFormat:@"%d", [start intValue] + [limit intValue]];
-    }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        [[HttpMethods Instance] activityIndicate:NO
+                                      tipContent:notNetworkConnetTip
+                                   MBProgressHUD:nil
+                                          target:self.view
+                                 displayInterval:3];
+        
+        NSLog(@"Error: %@", error);
+    }];
     
-    [self.tableView reloadData];
-    
-}
-//处理已发货订单
-- (void)recivedFinishOrderList:(NSMutableArray *)dataArray
-{
-    NSLog(@"%s %d %@", __FUNCTION__, __LINE__, @"处理已发货订单数据");
-    if ([finishDataList count] > 0) {
-        for (NSDictionary *object in dataArray) {
-            [finishDataList addObject:object];
-        }
-    } else {
-        finishDataList = dataArray;
-    }
-    if ([dataArray count] < 10) {
-        finishHasMore = NO;
-    } else {
-        finishHasMore = YES;
-        finishStart = [NSString stringWithFormat:@"%d", [finishStart intValue] + [limit intValue]];
-    }
-    
-    [self.finishTableView reloadData];
     
 }
 
-//处理已完成订单
-- (void)recivedWaitOrderList:(NSMutableArray *)dataArray
-{
-    NSLog(@"%s %d %@", __FUNCTION__, __LINE__, @"处理已发货订单数据");
-    if ([waitDataList count] > 0) {
-        for (NSDictionary *object in dataArray) {
-            [waitDataList addObject:object];
-        }
-    } else {
-        waitDataList = dataArray;
-    }
-    if ([dataArray count] < 10) {
-        waitHasMore = NO;
-    } else {
-        waitHasMore = YES;
-        waitStart = [NSString stringWithFormat:@"%d", [waitStart intValue] + [limit intValue]];
-    }
-    
-    [self.waitTableView reloadData];
-   
-}
-
-//处理已完成订单
-- (void)recivedShipOrderList:(NSMutableArray *)dataArray
-{
-    NSLog(@"%s %d %@", __FUNCTION__, __LINE__, @"处理已发货订单数据");
-    if ([shipDataList count] > 0) {
-        for (NSDictionary *object in dataArray) {
-            [shipDataList addObject:object];
-        }
-    } else {
-        shipDataList = dataArray;
-    }
-    if ([dataArray count] < 10) {
-        shipHasMore = NO;
-    } else {
-        shipHasMore = YES;
-        shipStart = [NSString stringWithFormat:@"%d", [shipStart intValue] + [limit intValue]];
-    }
-    
-    [self.shipTableView reloadData];
-    
-}
 
 
 
