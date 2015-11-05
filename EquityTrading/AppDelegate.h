@@ -16,6 +16,7 @@
 #import "Base64XD.h"
 #import "NetWork.h"
 #import "SDRefresh.h"
+#import "LoginViewController.h"
 
 @class CPVTabViewController;
 @interface AppDelegate : UIResponder <UIApplicationDelegate,UINavigationControllerDelegate>

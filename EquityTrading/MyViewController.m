@@ -10,8 +10,10 @@
 #import "LoginViewController.h"
 #import "MoneyAccountViewController.h"
 #import "MoneyInfoViewController.h"
-#import "MyGainViewController.h"
 #import "DelegateTodayViewController.h"
+#import "DayDealViewController.h"
+#import "MonthlyTurnoverViewController.h"
+#import "CenterViewController.h"
 
 @interface MyViewController ()
 {
@@ -228,7 +230,7 @@
     }
 
     
-    arrTitle = @[@"我的资产",@"当日委托/撤单",@"成交记录",@"转账记录",@"资金变动记录"];
+    arrTitle = @[@"我的资产",@"当日委托/撤单",@"当日成交记录",@"当月成交记录",@"资金变动查询",@"账户中心"];
     
     table = [[UITableView alloc] initWithFrame:CGRectMake(0, addHight, ScreenWidth,ScreenHeight - 69)];
     [table setDelegate:self];
@@ -252,7 +254,7 @@
     if (section == 0) {
          count = 3;
     } else if (section == 1) {
-        count = 2;
+        count = 3;
     }
     return count;
 }
@@ -430,34 +432,46 @@
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    if (indexPath.row == 0) {
-        MoneyAccountViewController *vc = [[MoneyAccountViewController alloc] init];
-        vc.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:vc animated:YES];
-        
-    } else if (indexPath.row == 1){
-        DelegateTodayViewController *vc = [[DelegateTodayViewController alloc] init];
-        vc.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:vc animated:YES];
-       
-        
-    }else if (indexPath.row == 2) {
-        MoneyAccountViewController *vc = [[MoneyAccountViewController alloc] init];
-        vc.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:vc animated:YES];
-        
-    }else if (indexPath.row == 3){
-       
-        MyGainViewController *vc = [[MyGainViewController alloc] init];
-        vc.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:vc animated:YES];
-    }else {
-        MyGainViewController *vc = [[MyGainViewController alloc] init];
-        vc.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:vc animated:YES];
-        
+    if (indexPath.section == 0) {
+      
+        if (indexPath.row == 0) {
+            MoneyAccountViewController *vc = [[MoneyAccountViewController alloc] init];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+            
+        } else if (indexPath.row == 1){
+            DelegateTodayViewController *vc = [[DelegateTodayViewController alloc] init];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+            
+            
+        }else if (indexPath.row == 2) {
+            DayDealViewController *vc = [[DayDealViewController alloc] init];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+            
+        }
+    } else if (indexPath.section == 1){
+        if (indexPath.row == 0){
+            
+            MonthlyTurnoverViewController *vc = [[MonthlyTurnoverViewController alloc] init];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+        }else if (indexPath.row == 1){
+            MoneyInfoViewController *vc = [[MoneyInfoViewController alloc] init];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+            
+        } else {
+            CenterViewController *vc = [[CenterViewController alloc] init];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+            
+        }
+
     }
-     [tbleView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    [tbleView deselectRowAtIndexPath:indexPath animated:YES];
 }
     
 - (void)didReceiveMemoryWarning {

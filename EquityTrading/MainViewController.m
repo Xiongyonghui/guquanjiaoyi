@@ -40,6 +40,11 @@
     UITableViewCell *moreCellPast;
     
     NSString *strCount;
+    
+    
+    BOOL NoMoreCount;
+    
+    
 }
 
 @property (strong, nonatomic) UIScrollView *scrollView;
@@ -387,7 +392,11 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (tableView == table) {
+        if ([dataList count] == 0) {
+            return 1;
+        }  else {
             return [dataList count];
+        }
     } else {
         
         if ([dataListPast count] == 0) {
@@ -938,6 +947,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 
         } else {
             
+            NSMutableArray *arr = [NSMutableArray array];
+            [self recivedCategoryList:arr];
             
             [[HttpMethods Instance] activityIndicate:NO
                                           tipContent:[responseObject objectForKey:@"msg"]
@@ -1027,7 +1038,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         dataList = [dataArray mutableCopy];
     }
     
-    [table reloadData];
+    
     
     if ([dataArray count] < 10) {
        hasMore = NO;

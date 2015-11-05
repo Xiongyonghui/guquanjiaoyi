@@ -51,6 +51,12 @@
 		040B2DE61BDF181000A2F1FE /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 040B2DE41BDF181000A2F1FE /* LoginViewController.xib */; };
 		040B2DEB1BDF182B00A2F1FE /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 040B2DE91BDF182B00A2F1FE /* DetailViewController.m */; };
 		040B2DEC1BDF182B00A2F1FE /* DetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 040B2DEA1BDF182B00A2F1FE /* DetailViewController.xib */; };
+		04103EFE1BEAF8A2007C90E2 /* DayDealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04103EFC1BEAF8A2007C90E2 /* DayDealViewController.m */; };
+		04103EFF1BEAF8A2007C90E2 /* DayDealViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04103EFD1BEAF8A2007C90E2 /* DayDealViewController.xib */; };
+		04103F031BEAF8D2007C90E2 /* MonthlyTurnoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04103F011BEAF8D2007C90E2 /* MonthlyTurnoverViewController.m */; };
+		04103F041BEAF8D2007C90E2 /* MonthlyTurnoverViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04103F021BEAF8D2007C90E2 /* MonthlyTurnoverViewController.xib */; };
+		04103F0D1BEAFC7E007C90E2 /* CenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04103F0B1BEAFC7E007C90E2 /* CenterViewController.m */; };
+		04103F0E1BEAFC7E007C90E2 /* CenterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04103F0C1BEAFC7E007C90E2 /* CenterViewController.xib */; };
 		0417EA961BE85A85000F2525 /* TransferDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0417EA941BE85A85000F2525 /* TransferDetailViewController.m */; };
 		0417EA971BE85A85000F2525 /* TransferDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0417EA951BE85A85000F2525 /* TransferDetailViewController.xib */; };
 		041A21AC1BE0995700216EEE /* sdRefeshView_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 041A21A21BE0995700216EEE /* sdRefeshView_arrow@2x.png */; };
@@ -68,8 +74,6 @@
 		046590981BE1EE8A0071601F /* WebDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 046590961BE1EE8A0071601F /* WebDetailViewController.xib */; };
 		047C3BDB1BE3507800EAEF67 /* DelegateTodayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 047C3BD91BE3507800EAEF67 /* DelegateTodayViewController.m */; };
 		047C3BDC1BE3507800EAEF67 /* DelegateTodayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 047C3BDA1BE3507800EAEF67 /* DelegateTodayViewController.xib */; };
-		047C3BE01BE350FA00EAEF67 /* MyGainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 047C3BDE1BE350FA00EAEF67 /* MyGainViewController.m */; };
-		047C3BE11BE350FA00EAEF67 /* MyGainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 047C3BDF1BE350FA00EAEF67 /* MyGainViewController.xib */; };
 		047C3BE81BE3512A00EAEF67 /* MoneyAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 047C3BE31BE3512A00EAEF67 /* MoneyAccountViewController.m */; };
 		047C3BE91BE3512A00EAEF67 /* MoneyAccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 047C3BE41BE3512A00EAEF67 /* MoneyAccountViewController.xib */; };
 		047C3BEA1BE3512A00EAEF67 /* MoneyInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 047C3BE61BE3512A00EAEF67 /* MoneyInfoViewController.m */; };
@@ -170,6 +174,15 @@
 		040B2DE81BDF182B00A2F1FE /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		040B2DE91BDF182B00A2F1FE /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		040B2DEA1BDF182B00A2F1FE /* DetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailViewController.xib; sourceTree = "<group>"; };
+		04103EFB1BEAF8A2007C90E2 /* DayDealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DayDealViewController.h; sourceTree = "<group>"; };
+		04103EFC1BEAF8A2007C90E2 /* DayDealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DayDealViewController.m; sourceTree = "<group>"; };
+		04103EFD1BEAF8A2007C90E2 /* DayDealViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DayDealViewController.xib; sourceTree = "<group>"; };
+		04103F001BEAF8D2007C90E2 /* MonthlyTurnoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonthlyTurnoverViewController.h; sourceTree = "<group>"; };
+		04103F011BEAF8D2007C90E2 /* MonthlyTurnoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MonthlyTurnoverViewController.m; sourceTree = "<group>"; };
+		04103F021BEAF8D2007C90E2 /* MonthlyTurnoverViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MonthlyTurnoverViewController.xib; sourceTree = "<group>"; };
+		04103F0A1BEAFC7E007C90E2 /* CenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CenterViewController.h; sourceTree = "<group>"; };
+		04103F0B1BEAFC7E007C90E2 /* CenterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CenterViewController.m; sourceTree = "<group>"; };
+		04103F0C1BEAFC7E007C90E2 /* CenterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CenterViewController.xib; sourceTree = "<group>"; };
 		0417EA931BE85A85000F2525 /* TransferDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransferDetailViewController.h; sourceTree = "<group>"; };
 		0417EA941BE85A85000F2525 /* TransferDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransferDetailViewController.m; sourceTree = "<group>"; };
 		0417EA951BE85A85000F2525 /* TransferDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TransferDetailViewController.xib; sourceTree = "<group>"; };
@@ -198,9 +211,6 @@
 		047C3BD81BE3507800EAEF67 /* DelegateTodayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DelegateTodayViewController.h; sourceTree = "<group>"; };
 		047C3BD91BE3507800EAEF67 /* DelegateTodayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DelegateTodayViewController.m; sourceTree = "<group>"; };
 		047C3BDA1BE3507800EAEF67 /* DelegateTodayViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DelegateTodayViewController.xib; sourceTree = "<group>"; };
-		047C3BDD1BE350FA00EAEF67 /* MyGainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyGainViewController.h; sourceTree = "<group>"; };
-		047C3BDE1BE350FA00EAEF67 /* MyGainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyGainViewController.m; sourceTree = "<group>"; };
-		047C3BDF1BE350FA00EAEF67 /* MyGainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyGainViewController.xib; sourceTree = "<group>"; };
 		047C3BE21BE3512A00EAEF67 /* MoneyAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoneyAccountViewController.h; sourceTree = "<group>"; };
 		047C3BE31BE3512A00EAEF67 /* MoneyAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoneyAccountViewController.m; sourceTree = "<group>"; };
 		047C3BE41BE3512A00EAEF67 /* MoneyAccountViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MoneyAccountViewController.xib; sourceTree = "<group>"; };
@@ -485,15 +495,21 @@
 				047C3BE21BE3512A00EAEF67 /* MoneyAccountViewController.h */,
 				047C3BE31BE3512A00EAEF67 /* MoneyAccountViewController.m */,
 				047C3BE41BE3512A00EAEF67 /* MoneyAccountViewController.xib */,
-				047C3BE51BE3512A00EAEF67 /* MoneyInfoViewController.h */,
-				047C3BE61BE3512A00EAEF67 /* MoneyInfoViewController.m */,
-				047C3BE71BE3512A00EAEF67 /* MoneyInfoViewController.xib */,
-				047C3BDD1BE350FA00EAEF67 /* MyGainViewController.h */,
-				047C3BDE1BE350FA00EAEF67 /* MyGainViewController.m */,
-				047C3BDF1BE350FA00EAEF67 /* MyGainViewController.xib */,
 				047C3BD81BE3507800EAEF67 /* DelegateTodayViewController.h */,
 				047C3BD91BE3507800EAEF67 /* DelegateTodayViewController.m */,
 				047C3BDA1BE3507800EAEF67 /* DelegateTodayViewController.xib */,
+				04103EFB1BEAF8A2007C90E2 /* DayDealViewController.h */,
+				04103EFC1BEAF8A2007C90E2 /* DayDealViewController.m */,
+				04103EFD1BEAF8A2007C90E2 /* DayDealViewController.xib */,
+				04103F001BEAF8D2007C90E2 /* MonthlyTurnoverViewController.h */,
+				04103F011BEAF8D2007C90E2 /* MonthlyTurnoverViewController.m */,
+				04103F021BEAF8D2007C90E2 /* MonthlyTurnoverViewController.xib */,
+				047C3BE51BE3512A00EAEF67 /* MoneyInfoViewController.h */,
+				047C3BE61BE3512A00EAEF67 /* MoneyInfoViewController.m */,
+				047C3BE71BE3512A00EAEF67 /* MoneyInfoViewController.xib */,
+				04103F0A1BEAFC7E007C90E2 /* CenterViewController.h */,
+				04103F0B1BEAFC7E007C90E2 /* CenterViewController.m */,
+				04103F0C1BEAFC7E007C90E2 /* CenterViewController.xib */,
 			);
 			name = "我的账户跳转界面";
 			sourceTree = "<group>";
@@ -576,12 +592,13 @@
 				047C3BFC1BE35E1300EAEF67 /* MyTransferPrococalViewController.xib in Resources */,
 				040B2DEC1BDF182B00A2F1FE /* DetailViewController.xib in Resources */,
 				047C3BFA1BE35E1300EAEF67 /* MyTransferDetailViewController.xib in Resources */,
+				04103F0E1BEAFC7E007C90E2 /* CenterViewController.xib in Resources */,
 				047C3BFE1BE35E1300EAEF67 /* MyTransferSuccessViewController.xib in Resources */,
 				047C3BEB1BE3512A00EAEF67 /* MoneyInfoViewController.xib in Resources */,
+				04103EFF1BEAF8A2007C90E2 /* DayDealViewController.xib in Resources */,
 				046590911BE1EE450071601F /* AboutViewController.xib in Resources */,
 				047C3BE91BE3512A00EAEF67 /* MoneyAccountViewController.xib in Resources */,
 				040B2D591BDF111600A2F1FE /* Assets.xcassets in Resources */,
-				047C3BE11BE350FA00EAEF67 /* MyGainViewController.xib in Resources */,
 				041A21AC1BE0995700216EEE /* sdRefeshView_arrow@2x.png in Resources */,
 				0417EA971BE85A85000F2525 /* TransferDetailViewController.xib in Resources */,
 				046590881BE1EDDD0071601F /* MoreViewController.xib in Resources */,
@@ -589,6 +606,7 @@
 				046590931BE1EE450071601F /* PublicViewController.xib in Resources */,
 				040B2DD61BDF17CD00A2F1FE /* MainViewController.xib in Resources */,
 				040B2DDE1BDF17D700A2F1FE /* MyViewController.xib in Resources */,
+				04103F041BEAF8D2007C90E2 /* MonthlyTurnoverViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -603,9 +621,9 @@
 				040B2D7B1BDF14CB00A2F1FE /* CircleObject.m in Sources */,
 				040B2DCF1BDF163E00A2F1FE /* HttpMethods.m in Sources */,
 				040B2DBE1BDF155000A2F1FE /* UIActivityIndicatorView+AFNetworking.m in Sources */,
+				04103F0D1BEAFC7E007C90E2 /* CenterViewController.m in Sources */,
 				040B2DC31BDF155000A2F1FE /* UIRefreshControl+AFNetworking.m in Sources */,
 				040B2DC01BDF155000A2F1FE /* UIButton+AFNetworking.m in Sources */,
-				047C3BE01BE350FA00EAEF67 /* MyGainViewController.m in Sources */,
 				040B2DBF1BDF155000A2F1FE /* UIAlertView+AFNetworking.m in Sources */,
 				040B2D801BDF14CB00A2F1FE /* UIKit+custom_.mm in Sources */,
 				047C3BFD1BE35E1300EAEF67 /* MyTransferSuccessViewController.m in Sources */,
@@ -638,6 +656,7 @@
 				046590971BE1EE8A0071601F /* WebDetailViewController.m in Sources */,
 				040B2DA41BDF152300A2F1FE /* AFNetworkReachabilityManager.m in Sources */,
 				040B2D7D1BDF14CB00A2F1FE /* ConMethods.m in Sources */,
+				04103EFE1BEAF8A2007C90E2 /* DayDealViewController.m in Sources */,
 				040B2DC11BDF155000A2F1FE /* UIImageView+AFNetworking.m in Sources */,
 				040B2DA01BDF152300A2F1FE /* README.md in Sources */,
 				041A21AD1BE0995700216EEE /* SDRefreshView.m in Sources */,
@@ -646,6 +665,7 @@
 				040B2D7F1BDF14CB00A2F1FE /* PublicMethod.mm in Sources */,
 				047C3BFB1BE35E1300EAEF67 /* MyTransferPrococalViewController.m in Sources */,
 				040B2DBD1BDF155000A2F1FE /* AFNetworkActivityIndicatorManager.m in Sources */,
+				04103F031BEAF8D2007C90E2 /* MonthlyTurnoverViewController.m in Sources */,
 				040B2DA31BDF152300A2F1FE /* AFHTTPSessionManager.m in Sources */,
 				040B2DC41BDF155000A2F1FE /* UIWebView+AFNetworking.m in Sources */,
 				040B2DCE1BDF163E00A2F1FE /* MBProgressHUD.mm in Sources */,
