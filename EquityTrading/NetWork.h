@@ -28,7 +28,7 @@
 
 //连接失败提示语
 #define notNetworkConnetTip @"网络不稳定，请检查网络是否连接；或者服务器是否开启。"
-
+#define NUMBERS @"0123456789\n"
 
 #define USERLogin @"/service/checkLogin"
 #define USERLogout @"/app/logout"
@@ -60,8 +60,28 @@
 #define USERfxjsAgreement @"/app/gqjy/trade/fxjsAgreement"
 //股权买卖提交
 #define USERequityTradeSubmit @"/app/gqjy/trade/equityTradeSubmit"
+//资金变动记录
+#define USERfundslist @"/app/zjgl/index/myfunds/fundslist"
+//我的资产
+#define USERwdzc @"/app/wdzh/wdzc/index"
 
+//充值
+#define USERapplySaveMoneySubmit @"/app/zjgl/index/transAccount/applySaveMoneySubmit"
+//提现
+#define USERapplyOutMoneySubmit @"/app/zjgl/index/transAccount/applyOutMoneySubmit"
+//获取短信验证码
+#define USERsendVcode @"/app/zjgl/index/sendVcode"
+//查询结果
+#define USERcheckResult @"/app/wdzh/wdyhk/hftx/bindCard/checkResult"
 
+//修改交易密码
+#define USERmodifyTranPwdSubmit @"/app/wdzh/account/modifyTranPwdSubmit"
+//修改登陆密码
+#define USERmodifyLoginPwdSubmit @"/app/wdzh/account/modifyLoginPwdSubmit"
+//判定是否绑定银行卡
+#define USERindex @"/app/wdzh/wdzhaq/index"
+//银行卡界面信息
+#define USERapplySaveAndOutMoneyIndex @"/app/zjgl/index/transAccount/applySaveAndOutMoneyIndex"
 
 
 //股权挂牌详情页

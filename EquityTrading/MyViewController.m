@@ -14,6 +14,9 @@
 #import "DayDealViewController.h"
 #import "MonthlyTurnoverViewController.h"
 #import "CenterViewController.h"
+#import "RechargeViewController.h"
+#import "WithdrawViewController.h"
+
 
 @interface MyViewController ()
 {
@@ -164,7 +167,7 @@
     //incomeLab.text = [NSString stringWithFormat:@"%.2f",[[arraydata objectForKey:@"jrZsz"] floatValue]];
     
     if ([[arraydata objectForKey:@"FID_KQZJ"] isEqualToString:@"0.0"]) {
-        incomeLab.text = @"0.00";
+        accumulatedLab.text = @"0.00";
     } else {
         
         NSString *strjrZsz = [NSString stringWithFormat:@"%.2f",[[arraydata objectForKey:@"FID_KQZJ"] doubleValue]];
@@ -180,13 +183,13 @@
         
         NSString *str = [strjrZsz substringToIndex:range3.location];
         
-        incomeLab.text = [NSString stringWithFormat:@"%@%@",[PublicMethod AddComma:str],string];
+        accumulatedLab.text = [NSString stringWithFormat:@"%@%@",[PublicMethod AddComma:str],string];
         
     }
     
     
     //累计收益
-    
+    /*
     //accumulatedLab.text = [NSString stringWithFormat:@"%.2f",[[arraydata objectForKey:@"jrljzsy"] floatValue]];
     // accumulatedLab.text =[NSString stringWithFormat:@"%.2f",[[arraydata objectForKey:@"jrljzsy"] floatValue]];
     
@@ -207,10 +210,10 @@
         NSString *string1 = [strrljzsy substringFromIndex:range.location];
         
         NSString *str1 = [strrljzsy substringToIndex:range.location];
+        */
+        incomeLab.text = [arraydata objectForKey:@"FID_DJJE"];
         
-        accumulatedLab.text = [NSString stringWithFormat:@"%@%@",[PublicMethod AddComma:str1],string1];
-        
-    }
+   // }
 }
 
 
@@ -239,8 +242,107 @@
     [table setBackgroundColor:[ConMethods colorWithHexString:@"eeeeee"]];
     table.tableFooterView = [[UIView alloc] init];
     
+    table.bounces = NO;
+    
     [self.view addSubview:table];
 }
+
+
+-(void)getMoneyMethods:(UIButton *)btn {
+
+    if (btn.tag == 1001) {
+        
+        [self requestMethods:@"1"];
+        
+        
+    } else {
+    
+        [self requestMethods:@"2"];
+        
+    }
+
+}
+
+
+//请求数据方法
+-(void)requestMethods:(NSString *)str {
+    [[HttpMethods Instance] activityIndicate:YES tipContent:@"正在加载..." MBProgressHUD:nil target:self.view displayInterval:2.0];
+    
+    NSDictionary *parameters = @{};
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    //manager.responseSerializer.acceptableContentTypes =  [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];//设置相应内容类型
+    
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    
+    [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERindex] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        if ([[responseObject objectForKey:@"success"] boolValue]){
+            NSLog(@"JSON: %@", responseObject);
+            
+           
+            if ([[[responseObject objectForKey:@"object"] objectForKey:@"isBingingCard"] boolValue]) {
+                [[HttpMethods Instance] activityIndicate:NO
+                                              tipContent:@"加载完成"
+                                           MBProgressHUD:nil
+                                                  target:self.view
+                                         displayInterval:3];
+                
+                if ([str isEqualToString:@"1"]) {
+                    RechargeViewController *vc = [[RechargeViewController alloc] init];
+                    vc.hidesBottomBarWhenPushed = YES;
+                    [self.navigationController pushViewController:vc animated:YES];
+                    
+                } else {
+                    WithdrawViewController *vc = [[WithdrawViewController alloc] init];
+                    vc.hidesBottomBarWhenPushed = YES;
+                    [self.navigationController pushViewController:vc animated:YES];
+                
+                
+                }
+                
+            } else {
+                [[HttpMethods Instance] activityIndicate:NO
+                                              tipContent:@"请先到PC端绑定银行卡"
+                                           MBProgressHUD:nil
+                                                  target:self.view
+                                         displayInterval:3];
+            
+            }
+            
+            
+        } else {
+            
+            
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:[responseObject objectForKey:@"msg"]
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
+            
+            NSLog(@"JSON: %@", responseObject);
+            NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
+            
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        [[HttpMethods Instance] activityIndicate:NO
+                                      tipContent:notNetworkConnetTip
+                                   MBProgressHUD:nil
+                                          target:self.view
+                                 displayInterval:3];
+        
+        NSLog(@"Error: %@", error);
+    }];
+    
+    
+}
+
+
+
 
 
 #pragma mark - UITableView DataSource Methods
@@ -354,7 +456,7 @@
         //incomeTip.textAlignment = NSTextAlignmentCenter;
         incomeTip.textColor = [UIColor whiteColor];
         incomeTip.backgroundColor = [UIColor clearColor];
-        incomeTip.text = @"累计已收益(元)";
+        incomeTip.text = @"可取资金(元)";
         [view addSubview:incomeTip];
         
         //累计收益
@@ -371,7 +473,7 @@
         // foodTip.textAlignment = NSTextAlignmentCenter;
         foodTip.textColor = [UIColor whiteColor];
         foodTip.backgroundColor = [UIColor clearColor];
-        foodTip.text = @"预期待收益(元)";
+        foodTip.text = @"冻结金额(元)";
         [view addSubview:foodTip];
         
         

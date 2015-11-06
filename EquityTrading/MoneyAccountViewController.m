@@ -300,7 +300,7 @@
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     
     
-    [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERqueryZjzh] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERwdzc] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         if ([[responseObject objectForKey:@"success"] boolValue]){
             NSLog(@"JSON: %@", responseObject);
@@ -311,7 +311,7 @@
                                               target:self.view
                                      displayInterval:3];
             
-            [self reloadDataWith:[[responseObject objectForKey:@"object"] objectAtIndex:0]];
+            [self reloadDataWith:[responseObject objectForKey:@"object"]];
         } else {
             
             if ([[responseObject objectForKey:@"object"] isKindOfClass:[NSString class]]) {
@@ -487,8 +487,9 @@
             // return cell;
         }
         return cell;
-   
 }
+
+
 
 - (void)tableView:(UITableView *)tbleView
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -534,7 +535,10 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 
 -(void)reloadDataWith:(NSMutableDictionary *)arraydata {
     NSArray *titleTip = @[@"总资产(元)",@"股权市值(元)",@"可取资金(元)",@"冻结资金(元)",@"昨日收益(元)",@"累计总收益(元)",@"累计待收益(元)"];
-    NSArray *charTip = @[[arraydata objectForKey:@"FID_ZZC"],[arraydata objectForKey:@"FID_KYZJ"],[arraydata objectForKey:@"FID_KQZJ"],[arraydata objectForKey:@"FID_DJJE"],[arraydata objectForKey:@"FID_ZXSZ"],[arraydata objectForKey:@"FID_OFSS_JZ"],[arraydata objectForKey:@"FID_QTZC"]];
+   // NSArray *charTip = @[[arraydata objectForKey:@"FID_ZZC"],[arraydata objectForKey:@"FID_KYZJ"],[arraydata objectForKey:@"FID_KQZJ"],[arraydata objectForKey:@"FID_DJJE"],[arraydata objectForKey:@"FID_ZXSZ"],[arraydata objectForKey:@"FID_OFSS_JZ"],[arraydata objectForKey:@"FID_QTZC"]];
+    
+     NSArray *charTip = @[[arraydata objectForKey:@"zzc"],[arraydata objectForKey:@"gqZsz"],[arraydata objectForKey:@"kqzj"],[arraydata objectForKey:@"djje"],[arraydata objectForKey:@"zrljsy"],[arraydata objectForKey:@"jrljzsy"],[arraydata objectForKey:@"jrljdsy"]];
+    
     
     for (int i = 0; i < 7;i++) {
         //int hight = addHight + 44 + 50;

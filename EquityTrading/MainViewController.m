@@ -291,10 +291,12 @@
     refreshHeader.beginRefreshingOperation = ^{
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
+            if (btnArrayName.count == 0||btnArrayName == nil) {
+                [self requestMethods];
+            } else {
             start = @"1";
-            
             [self requestData:[[btnArrayName objectAtIndex:btnCount] objectForKey:@"FID_GQLB"]];
-            
+            }
             [weakRefreshHeader endRefreshing];
         });
     };

@@ -19,29 +19,11 @@
     NSMutableArray *dataList;
     BOOL hasMore;
     UITableViewCell *moreCell;
-    
-    //历史
-    UITableView *tableViewPast;
-    NSString *startPast;
-    NSString *startBakPast;
-    NSString *limitPast;
-    NSMutableArray *dataListPast;
-    BOOL hasMorePast;
-    UITableViewCell *moreCellPast;
-   
-    UIDatePicker *datePicker;
-    UIDatePicker *timePicker;
-    UIToolbar *tooBar;
-    UIToolbar *timeTooBar;
-    UILabel *dateLStarabel;
-    UILabel *dateLEndabel;
     float addHight;
-     UISegmentedControl  *segmented;
-    
-    NSString *notStarDate;
-    NSString *notEddDate;
+   
 }
-@property (nonatomic, strong) UIScrollView *scrollView;
+
+@property (nonatomic, weak) SDRefreshFooterView *refreshFooter;
 
 @end
 
@@ -56,36 +38,13 @@
     return self;
 }
 
--(void) segmentAction:(UISegmentedControl *)Seg{
-    
-    
-    
-    NSInteger Index = Seg.selectedSegmentIndex;
-    
-    NSLog(@"Index %li",(long)Index);
-    
-    __weak typeof(self) weakSelf = self;
-    
-    if (Seg.selectedSegmentIndex == 0) {
-        
-        [weakSelf.scrollView scrollRectToVisible:CGRectMake(ScreenWidth * Seg.selectedSegmentIndex, 0, ScreenWidth, ScreenHeight  - 64 - 49) animated:YES];
-        
-    } else if(Seg.selectedSegmentIndex == 1){
-        
-        [weakSelf.scrollView scrollRectToVisible:CGRectMake(ScreenWidth * Seg.selectedSegmentIndex, 0, ScreenWidth, ScreenHeight  - 64 - 49) animated:YES];
-        
-        
-        
-    }
-}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     start = @"0";
     limit = @"10";
-    startPast = @"0";
-    limitPast = @"10";
+   
     
     if ([[[UIDevice currentDevice] systemVersion] doubleValue]>=7.0) {
         addHight = 20;
@@ -98,384 +57,203 @@
         addHight = 0;
     }
     
-    NSArray *segmentedArray = [[NSArray alloc]initWithObjects:@"当日",@"历史",nil];
-    segmented = [[UISegmentedControl alloc]initWithItems:segmentedArray];
+   
     
-    segmented.frame = CGRectMake(20, 54 + addHight, ScreenWidth - 40, 30);
+   
     
-    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor colorWithPatternImage:[UIImage imageNamed:@"title_bg"]],UITextAttributeTextColor,  [UIFont systemFontOfSize:16],UITextAttributeFont ,[UIColor colorWithPatternImage:[UIImage imageNamed:@"title_bg"]],UITextAttributeTextShadowColor ,nil];
-    
-    [segmented setTitleTextAttributes:dic forState:UIControlStateNormal];
-    
-    
-    
-    NSDictionary *dic1 = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],UITextAttributeTextColor,[UIFont systemFontOfSize:16],UITextAttributeFont ,[UIColor whiteColor],UITextAttributeTextShadowColor ,nil];
-    
-    [segmented setTitleTextAttributes:dic1 forState:UIControlStateSelected];
-    
-    
-    segmented.selectedSegmentIndex = 0;//设置默认选择项索引
-    segmented.backgroundColor = [UIColor whiteColor];
-    segmented.tintColor= [UIColor colorWithPatternImage:[UIImage imageNamed:@"title_bg"]];
-    
-    segmented.multipleTouchEnabled = NO;
-    segmented.segmentedControlStyle = UISegmentedControlStyleBezeled;
-    
-    [segmented addTarget:self action:@selector(segmentAction:)forControlEvents:UIControlEventValueChanged];
-    
-    [self.view addSubview:segmented];
-    
-    float scrollViewHeight = 0;
-    scrollViewHeight = ScreenHeight  - 64 - 50;
-    
-    //初始化scrollView
-    self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,44 + addHight + 50, ScreenWidth, scrollViewHeight)];
-    //self.scrollView.tag = TSEGSCROLLVIEW;
-    [self.scrollView setPagingEnabled:YES];
-    [self.scrollView setShowsHorizontalScrollIndicator:NO];
-    [self.scrollView setContentSize:CGSizeMake(ScreenWidth*2, scrollViewHeight)];
-    [self.scrollView scrollRectToVisible:CGRectMake(0, 44 + addHight, ScreenWidth, scrollViewHeight) animated:NO];
-    [self.scrollView setDelegate:self];
-    [self.view addSubview:self.scrollView];
-    
-    tableView = [[UITableView alloc] initWithFrame:CGRectMake(0 , 0, ScreenWidth,  scrollViewHeight)];
+    tableView = [[UITableView alloc] initWithFrame:CGRectMake(0 , addHight + 44, ScreenWidth,  ScreenHeight - 64)];
     [tableView setDelegate:self];
     [tableView setDataSource:self];
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [tableView setBackgroundColor:[UIColor clearColor]];    tableView.tableFooterView = [[UIView alloc] init];
     
-    [self.scrollView addSubview:tableView];
+    [self.view addSubview:tableView];
+    
+   
+    [self requestMyGqzcPaging];
+    
+    [self setupHeader];
+    [self setupFooter];
     
    
     
-    
-    tableViewPast = [[UITableView alloc] initWithFrame:CGRectMake(ScreenWidth , 40, ScreenWidth,  scrollViewHeight - 40)];
-    [tableViewPast setDelegate:self];
-    [tableViewPast setDataSource:self];
-    tableViewPast.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [tableViewPast setBackgroundColor:[UIColor clearColor]];
-    tableViewPast.tableFooterView = [[UIView alloc] init];
-    
-    [self.scrollView addSubview:tableViewPast];
-    
-   
-    
-    datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(ScreenWidth, self.scrollView.frame.size.height - 200, ScreenWidth, 200)];
-    datePicker.backgroundColor = [UIColor whiteColor];
-    datePicker.datePickerMode = UIDatePickerModeDate;
-    timePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(ScreenWidth, self.scrollView.frame.size.height - 200, ScreenWidth, 200)];
-    timePicker.backgroundColor = [UIColor whiteColor];
-    timePicker.datePickerMode = UIDatePickerModeDate;
-    datePicker.hidden = YES;
-    timePicker.hidden = YES;
-    [self.scrollView addSubview:timePicker];
-    [self.scrollView addSubview:datePicker];
-    
-    tooBar = [[UIToolbar alloc] initWithFrame:CGRectMake(ScreenWidth, self.scrollView.frame.size.height - 200 - 30, ScreenWidth, 40)];
-    //tooBar.backgroundColor = [UIColor redColor];
-    [tooBar setBackgroundImage:[UIImage imageNamed:@"title_bg"] forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
-    UIButton *okBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    okBtn.frame = CGRectMake(ScreenWidth - 40, 5, 30, 30);
-    [okBtn setImage:[UIImage imageNamed:@"ok"] forState:UIControlStateNormal];
-    [okBtn addTarget:self action:@selector(upDateView:) forControlEvents:UIControlEventTouchUpInside];
-    okBtn.tag = 1;
-    [tooBar addSubview:okBtn];
-    
-    UILabel *starLb= [[UILabel alloc] initWithFrame:CGRectMake(110,0, 100, 40)];
-    starLb.font = [UIFont boldSystemFontOfSize:14];
-    starLb.textAlignment = NSTextAlignmentCenter;
-    starLb.text = @"起始日期";
-    [tooBar addSubview:starLb];
-    
-    
-    tooBar.hidden = YES;
-    [self.scrollView addSubview:tooBar];
-    
-    timeTooBar = [[UIToolbar alloc] initWithFrame:CGRectMake(ScreenWidth, self.scrollView.frame.size.height - 200 - 30, ScreenWidth, 40)];
-    //tooBar.backgroundColor = [UIColor redColor];
-    [timeTooBar setBackgroundImage:[UIImage imageNamed:@"title_bg"] forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
-    UIButton *okBtn1 = [UIButton buttonWithType:UIButtonTypeCustom];
-    okBtn1.frame = CGRectMake(ScreenWidth - 40, 5, 30, 30);
-    [okBtn1 setImage:[UIImage imageNamed:@"ok"] forState:UIControlStateNormal];
-    [okBtn1 addTarget:self action:@selector(upDateView:) forControlEvents:UIControlEventTouchUpInside];
-    okBtn1.tag = 2;
-    [timeTooBar addSubview:okBtn1];
-    
-    UILabel *starLab = [[UILabel alloc] initWithFrame:CGRectMake(110,0, 100, 40)];
-    starLab.font = [UIFont boldSystemFontOfSize:14];
-    starLab.textAlignment = NSTextAlignmentCenter;
-    starLab.text = @"结束日期";
-    [timeTooBar addSubview:starLab];
-    timeTooBar.hidden = YES;
-    [self.scrollView addSubview:timeTooBar];
-    
-    [self reloadView];
-    
-    
-    
-    //添加指示器及遮罩
-   /*
-        //获取类别信息
-        NSString *str =[self dateToStringDate:[NSDate date]];
-        
-       // str =[str stringByReplacingOccurrencesOfString:@"-" withString:@""];
-        
-        [self requestRecordList:str withEndDate:str withStart:start withSize:limit tag:kBusinessTagGetJRFundsList];
-        
-       [self requestRecordList:notStarDate withEndDate:notEddDate withStart:startPast withSize:limitPast tag:kBusinessTagGetJRFundsListPast];
-        
-       */
-    
 }
 
 
-#pragma mark - UIScrollViewDelegate Methods
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    if (scrollView == _scrollView) {
-        CGFloat pageWidth = scrollView.frame.size.width;
-        NSInteger page = scrollView.contentOffset.x / pageWidth;
-         segmented.selectedSegmentIndex = page;
-        
-    }
-}
-
-
-
--(void)reloadView {
-    
-    //起始日期
-    
-    UILabel *endLabTip = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth + 8.5, 8,52 , 13)];
-    endLabTip.text = @"开始日期";
-    endLabTip.font = [UIFont systemFontOfSize:13];
-    endLabTip.backgroundColor = [UIColor clearColor];
-    endLabTip.textColor = [ConMethods colorWithHexString:@"999999"];
-    [self.scrollView addSubview:endLabTip];
-    
-    
-    
-    UIView *startView = [[UIView alloc] initWithFrame:CGRectMake(ScreenWidth + 62, 0, (ScreenWidth - 184)/2, 30)];
-    startView.backgroundColor = [UIColor whiteColor];
-    startView.layer.borderWidth = 1;
-    startView.layer.borderColor = [[ConMethods colorWithHexString:@"dedede"] CGColor];
-    startView.layer.cornerRadius = 3;
-    startView.layer.masksToBounds = YES;
-
-    
-    
-    dateLStarabel = [[UILabel alloc] initWithFrame:CGRectMake( 5, 0, (ScreenWidth - 184)/2 - 7 , 30)];
-    dateLStarabel.backgroundColor = [UIColor whiteColor];
-    dateLStarabel.textColor = [ConMethods colorWithHexString:@"333333"];
-    dateLStarabel.lineBreakMode = NSLineBreakByTruncatingTail;
-    dateLStarabel.font = [UIFont systemFontOfSize:13];
-   // dateLStarabel.textAlignment = NSTextAlignmentCenter;
-    
-    notStarDate = [self dateToStringDate:[self getPriousorLaterDateFromDate:[NSDate date] withMonth:-1 withDay:-2]];
-    
-    dateLStarabel.text = [notStarDate stringByReplacingOccurrencesOfString:@"-" withString:@""];
-    dateLStarabel.userInteractionEnabled = YES;
-    
-    
-    
-    [startView addSubview:dateLStarabel];
-    
-    
-    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(callPhone:)];
-    [startView addGestureRecognizer:singleTap];
-    
-    [self.scrollView addSubview:startView];
-    
-    
-    
-    
-    
-    //截止日期
-    
-    
-    UILabel *starLabel = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth + 67 + (ScreenWidth - 184)/2,8.5, 52, 13)];
-    starLabel.font = [UIFont systemFontOfSize:13];
-    starLabel.text = @"结束日期";
-    starLabel.backgroundColor = [UIColor clearColor];
-    starLabel.textColor = [ConMethods colorWithHexString:@"999999"];
-    starLabel.textAlignment = NSTextAlignmentCenter;
-    [self.scrollView addSubview:starLabel];
-    
-    UIView *endView = [[UIView alloc] initWithFrame:CGRectMake(ScreenWidth + 124 + (ScreenWidth - 184)/2, 0, (ScreenWidth - 184)/2, 30)];
-    endView.backgroundColor = [UIColor whiteColor];
-    endView.layer.borderWidth = 1;
-    endView.layer.borderColor = [[ConMethods colorWithHexString:@"dedede"] CGColor];
-    endView.layer.cornerRadius = 3;
-    endView.layer.masksToBounds = YES;
-    
-    
-    
-    dateLEndabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, (ScreenWidth - 184)/2 - 7, 30)];
-    dateLEndabel.font = [UIFont systemFontOfSize:13];
-    dateLEndabel.textColor = [ConMethods colorWithHexString:@"333333"];
-   // dateLEndabel.textAlignment = NSTextAlignmentCenter;
-    
-    notEddDate = [self dateToStringDate:[self getPriousorLaterDateFromDate:[NSDate date] withMonth:0 withDay:-1]];
-    dateLEndabel.text = [notEddDate stringByReplacingOccurrencesOfString:@"-" withString:@""];
-    [endView addSubview:dateLEndabel];
-    
-    
-    
-    
-    
-    UITapGestureRecognizer *singleTap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(callPhone1:)];
-    [endView addGestureRecognizer:singleTap1];
-    [self.scrollView addSubview:endView];
-    
-    
-    
-    UIButton *queryBtn = [[UIButton alloc] initWithFrame:CGRectMake( ScreenWidth*2 - 50, 0,  40, 30)];
-    queryBtn.backgroundColor = [ConMethods colorWithHexString:@"fe8103"];
-    //queryBtn.layer.borderWidth = 1;
-    //queryBtn.layer.borderColor = [[UIColor blackColor] CGColor];
-    queryBtn.layer.cornerRadius = 3;
-    queryBtn.titleLabel.font = [UIFont boldSystemFontOfSize:13];
-    [queryBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [queryBtn setTitle:@"查询" forState:UIControlStateNormal];
-    [queryBtn addTarget:self action:@selector(queryBtn) forControlEvents:UIControlEventTouchUpInside];
-    [self.scrollView addSubview:queryBtn];
-    
-}
-
-- (void)callPhone:(UIGestureRecognizer *)sender
+- (void)setupHeader
 {
-    //UIView *view = [sender view];
-    tooBar.hidden = NO;
-    datePicker.hidden = NO;
-    timeTooBar.hidden = YES;
-    timePicker.hidden = YES;
-    datePicker.date = [self dateFromString:dateLStarabel.text];
     
-}
-
--(void) upDateView:(UIButton *)btn{
-    if (btn.tag == 1) {
-        tooBar.hidden = YES;
-        datePicker.hidden = YES;
-        notStarDate = [self dateToStringDate:datePicker.date];
-        dateLStarabel.text = [notStarDate stringByReplacingOccurrencesOfString:@"-" withString:@""];
-        
-       // dateLStarabel.text = [self dateToStringDate:datePicker.date];
-    } else if (btn.tag == 2){
-        timeTooBar.hidden = YES;
-        timePicker.hidden = YES;
-        notEddDate = [self dateToStringDate:timePicker.date];
-        dateLEndabel.text = [notEddDate stringByReplacingOccurrencesOfString:@"-" withString:@""];
-        
-    }
-}
-
-- (void)alterMessage:(NSString *)messageString{
-    
-    UIAlertView *al = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:messageString delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
-    [al show];
-}
-
-
-- (void)countDay {
-    
-    NSDate *nowDate = [self getPriousorLaterDateFromDate:[NSDate date] withMonth:0 withDay:-1];
-    NSDate *beginDate = [self dateFromString:notStarDate];
-    NSDate *endDate = [self dateFromString:notEddDate];
-    NSDate *earlyDate = [beginDate earlierDate:endDate];
-    NSDate *laterDate =[endDate laterDate:nowDate];
+    SDRefreshHeaderView *refreshHeader = [SDRefreshHeaderView refreshView];
     
     
+    // 默认是在navigationController环境下，如果不是在此环境下，请设置 refreshHeader.isEffectedByNavigationController = NO;
+    [refreshHeader addToScrollView:tableView];
     
-    
-    
-    if ([earlyDate isEqualToDate:endDate] && ![earlyDate isEqualToDate:beginDate]) {
-        
-        [self alterMessage:@"开始时间不得晚于结束时间"];
-        return;
-        
-    } else if (![nowDate isEqualToDate:laterDate]&&[endDate isEqualToDate:laterDate]) {
-        
-        [self alterMessage:@"结束时间不得晚于今天"];
-        return;
-    } else {
-        /*
-        //添加指示器及遮罩
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        hud.dimBackground = YES; //加层阴影
-        hud.mode = MBProgressHUDModeIndeterminate;
-        hud.labelText = @"加载中...";
-        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-            //[self requestCategoryList:dateLStarabel.text withEnd:dateLEndabel.text withTag:kBusinessTagGetFundslistAgain];
+    __weak SDRefreshHeaderView *weakRefreshHeader = refreshHeader;
+    refreshHeader.beginRefreshingOperation = ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
-            startBakPast = [NSString stringWithString:startPast];
-            startPast = @"0";
+            start = @"1";
             
-            [self requestRecordList:notStarDate withEndDate:notEddDate withStart:startPast withSize:limitPast tag:kBusinessTagGetJRFundsListPastAgain];
+            [self requestMyGqzcPaging];
             
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-            });
+            [weakRefreshHeader endRefreshing];
         });
-        */
+    };
+    
+    // 进入页面自动加载一次数据
+    // [refreshHeader beginRefreshing];
+}
+
+
+
+- (void)setupFooter
+{
+    SDRefreshFooterView *refreshFooter = [SDRefreshFooterView refreshView];
+    [refreshFooter addToScrollView:tableView];
+    [refreshFooter addTarget:self refreshAction:@selector(footerRefresh)];
+    _refreshFooter = refreshFooter;
+}
+
+
+- (void)footerRefresh
+{
+    
+    
+    if (hasMore == NO) {
+        [self.refreshFooter endRefreshing];
+    } else {
         
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+             [self requestMyGqzcPaging];
+            [self.refreshFooter endRefreshing];
+        });
+    }
+}
+
+
+
+
+-(void)requestMyGqzcPaging{
+    
+    
+    NSDictionary *parameters = @{@"ksrq":[self dateToStringDate:[self getPriousorLaterDateFromDate:[NSDate date] withMonth:-1 withDay:0]],@"jsrq":[self dateToStringDate:[self getPriousorLaterDateFromDate:[NSDate date] withMonth:0 withDay:0]],@"rowcount":limit,@"rowindex":start};
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    //manager.responseSerializer.acceptableContentTypes =  [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];//设置相应内容类型
+    
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    
+    [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERfundslist] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
+        if ([[responseObject objectForKey:@"success"] boolValue] == YES){
+            NSLog(@"JSON: %@", responseObject);
+            
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:@"加载完成"
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
+            [self recivedCategoryList:[responseObject objectForKey:@"object"]];
+            
+            
+        } else {
+            
+            
+            if ([[responseObject objectForKey:@"object"] isKindOfClass:[NSString class]]) {
+                
+                if ([[responseObject objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
+                    
+                    [[HttpMethods Instance] activityIndicate:NO
+                                                  tipContent:[responseObject objectForKey:@"msg"]
+                                               MBProgressHUD:nil
+                                                      target:self.navigationController.view
+                                             displayInterval:3];
+                    
+                    
+                    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+                    [delegate.loginUser removeAllObjects];
+                    
+                    LoginViewController *vc = [[LoginViewController alloc] init];
+                    vc.hidesBottomBarWhenPushed = YES;
+                    [self.navigationController pushViewController:vc animated:YES];
+                }
+            } else {
+                
+                [[HttpMethods Instance] activityIndicate:NO
+                                              tipContent:[responseObject objectForKey:@"msg"]
+                                           MBProgressHUD:nil
+                                                  target:self.view
+                                         displayInterval:3];
+                
+            }
+            
+            NSLog(@"JSON: %@", responseObject);
+            NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
+            
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        [[HttpMethods Instance] activityIndicate:NO
+                                      tipContent:notNetworkConnetTip
+                                   MBProgressHUD:nil
+                                          target:self.view
+                                 displayInterval:3];
+        
+        NSLog(@"Error: %@", error);
+    }];
+    
+    
+    
+}
+
+
+//处理品牌列表
+- (void)recivedCategoryList:(NSMutableArray *)dataArray
+{
+    NSLog(@"%s %d %@", __FUNCTION__, __LINE__, @"处理品牌列表数据");
+    
+    if ([start isEqualToString:@"1"]) {
+        if (dataList.count > 0) {
+            [dataList removeAllObjects];
+        }
         
     }
     
+    if(dataList){
+        
+        [dataList addObjectsFromArray:[dataArray mutableCopy]];
+    } else {
+        dataList = [dataArray mutableCopy];
+    }
     
-    /*
-     NSDateComponents *beginComponets = [[NSCalendar autoupdatingCurrentCalendar] components:NSWeekdayCalendarUnit fromDate:beginDate];
-     NSInteger beginWeekDay = [beginComponets weekday];
-     
-     NSDateComponents *endComponets = [[NSCalendar autoupdatingCurrentCalendar] components:NSWeekdayCalendarUnit fromDate:endDate];
-     NSInteger endWeekDay = [endComponets weekday];
-     
-     if (beginWeekDay == 1 || beginWeekDay == 7 || endWeekDay == 1 || endWeekDay == 7) {
-     
-     [self alterMessage:@"结束或开始时间不得为周末"];
-     return;
-     
-     }
-     
-     NSTimeInterval time = [endDate timeIntervalSinceDate:beginDate];
-     
-     float oneWeekDay = 7 - beginWeekDay;
-     
-     float allDay = time / (24 * 60 * 60);
-     
-     float day = 0.0;
-     
-     if(allDay > oneWeekDay + 2){
-     float otherDay = allDay - (oneWeekDay + 2);
-     
-     float ResidualDay = otherDay - ((int)otherDay / 7) * 2;
-     
-     day = ResidualDay + oneWeekDay;
-     }else{
-     day = endWeekDay - beginWeekDay;
-     }
-     
-     
-     //dateLTotalabel.text = [NSString stringWithFormat:@"%d天",(int)day];
-     */
-}
-
-
-
--(void)queryBtn{
-    [self countDay];
     
+    
+    if ([dataArray count] < 10) {
+        hasMore = NO;
+    } else {
+        hasMore = YES;
+        start = [NSString stringWithFormat:@"%d", [start intValue] + 1];
+    }
+    
+    if (hasMore) {
+        if (!_refreshFooter) {
+            [self setupFooter];
+        }
+    } else {
+        [_refreshFooter removeFromSuperview];
+    }
+    
+    [tableView reloadData];
     
 }
 
-- (void)callPhone1:(UITouch *)sender
-{
-    timeTooBar.hidden = NO;
-    timePicker.hidden = NO;
-    tooBar.hidden = YES;
-    datePicker.hidden = YES;
-    timePicker.date = [self dateFromString:notEddDate];
-}
+
+
 
 #pragma mark - date A months Ago
 //给一个时间，给一个数，正数是以后n个月，负数是前n个月；
@@ -532,7 +310,7 @@
 }
 - (NSInteger)tableView:(UITableView *)tabView numberOfRowsInSection:(NSInteger)section
 {
-    if (tabView == tableView) {
+    
         if ([dataList count] == 0) {
             return 1;
         } else if (hasMore) {
@@ -540,17 +318,6 @@
         } else {
             return [dataList count];
         }
-    } else {
-        
-        if ([dataListPast count] == 0) {
-            return 1;
-        } else if (hasMorePast) {
-            return [dataListPast count] + 1;
-        } else {
-            return [dataListPast count];
-        }
-    }
-    
 }
 
 - (NSString *)AddComma:(NSString *)string{//添加逗号
@@ -674,7 +441,7 @@
                     [backView addSubview:remainLab];
                     
                     
-                    UILabel *flagLabel = [[UILabel alloc] initWithFrame:CGRectMake(remainLab.frame.size.width + remainLab.frame.origin.x, 10, 13, 15)];
+                    UILabel *flagLabel = [[UILabel alloc] initWithFrame:CGRectMake(remainLab.frame.size.width + remainLab.frame.origin.x, 10, 15, 15)];
                     flagLabel.font = [UIFont systemFontOfSize:15];
                     [flagLabel setTextColor:[ConMethods colorWithHexString:@"333333"]];
                     flagLabel.textAlignment = NSTextAlignmentLeft;
@@ -759,205 +526,6 @@
             }
         }
         return cell;
-    } else if (tbleView == tableViewPast){
-        
-        if ([dataListPast count] == 0) {
-            
-            cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 200)];
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 50)];
-            [backView setBackgroundColor:[ConMethods colorWithHexString:@"ececec"]];
-            //图标
-            UIImageView *iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake((ScreenWidth - 57)/2, 100, 57, 57)];
-            [iconImageView setImage:[UIImage imageNamed:@"none_charger_icon"]];
-            [backView addSubview:iconImageView];
-            //提示
-            UILabel *tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, iconImageView.frame.origin.y + iconImageView.frame.size.height + 27, ScreenWidth, 15)];
-            [tipLabel setFont:[UIFont systemFontOfSize:13]];
-            [tipLabel setTextAlignment:NSTextAlignmentCenter];
-            [tipLabel setTextColor:[ConMethods colorWithHexString:@"404040"]];
-            [tipLabel setText:@"您还没有相关记录哦~"];
-            tipLabel.backgroundColor = [UIColor clearColor];
-            [backView addSubview:tipLabel];
-            [cell.contentView addSubview:backView];
-            
-        } else {
-            if ([indexPath row] == [dataListPast count]) {
-                moreCellPast = [tbleView dequeueReusableCellWithIdentifier:@"loadMoreCell"];
-                moreCellPast = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"loadMoreCell"];
-                [moreCellPast setBackgroundColor:[UIColor clearColor]];
-                moreCellPast.selectionStyle = UITableViewCellSelectionStyleNone;
-                UILabel *toastLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 10, 160, 59)];
-                [toastLabel setFont:[UIFont systemFontOfSize:12]];
-                toastLabel.backgroundColor = [UIColor clearColor];
-                [toastLabel setTextColor:[ConMethods colorWithHexString:@"999999"]];
-                toastLabel.numberOfLines = 0;
-                toastLabel.text = @"更多...";
-                toastLabel.textAlignment = NSTextAlignmentCenter;
-                [moreCellPast.contentView addSubview:toastLabel];
-                return moreCellPast;
-            } else {
-                cell = [tbleView dequeueReusableCellWithIdentifier:RepairCellIdentifier];
-                if (cell == nil) {
-                    cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 100)];
-                    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                    [cell setBackgroundColor:[UIColor clearColor]];
-                    //添加背景View
-                    
-                    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0,0, ScreenWidth, 100)];
-                    [backView setBackgroundColor:[UIColor whiteColor]];
-                    //业务类别
-                    UILabel *classLabTip = [[UILabel alloc] initWithFrame:CGRectMake(10, 10,65 , 15)];
-                    
-                    
-                    classLabTip.text = @"资金变动";
-                    
-                    
-                    
-                    
-                    classLabTip.font = [UIFont systemFontOfSize:15];
-                    classLabTip.textColor = [ConMethods colorWithHexString:@"999999"];
-                    [backView addSubview:classLabTip];
-                    
-                    
-                    //发生余额(元)
-                    UILabel *remainLab = [[UILabel alloc] init];
-                  //  NSString *adc;
-                    
-                    
-                    
-                    
-                    
-                    
-                    if (![[[dataListPast objectAtIndex:[indexPath row]] objectForKey:@"FID_SRJE"] floatValue] <= 0) {
-                        remainLab.textColor = [ConMethods colorWithHexString:@"047f47"];
-                        remainLab.text = [NSString stringWithFormat:@"%.2f",[[[dataListPast objectAtIndex:[indexPath row]] objectForKey:@"FID_SRJE"]  floatValue]];
-                        
-                    } else{
-                        remainLab.text = [NSString stringWithFormat:@"%.2f",[[[dataListPast objectAtIndex:[indexPath row]] objectForKey:@"FID_FCJE"]  floatValue]];
-                        remainLab.textColor = [ConMethods colorWithHexString:@"fe8103"];
-                    }
-                    
-                    /*
-                      if ([adc floatValue] > 1 && [adc floatValue] < 900000000) {
-                    
-                    
-                    
-                    
-                    NSRange range1 = [adc rangeOfString:@"."];//匹配得到的下标
-                    
-                    NSString *string = [adc substringFromIndex:range1.location];
-                    
-                    NSString *str = [adc substringToIndex:range1.location];
-                    
-                    remainLab.text = [NSString stringWithFormat:@"%@%@",[self AddComma:str],string];
-                      }else {
-                      remainLab.text = [NSString stringWithFormat:@"%.2f",[adc floatValue]];
-                      
-                      }
-                          
-                     */
-                          
-                    remainLab.font = [UIFont systemFontOfSize:15];
-                    
-                    
-                    
-                    CGSize titleSize = [remainLab.text sizeWithFont:remainLab.font constrainedToSize:CGSizeMake(MAXFLOAT, 13)];
-                    remainLab.frame = CGRectMake(75, 10,titleSize.width, 15);
-                    [backView addSubview:remainLab];
-                    
-                    
-                    UILabel *flagLabel = [[UILabel alloc] initWithFrame:CGRectMake(remainLab.frame.size.width + remainLab.frame.origin.x, 10, 15, 15)];
-                    flagLabel.font = [UIFont systemFontOfSize:15];
-                    [flagLabel setTextColor:[ConMethods colorWithHexString:@"333333"]];
-                    flagLabel.textAlignment = NSTextAlignmentLeft;
-                    flagLabel.text = @"元";
-                    [backView addSubview:flagLabel];
-                    
-                    
-                    //资金余额(元)
-                    
-                    UILabel *reLabTip = [[UILabel alloc] initWithFrame:CGRectMake(10, 32,65 , 15)];
-                    reLabTip.text = @"资金余额";
-                    reLabTip.font = [UIFont systemFontOfSize:15];
-                    reLabTip.textColor = [ConMethods colorWithHexString:@"999999"];
-                    [backView addSubview:reLabTip];
-                    
-                    
-                    
-                    UILabel *reLab = [[UILabel alloc] initWithFrame:CGRectMake(10 + 65, 32,ScreenWidth - 75 , 15)];
-                     reLab.text = [NSString stringWithFormat:@"%.2f元",[[[dataListPast objectAtIndex:[indexPath row]] objectForKey:@"FID_BCZJYE"] doubleValue]];
-                    
-                    /*
-                    if ([[[dataListPast objectAtIndex:[indexPath row]] objectForKey:@"FID_BCZJYE"] floatValue] > 1 && [[[dataListPast objectAtIndex:[indexPath row]] objectForKey:@"FID_BCZJYE"] floatValue] < 900000000) {
-                        
-                        
-                        NSRange range = [[[dataListPast objectAtIndex:[indexPath row]] objectForKey:@"FID_BCZJYE"] rangeOfString:@"."];//匹配得到的下标
-                        
-                        NSLog(@"rang:%@",NSStringFromRange(range));
-                        
-                        //string = [string substringWithRange:range];//截取范围类的字符串
-                        
-                        
-                        
-                        NSString *string1 = [[[dataListPast objectAtIndex:[indexPath row]] objectForKey:@"FID_BCZJYE"] substringFromIndex:range.location];
-                        
-                        NSString *str1 = [[[dataListPast objectAtIndex:[indexPath row]] objectForKey:@"FID_BCZJYE"] substringToIndex:range.location];
-                        
-                        reLab.text = [NSString stringWithFormat:@"%@%@元",[self AddComma:str1],string1];
-                        
-                    } else {
-                        if ([[[dataListPast objectAtIndex:[indexPath row]] objectForKey:@"FID_BCZJYE"] floatValue] == 0) {
-                             reLab.text = @"0.00元";
-                        } else {
-                        
-                            reLab.text = [NSString stringWithFormat:@"%.2f元",[[[dataListPast objectAtIndex:[indexPath row]] objectForKey:@"FID_BCZJYE"] floatValue]];
-                        }
-                       
-                    }
-                    */
-                    reLab.font = [UIFont systemFontOfSize:15];
-                    reLab.textColor = [ConMethods colorWithHexString:@"333333"];
-                    [backView addSubview:reLab];
-                    
-                    // 处理结果
-                    UILabel *endLabTip = [[UILabel alloc] initWithFrame:CGRectMake(10, 54,65 , 15)];
-                    endLabTip.text = @"处理摘要";
-                    endLabTip.font = [UIFont systemFontOfSize:15];
-                    endLabTip.textColor = [ConMethods colorWithHexString:@"999999"];
-                    [backView addSubview:endLabTip];
-                    
-                    UILabel *endLab = [[UILabel alloc] initWithFrame:CGRectMake(75, 54,ScreenWidth - 85 , 15)];
-                    endLab.text =[[dataListPast objectAtIndex:[indexPath row]] objectForKey:@"FID_ZY"];
-                    endLab.font = [UIFont systemFontOfSize:15];
-                    endLab.textColor = [ConMethods colorWithHexString:@"333333"];
-                    [backView addSubview:endLab];
-                    
-                    
-                    UILabel *dateLab = [[UILabel alloc] initWithFrame:CGRectMake(10, 76,ScreenWidth - 20 , 14)];
-                    //日期格式转化
-                    NSMutableString *strDate = [[NSMutableString alloc] initWithString:[[dataListPast objectAtIndex:[indexPath row]] objectForKey:@"FID_RQ"]];
-                    // NSString *newStr = [strDate insertring:@"-" atIndex:3];
-                    [strDate insertString:@"-" atIndex:4];
-                    [strDate insertString:@"-" atIndex:(strDate.length - 2)];
-                    dateLab.text = [NSString stringWithFormat:@"%@  %@",strDate,[[dataListPast objectAtIndex:[indexPath row]] objectForKey:@"FID_FSSJ"]];
-                    dateLab.font = [UIFont systemFontOfSize:14];
-                    dateLab.textColor = [ConMethods colorWithHexString:@"999999"];
-                    [backView addSubview:dateLab];
-                    
-                    UIView *subView = [[UIView alloc] initWithFrame:CGRectMake(10, 0, ScreenWidth - 10, 1)];
-                    [subView setBackgroundColor:[ConMethods colorWithHexString:@"eeeeee"]];
-                    if ([indexPath row] != 0) {
-                        [backView addSubview:subView];
-                    }
-                    
-                    
-                    [cell.contentView addSubview:backView];
-                    
-                }
-            }
-        }
-        return cell;
     }
     return nil;
 }
@@ -1004,13 +572,7 @@
             return 100;
         }
         
-    } else {
-        if ([indexPath row] == [dataListPast count]) {
-            return 40;
-        } else {
-            return 100;
-        }
-    }
+    } 
     return 95;
 }
 

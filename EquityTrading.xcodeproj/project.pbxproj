@@ -64,6 +64,17 @@
 		041A21AE1BE0995700216EEE /* SDRefreshHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 041A21A61BE0995700216EEE /* SDRefreshHeaderView.m */; };
 		041A21AF1BE0995700216EEE /* UIView+SDExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 041A21A81BE0995700216EEE /* UIView+SDExtension.m */; };
 		041A21B01BE0995700216EEE /* SDRefreshFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 041A21AA1BE0995700216EEE /* SDRefreshFooterView.m */; };
+		045E00AE1BEC7F9A000575BE /* RechargeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 045E00AC1BEC7F9A000575BE /* RechargeViewController.m */; };
+		045E00AF1BEC7F9A000575BE /* RechargeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 045E00AD1BEC7F9A000575BE /* RechargeViewController.xib */; };
+		045E00B31BEC7FB0000575BE /* WithdrawViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 045E00B11BEC7FB0000575BE /* WithdrawViewController.m */; };
+		045E00B41BEC7FB0000575BE /* WithdrawViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 045E00B21BEC7FB0000575BE /* WithdrawViewController.xib */; };
+		045E00B81BEC7FC9000575BE /* WithdarwProtroclViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 045E00B61BEC7FC9000575BE /* WithdarwProtroclViewController.m */; };
+		045E00B91BEC7FC9000575BE /* WithdarwProtroclViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 045E00B71BEC7FC9000575BE /* WithdarwProtroclViewController.xib */; };
+		045E00BD1BEC8238000575BE /* Child.m in Sources */ = {isa = PBXBuildFile; fileRef = 045E00BC1BEC8238000575BE /* Child.m */; };
+		045E00C21BEC9278000575BE /* ChangerPassWordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 045E00C01BEC9278000575BE /* ChangerPassWordViewController.m */; };
+		045E00C31BEC9278000575BE /* ChangerPassWordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 045E00C11BEC9278000575BE /* ChangerPassWordViewController.xib */; };
+		045E00C71BEC92A1000575BE /* ChangeLoginPWViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 045E00C51BEC92A1000575BE /* ChangeLoginPWViewController.m */; };
+		045E00C81BEC92A1000575BE /* ChangeLoginPWViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 045E00C61BEC92A1000575BE /* ChangeLoginPWViewController.xib */; };
 		046590871BE1EDDD0071601F /* MoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 046590851BE1EDDD0071601F /* MoreViewController.m */; };
 		046590881BE1EDDD0071601F /* MoreViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 046590861BE1EDDD0071601F /* MoreViewController.xib */; };
 		046590901BE1EE450071601F /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0465908B1BE1EE450071601F /* AboutViewController.m */; };
@@ -196,6 +207,23 @@
 		041A21A91BE0995700216EEE /* SDRefreshFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDRefreshFooterView.h; sourceTree = "<group>"; };
 		041A21AA1BE0995700216EEE /* SDRefreshFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDRefreshFooterView.m; sourceTree = "<group>"; };
 		041A21AB1BE0995700216EEE /* SDRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDRefresh.h; sourceTree = "<group>"; };
+		045E00AB1BEC7F9A000575BE /* RechargeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RechargeViewController.h; sourceTree = "<group>"; };
+		045E00AC1BEC7F9A000575BE /* RechargeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RechargeViewController.m; sourceTree = "<group>"; };
+		045E00AD1BEC7F9A000575BE /* RechargeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RechargeViewController.xib; sourceTree = "<group>"; };
+		045E00B01BEC7FB0000575BE /* WithdrawViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WithdrawViewController.h; sourceTree = "<group>"; };
+		045E00B11BEC7FB0000575BE /* WithdrawViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WithdrawViewController.m; sourceTree = "<group>"; };
+		045E00B21BEC7FB0000575BE /* WithdrawViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WithdrawViewController.xib; sourceTree = "<group>"; };
+		045E00B51BEC7FC9000575BE /* WithdarwProtroclViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WithdarwProtroclViewController.h; sourceTree = "<group>"; };
+		045E00B61BEC7FC9000575BE /* WithdarwProtroclViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WithdarwProtroclViewController.m; sourceTree = "<group>"; };
+		045E00B71BEC7FC9000575BE /* WithdarwProtroclViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WithdarwProtroclViewController.xib; sourceTree = "<group>"; };
+		045E00BB1BEC8238000575BE /* Child.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Child.h; sourceTree = "<group>"; };
+		045E00BC1BEC8238000575BE /* Child.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Child.m; sourceTree = "<group>"; };
+		045E00BF1BEC9278000575BE /* ChangerPassWordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangerPassWordViewController.h; sourceTree = "<group>"; };
+		045E00C01BEC9278000575BE /* ChangerPassWordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangerPassWordViewController.m; sourceTree = "<group>"; };
+		045E00C11BEC9278000575BE /* ChangerPassWordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangerPassWordViewController.xib; sourceTree = "<group>"; };
+		045E00C41BEC92A1000575BE /* ChangeLoginPWViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangeLoginPWViewController.h; sourceTree = "<group>"; };
+		045E00C51BEC92A1000575BE /* ChangeLoginPWViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangeLoginPWViewController.m; sourceTree = "<group>"; };
+		045E00C61BEC92A1000575BE /* ChangeLoginPWViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangeLoginPWViewController.xib; sourceTree = "<group>"; };
 		046590841BE1EDDD0071601F /* MoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreViewController.h; sourceTree = "<group>"; };
 		046590851BE1EDDD0071601F /* MoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreViewController.m; sourceTree = "<group>"; };
 		046590861BE1EDDD0071601F /* MoreViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MoreViewController.xib; sourceTree = "<group>"; };
@@ -297,6 +325,7 @@
 		040B2D641BDF147500A2F1FE /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				045E00BA1BEC8224000575BE /* Child */,
 				041A21A11BE0993B00216EEE /* SDRefresh */,
 				040B2DAA1BDF153000A2F1FE /* UIKit+AFNetworking */,
 				040B2D8B1BDF150C00A2F1FE /* AFNetworking */,
@@ -407,6 +436,8 @@
 		040B2DD01BDF17A200A2F1FE /* Viwes */ = {
 			isa = PBXGroup;
 			children = (
+				045E00BE1BEC9235000575BE /* 账户中心 */,
+				045E00AA1BEC7F87000575BE /* 充值提现界面 */,
 				047C3BEC1BE35DCB00EAEF67 /* 我的股权卖出 */,
 				047C3BD71BE3505800EAEF67 /* 我的账户跳转界面 */,
 				046590891BE1EE2B0071601F /* 更多界面 */,
@@ -471,6 +502,44 @@
 				041A21AB1BE0995700216EEE /* SDRefresh.h */,
 			);
 			name = SDRefresh;
+			sourceTree = "<group>";
+		};
+		045E00AA1BEC7F87000575BE /* 充值提现界面 */ = {
+			isa = PBXGroup;
+			children = (
+				045E00AB1BEC7F9A000575BE /* RechargeViewController.h */,
+				045E00AC1BEC7F9A000575BE /* RechargeViewController.m */,
+				045E00AD1BEC7F9A000575BE /* RechargeViewController.xib */,
+				045E00B01BEC7FB0000575BE /* WithdrawViewController.h */,
+				045E00B11BEC7FB0000575BE /* WithdrawViewController.m */,
+				045E00B21BEC7FB0000575BE /* WithdrawViewController.xib */,
+				045E00B51BEC7FC9000575BE /* WithdarwProtroclViewController.h */,
+				045E00B61BEC7FC9000575BE /* WithdarwProtroclViewController.m */,
+				045E00B71BEC7FC9000575BE /* WithdarwProtroclViewController.xib */,
+			);
+			name = "充值提现界面";
+			sourceTree = "<group>";
+		};
+		045E00BA1BEC8224000575BE /* Child */ = {
+			isa = PBXGroup;
+			children = (
+				045E00BB1BEC8238000575BE /* Child.h */,
+				045E00BC1BEC8238000575BE /* Child.m */,
+			);
+			name = Child;
+			sourceTree = "<group>";
+		};
+		045E00BE1BEC9235000575BE /* 账户中心 */ = {
+			isa = PBXGroup;
+			children = (
+				045E00C41BEC92A1000575BE /* ChangeLoginPWViewController.h */,
+				045E00C51BEC92A1000575BE /* ChangeLoginPWViewController.m */,
+				045E00C61BEC92A1000575BE /* ChangeLoginPWViewController.xib */,
+				045E00BF1BEC9278000575BE /* ChangerPassWordViewController.h */,
+				045E00C01BEC9278000575BE /* ChangerPassWordViewController.m */,
+				045E00C11BEC9278000575BE /* ChangerPassWordViewController.xib */,
+			);
+			name = "账户中心";
 			sourceTree = "<group>";
 		};
 		046590891BE1EE2B0071601F /* 更多界面 */ = {
@@ -590,8 +659,13 @@
 				047C3BDC1BE3507800EAEF67 /* DelegateTodayViewController.xib in Resources */,
 				040B2DE61BDF181000A2F1FE /* LoginViewController.xib in Resources */,
 				047C3BFC1BE35E1300EAEF67 /* MyTransferPrococalViewController.xib in Resources */,
+				045E00AF1BEC7F9A000575BE /* RechargeViewController.xib in Resources */,
+				045E00C31BEC9278000575BE /* ChangerPassWordViewController.xib in Resources */,
+				045E00B91BEC7FC9000575BE /* WithdarwProtroclViewController.xib in Resources */,
+				045E00B41BEC7FB0000575BE /* WithdrawViewController.xib in Resources */,
 				040B2DEC1BDF182B00A2F1FE /* DetailViewController.xib in Resources */,
 				047C3BFA1BE35E1300EAEF67 /* MyTransferDetailViewController.xib in Resources */,
+				045E00C81BEC92A1000575BE /* ChangeLoginPWViewController.xib in Resources */,
 				04103F0E1BEAFC7E007C90E2 /* CenterViewController.xib in Resources */,
 				047C3BFE1BE35E1300EAEF67 /* MyTransferSuccessViewController.xib in Resources */,
 				047C3BEB1BE3512A00EAEF67 /* MoneyInfoViewController.xib in Resources */,
@@ -628,6 +702,8 @@
 				040B2D801BDF14CB00A2F1FE /* UIKit+custom_.mm in Sources */,
 				047C3BFD1BE35E1300EAEF67 /* MyTransferSuccessViewController.m in Sources */,
 				040B2DD51BDF17CD00A2F1FE /* MainViewController.m in Sources */,
+				045E00B31BEC7FB0000575BE /* WithdrawViewController.m in Sources */,
+				045E00AE1BEC7F9A000575BE /* RechargeViewController.m in Sources */,
 				047C3BF91BE35E1300EAEF67 /* MyTransferDetailViewController.m in Sources */,
 				040B2DEB1BDF182B00A2F1FE /* DetailViewController.m in Sources */,
 				040B2D831BDF14DF00A2F1FE /* OpenUDID.m in Sources */,
@@ -638,6 +714,7 @@
 				040B2DA81BDF152300A2F1FE /* AFURLResponseSerialization.m in Sources */,
 				040B2DA61BDF152300A2F1FE /* AFURLConnectionOperation.m in Sources */,
 				040B2D511BDF111600A2F1FE /* AppDelegate.m in Sources */,
+				045E00C71BEC92A1000575BE /* ChangeLoginPWViewController.m in Sources */,
 				040B2D7A1BDF14CB00A2F1FE /* Circle.m in Sources */,
 				040B2DC21BDF155000A2F1FE /* UIProgressView+AFNetworking.m in Sources */,
 				046590921BE1EE450071601F /* PublicViewController.m in Sources */,
@@ -651,6 +728,8 @@
 				047C3BE81BE3512A00EAEF67 /* MoneyAccountViewController.m in Sources */,
 				040B2DA51BDF152300A2F1FE /* AFSecurityPolicy.m in Sources */,
 				040B2D791BDF14CB00A2F1FE /* ShareMyData.m in Sources */,
+				045E00C21BEC9278000575BE /* ChangerPassWordViewController.m in Sources */,
+				045E00B81BEC7FC9000575BE /* WithdarwProtroclViewController.m in Sources */,
 				040B2D7C1BDF14CB00A2F1FE /* CPVTabViewController.m in Sources */,
 				040B2DA71BDF152300A2F1FE /* AFURLRequestSerialization.m in Sources */,
 				046590971BE1EE8A0071601F /* WebDetailViewController.m in Sources */,
@@ -665,6 +744,7 @@
 				040B2D7F1BDF14CB00A2F1FE /* PublicMethod.mm in Sources */,
 				047C3BFB1BE35E1300EAEF67 /* MyTransferPrococalViewController.m in Sources */,
 				040B2DBD1BDF155000A2F1FE /* AFNetworkActivityIndicatorManager.m in Sources */,
+				045E00BD1BEC8238000575BE /* Child.m in Sources */,
 				04103F031BEAF8D2007C90E2 /* MonthlyTurnoverViewController.m in Sources */,
 				040B2DA31BDF152300A2F1FE /* AFHTTPSessionManager.m in Sources */,
 				040B2DC41BDF155000A2F1FE /* UIWebView+AFNetworking.m in Sources */,

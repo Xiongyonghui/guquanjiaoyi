@@ -8,10 +8,14 @@
 
 #import "CenterViewController.h"
 #import "AppDelegate.h"
+#import "ChangeLoginPWViewController.h"
+#import "ChangerPassWordViewController.h"
 
 @interface CenterViewController ()
 {
     float addHight;
+    UITableView *table;
+    NSArray *arrTitle;
 }
 @end
 
@@ -30,6 +34,72 @@
         addHight = 0;
     }
 
+    arrTitle = @[@"手机认证",@"登录密码",@"交易密码"];
+    
+    table = [[UITableView alloc] initWithFrame:CGRectMake(0, addHight + 44, ScreenWidth,ScreenHeight - 64)];
+    [table setDelegate:self];
+    [table setDataSource:self];
+    table.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    [table setBackgroundColor:[ConMethods colorWithHexString:@"eeeeee"]];
+    table.tableFooterView = [[UIView alloc] init];
+    
+    table.bounces = NO;
+    
+    [self.view addSubview:table];
+    
+    
+}
+
+#pragma mark - UITableView DataSource Methods
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    // Return the number of sections.
+    return 1;
+}
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    
+    return arrTitle.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tbleView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    //[tableView setScrollEnabled:NO]; tableView 不能滑动
+    static NSString *RepairCellIdentifier = @"RepairCellIdentifier";
+    UITableViewCell *cell = [tbleView dequeueReusableCellWithIdentifier:RepairCellIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:RepairCellIdentifier];
+    }
+    
+    cell.textLabel.text = [arrTitle objectAtIndex:indexPath.row];
+    
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    
+    return cell;
+}
+
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    return 40;
+}
+
+
+
+- (void)tableView:(UITableView *)tbleView
+didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tbleView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (indexPath.row == 1) {
+       
+        ChangeLoginPWViewController *vc = [[ChangeLoginPWViewController alloc] init];
+        [self.navigationController pushViewController:vc animated:YES];
+        
+    } else if(indexPath.row == 2){
+        ChangerPassWordViewController *vc = [[ChangerPassWordViewController alloc] init];
+        [self.navigationController pushViewController:vc animated:YES];
+    
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -37,15 +107,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 - (IBAction)back:(id)sender {
      [self.navigationController popViewControllerAnimated:YES];
