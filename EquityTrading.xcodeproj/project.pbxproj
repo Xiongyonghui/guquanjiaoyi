@@ -95,6 +95,7 @@
 		047C3BFC1BE35E1300EAEF67 /* MyTransferPrococalViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 047C3BF21BE35E1300EAEF67 /* MyTransferPrococalViewController.xib */; };
 		047C3BFD1BE35E1300EAEF67 /* MyTransferSuccessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 047C3BF41BE35E1300EAEF67 /* MyTransferSuccessViewController.m */; };
 		047C3BFE1BE35E1300EAEF67 /* MyTransferSuccessViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 047C3BF51BE35E1300EAEF67 /* MyTransferSuccessViewController.xib */; };
+		A1F1A7B31C27D73800170CF5 /* HMSegmentedControlLast.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F1A7B21C27D73800170CF5 /* HMSegmentedControlLast.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -254,6 +255,8 @@
 		047C3BF31BE35E1300EAEF67 /* MyTransferSuccessViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyTransferSuccessViewController.h; sourceTree = "<group>"; };
 		047C3BF41BE35E1300EAEF67 /* MyTransferSuccessViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyTransferSuccessViewController.m; sourceTree = "<group>"; };
 		047C3BF51BE35E1300EAEF67 /* MyTransferSuccessViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyTransferSuccessViewController.xib; sourceTree = "<group>"; };
+		A1F1A7B11C27D73800170CF5 /* HMSegmentedControlLast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HMSegmentedControlLast.h; sourceTree = "<group>"; };
+		A1F1A7B21C27D73800170CF5 /* HMSegmentedControlLast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HMSegmentedControlLast.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -325,6 +328,7 @@
 		040B2D641BDF147500A2F1FE /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				A1F1A7AD1C27D49000170CF5 /* HMSegmentedControl */,
 				045E00BA1BEC8224000575BE /* Child */,
 				041A21A11BE0993B00216EEE /* SDRefresh */,
 				040B2DAA1BDF153000A2F1FE /* UIKit+AFNetworking */,
@@ -599,6 +603,15 @@
 			name = "我的股权卖出";
 			sourceTree = "<group>";
 		};
+		A1F1A7AD1C27D49000170CF5 /* HMSegmentedControl */ = {
+			isa = PBXGroup;
+			children = (
+				A1F1A7B11C27D73800170CF5 /* HMSegmentedControlLast.h */,
+				A1F1A7B21C27D73800170CF5 /* HMSegmentedControlLast.m */,
+			);
+			name = HMSegmentedControl;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -706,6 +719,7 @@
 				045E00AE1BEC7F9A000575BE /* RechargeViewController.m in Sources */,
 				047C3BF91BE35E1300EAEF67 /* MyTransferDetailViewController.m in Sources */,
 				040B2DEB1BDF182B00A2F1FE /* DetailViewController.m in Sources */,
+				A1F1A7B31C27D73800170CF5 /* HMSegmentedControlLast.m in Sources */,
 				040B2D831BDF14DF00A2F1FE /* OpenUDID.m in Sources */,
 				047C3BEA1BE3512A00EAEF67 /* MoneyInfoViewController.m in Sources */,
 				046590901BE1EE450071601F /* AboutViewController.m in Sources */,
@@ -844,12 +858,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: LongTang Xiao (A248892LNJ)";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Fujian Apex Software Co., Ltd.";
 				INFOPLIST_FILE = EquityTrading/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.apex.EquityTrading;
+				PRODUCT_BUNDLE_IDENTIFIER = inHouse.com.apex.testXiong;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "f7f3d769-c79d-4619-a89c-9d8da7923150";
+				PROVISIONING_PROFILE = "0ffdd4f0-1ee2-434a-83cf-2632bb87ec0b";
 			};
 			name = Debug;
 		};
@@ -857,12 +873,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: LongTang Xiao (A248892LNJ)";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Fujian Apex Software Co., Ltd.";
 				INFOPLIST_FILE = EquityTrading/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.apex.EquityTrading;
+				PRODUCT_BUNDLE_IDENTIFIER = inHouse.com.apex.testXiong;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "f7f3d769-c79d-4619-a89c-9d8da7923150";
+				PROVISIONING_PROFILE = "0ffdd4f0-1ee2-434a-83cf-2632bb87ec0b";
 			};
 			name = Release;
 		};

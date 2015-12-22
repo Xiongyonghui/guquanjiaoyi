@@ -16,7 +16,7 @@
 @interface MainViewController ()
 {
     float addHight;
-     UISegmentedControl  *segmented;
+    UISegmentedControl  *segmented;
     UIScrollView *scroller;
     UIView *lineView;
     int btnCount;
@@ -49,10 +49,8 @@
 
 @property (strong, nonatomic) UIScrollView *scrollView;
 @property (nonatomic, weak) SDRefreshFooterView *refreshFooter;
-//@property (nonatomic, weak) SDRefreshHeaderView *refreshHeader;
-
 @property (nonatomic, weak) SDRefreshFooterView *refreshFooterPast;
-//@property (nonatomic, weak) SDRefreshHeaderView *refreshHeaderPast;
+
 
 
 @end
@@ -641,7 +639,7 @@
                     kuiLabel.text = [NSString stringWithFormat:@"%@元",[[dataListPast objectAtIndex:indexPath.row] objectForKey:@"FID_LJYK"] ];
                     [backView addSubview:kuiLabel];
 //盈亏比例
-                    
+                    /*
                     UILabel *biliLabTip = [[UILabel alloc] initWithFrame:CGRectMake( ScreenWidth/2 - 10, 63, 52, 13)];
                     biliLabTip.font = [UIFont systemFontOfSize:13];
                     [biliLabTip setTextColor:[ConMethods colorWithHexString:@"999999"]];
@@ -658,9 +656,10 @@
                     
                     biliLabel.text = [NSString stringWithFormat:@"%.2f%@",bili,@"%"];
                     [backView addSubview:biliLabel];
+                     */
                     [cell.contentView addSubview:backView];
                 }
-            // return cell;
+           
         }
         return cell;
     }
@@ -690,6 +689,7 @@
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
+     
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     if (delegate.loginUser.count > 0) {
         
@@ -809,15 +809,48 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 -(void)addButClass:(NSMutableArray *)arr {
 
     lineView = [[UIView alloc] init];
-    lineView.backgroundColor = [UIColor redColor];
+    lineView.backgroundColor = [ConMethods colorWithHexString:@"c40000"];
+    
+    if (arr.count <= 3) {
+        
+        
+        for (int i = 0; i < arr.count ; i++){
+            float offset = i*ScreenWidth/arr.count;
+            UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(offset + (ScreenWidth/arr.count - 80)/2, 0, 80, 40)];
+            [button setTitle:[[arr objectAtIndex:i] objectForKey:@"FID_GQLBMC"] forState:UIControlStateNormal];
+            button.titleLabel.font = [UIFont systemFontOfSize:15];
+            
+            if (i == btnCount) {
+                [button setTitleColor:[ConMethods colorWithHexString:@"c40000"] forState:UIControlStateNormal];
+                lineView.frame = CGRectMake(0, 39, button.frame.size.width, 1);
+                [button addSubview:lineView];
+                
+            } else {
+                
+                [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            }
+            
+            button.tag = i;
+            [button addTarget:self action:@selector(taggleMethodsLess:) forControlEvents:UIControlEventTouchUpInside];
+            
+           
+            scroller.contentSize = CGSizeMake(ScreenWidth, 40);
+            [btnArray addObject:button];
+            [scroller addSubview:button];
+        }
+        
+        [self requestData:[[arr objectAtIndex:0] objectForKey:@"FID_GQLB"]];
+    } else {
+    
 
      for (int i = 0; i < arr.count ; i++){
          float offset = i*80;
          UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(offset, 0, 80, 40)];
          [button setTitle:[[arr objectAtIndex:i] objectForKey:@"FID_GQLBMC"] forState:UIControlStateNormal];
+         button.titleLabel.font = [UIFont systemFontOfSize:15];
          
          if (i == btnCount) {
-             [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+             [button setTitleColor:[ConMethods colorWithHexString:@"c40000"] forState:UIControlStateNormal];
              lineView.frame = CGRectMake(0, 39, button.frame.size.width, 1);
              [button addSubview:lineView];
              
@@ -839,6 +872,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
      }
     
      [self requestData:[[arr objectAtIndex:0] objectForKey:@"FID_GQLB"]];
+    }
 }
 
 
@@ -1062,13 +1096,32 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 }
 
 
+-(void)taggleMethodsLess:(UIButton *)btn {
+    
+    UIButton *button = [btnArray objectAtIndex:btnCount];
+    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    btnCount = (int)btn.tag;
+    [btn setTitleColor:[ConMethods colorWithHexString:@"c40000"] forState:UIControlStateNormal];
+    lineView.frame = CGRectMake(0, 39, btn.frame.size.width, 1);
+    [btn addSubview:lineView];
+    
+    if (dataList.count > 0) {
+        [dataList removeAllObjects];
+    }
+    
+    start = @"1";
+    
+    [self requestData:[[btnArrayName objectAtIndex:btnCount] objectForKey:@"FID_GQLB"]];
+}
+
+
 
 -(void)taggleMethods:(UIButton *)btn {
 
     UIButton *button = [btnArray objectAtIndex:btnCount];
     [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     btnCount = (int)btn.tag;
-    [btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    [btn setTitleColor:[ConMethods colorWithHexString:@"c40000"] forState:UIControlStateNormal];
     lineView.frame = CGRectMake(0, 39, btn.frame.size.width, 1);
     [btn addSubview:lineView];
     
@@ -1099,6 +1152,15 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     
     [self requestData:[[btnArrayName objectAtIndex:btnCount] objectForKey:@"FID_GQLB"]];
 }
+
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+    //UIStatusBarStyleDefault
+    //UIStatusBarStyleDefault = 0 黑色文字，浅色背景时使用
+    //UIStatusBarStyleLightContent = 1 白色文字，深色背景时使用
+}
+
 
 
 - (void)didReceiveMemoryWarning {

@@ -12,10 +12,20 @@
 #define ScreenHeight [[UIScreen mainScreen] bounds].size.height
 #define ScreenWidth  [[UIScreen mainScreen] bounds].size.width
 
-//股权交易
-//#define SERVERURL @"http://192.168.1.84:8080"
+//股权交易外网地址
+//#define SERVERURL @"http://218.66.59.169:8401"
+#define SERVERURL @"http://36.250.12.200:8080/APP"
 
-#define SERVERURL @"http://192.168.1.84:8082"
+
+// 红色背景图 c40000
+
+//股权交易
+//#define SERVERURL @"http://192.168.1.84:8082"
+
+//先链接我本机地址：
+//#define SERVERURL @"http://192.168.2.219:8080/account"
+
+
 //拼接大立
 //#define SERVERURL @"http://192.168.2.12:8080/account"
 

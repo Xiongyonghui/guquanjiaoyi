@@ -23,6 +23,7 @@
     UITableView *table;
     float addHight;
     NSArray *arrTitle;
+    NSArray *arrImg;
     
     UILabel *total;
     UILabel * incomeLab;
@@ -233,7 +234,10 @@
     }
 
     
-    arrTitle = @[@"我的资产",@"当日委托/撤单",@"当日成交记录",@"当月成交记录",@"资金变动查询",@"账户中心"];
+    arrTitle = @[@"我的资产",@"当日委托/撤单",@"当月成交记录",@"资金变动查询",@"账户中心"];
+    arrImg = @[@"personal_icon_order",@"personal_icon_pocket",@"personal_icon_feedback",@"personal_icon_baicai",@"personal_icon_recommend"];
+    
+    
     
     table = [[UITableView alloc] initWithFrame:CGRectMake(0, addHight, ScreenWidth,ScreenHeight - 69)];
     [table setDelegate:self];
@@ -356,7 +360,7 @@
     if (section == 0) {
          count = 3;
     } else if (section == 1) {
-        count = 3;
+        count = 2;
     }
     return count;
 }
@@ -372,11 +376,13 @@
     
     if (indexPath.section == 0) {
        cell.textLabel.text = [arrTitle objectAtIndex:indexPath.row];
+        cell.imageView.image = [UIImage imageNamed:[arrImg objectAtIndex:indexPath.row]];
     } else {
     cell.textLabel.text = [arrTitle objectAtIndex:indexPath.row + 3];
+    cell.imageView.image = [UIImage imageNamed:[arrImg objectAtIndex:indexPath.row + 3]];
     
     }
-    
+    cell.textLabel.font = [UIFont systemFontOfSize:15];
      cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     return cell;
@@ -385,14 +391,14 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return 35;
+    return 40;
 }
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     float count;
     if (section == 0) {
-        count = 190;
+        count = 160;
     } else {
         count = 10;
     }
@@ -403,8 +409,8 @@
 
     UIView *view;
     if (section == 0) {
-        view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 190)];
-        view.backgroundColor = [UIColor redColor];
+        view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 160)];
+        view.backgroundColor = [ConMethods colorWithHexString:@"c40000"];
        
         nameTitle = [[UILabel alloc] initWithFrame:CGRectMake(50, 13, ScreenWidth - 100, 17)];
         nameTitle.text = @"我的账户";
@@ -476,7 +482,7 @@
         foodTip.text = @"冻结金额(元)";
         [view addSubview:foodTip];
         
-        
+        /*
         //提现
         UIButton *tixianBtn =  [UIButton buttonWithType:UIButtonTypeCustom];
         tixianBtn.frame = CGRectMake(ScreenWidth/2,150, ScreenWidth/2, 40);
@@ -521,7 +527,7 @@
         chongzhiBtn.tag = 1002;
         [chongzhiBtn addTarget:self action:@selector(getMoneyMethods:) forControlEvents:UIControlEventTouchUpInside];
         [view addSubview:chongzhiBtn];
-        
+        */
     }
     return view;
 
@@ -575,6 +581,15 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     
     [tbleView deselectRowAtIndexPath:indexPath animated:YES];
 }
+
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+    //UIStatusBarStyleDefault
+    //UIStatusBarStyleDefault = 0 黑色文字，浅色背景时使用
+    //UIStatusBarStyleLightContent = 1 白色文字，深色背景时使用
+}
+
     
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

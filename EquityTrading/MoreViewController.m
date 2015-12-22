@@ -17,8 +17,10 @@
 {
     NSArray *array;
     NSArray *arrImage;
+    
     UILabel *_longtime;
      UILabel *_longtime1;
+    
 }
 @end
 
@@ -55,10 +57,10 @@
    [_table setScrollEnabled:NO];
    // array = @[@"信息公告",@"检查更新",@"关于我们"];
      array = @[@"信息公告",@"关于我们"];
-   // arrImage = @[[UIImage imageNamed:@"icon_pwd"],[UIImage imageNamed:@"icon_update"],[UIImage imageNamed:@"我的客户经理"]];
+    arrImage = @[[UIImage imageNamed:@"navgation_icon_baitiao_normal"],[UIImage imageNamed:@"navgation_icon_discover_normal"]];
     
     
-    _logoutBtn.backgroundColor = [ConMethods colorWithHexString:@"fe8103"];
+    _logoutBtn.backgroundColor = [ConMethods colorWithHexString:@"c40000"];
     _logoutBtn.layer.cornerRadius = 4;
     _logoutBtn.layer.masksToBounds = YES;
     
@@ -119,7 +121,7 @@
     cell.textLabel.text = [array objectAtIndex:indexPath.row];
     cell.textLabel.font = [UIFont systemFontOfSize:15];
     
-    //cell.imageView.image = [arrImage objectAtIndex:indexPath.row];
+    cell.imageView.image = [arrImage objectAtIndex:indexPath.row];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth - 35, 10, 20, 20)];
@@ -132,7 +134,7 @@
         [cell.contentView addSubview:subView];
     //}
 
-    
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     /*
      UITableViewCellSelectionStyleNone,
      UITableViewCellSelectionStyleBlue,
@@ -167,6 +169,14 @@
     return 40;
 }
 
+
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+    //UIStatusBarStyleDefault
+    //UIStatusBarStyleDefault = 0 黑色文字，浅色背景时使用
+    //UIStatusBarStyleLightContent = 1 白色文字，深色背景时使用
+}
 
 
 - (void)didReceiveMemoryWarning

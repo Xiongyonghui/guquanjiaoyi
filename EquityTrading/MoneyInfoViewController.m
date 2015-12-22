@@ -414,7 +414,7 @@
                    // NSString *adc;
                     
                     if (![[[dataList objectAtIndex:[indexPath row]] objectForKey:@"FID_SRJE"] floatValue] <= 0) {
-                        remainLab.textColor = [ConMethods colorWithHexString:@"fe8103"];
+                        remainLab.textColor = [ConMethods colorWithHexString:@"c40000"];
                         remainLab.text = [NSString stringWithFormat:@"%.2f",[[[dataList objectAtIndex:[indexPath row]] objectForKey:@"FID_SRJE"]  floatValue]];
                         
                     } else{

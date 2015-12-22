@@ -63,7 +63,7 @@
     _logoView.frame = CGRectMake((ScreenWidth - 180)/2, 90 + addHight, 180, 85);
     
     
-    _loginBtn.backgroundColor = [ConMethods colorWithHexString:@"fe8103"];
+    _loginBtn.backgroundColor = [ConMethods colorWithHexString:@"c40000"];
     _loginBtn.layer.cornerRadius = 4;
     _loginBtn.layer.masksToBounds = YES;
     
@@ -184,7 +184,8 @@
                                       displayInterval:2];
            
              AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-             delegate.loginUser = responseObject;
+             
+             delegate.loginUser = [[NSMutableDictionary alloc] initWithDictionary:responseObject];
              
          } else {
          
@@ -438,14 +439,16 @@
     //删除最后一个，也就是自己
     
     UIViewController *vc = [array objectAtIndex:array.count-2];
-    if ([vc.nibName isEqualToString:@"TransferViewCtrl"]) {
+    if ([vc.nibName isEqualToString:@"MyViewController"]) {
         
-       // AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-       // delegate.tabBarController.selectedIndex = 0;
-        //CPVSTabBarViewController *osTabbarVC = delegate.osTabVC;
-        //UINavigationController *navVC = [osTabbarVC viewControllers][0];
-        //[navVC popViewControllerAnimated:NO];
-        // osTabbarVC.selectedViewController = navVC;
+        AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        delegate.tabBarController.selectedIndex = 0;
+        delegate.loginStr = @"1";
+        
+        CPVTabViewController *osTabbarVC = delegate.tabBarController;
+        UINavigationController *navVC = [osTabbarVC viewControllers][0];
+        [navVC popViewControllerAnimated:NO];
+         osTabbarVC.selectedViewController = navVC;
         
         
         

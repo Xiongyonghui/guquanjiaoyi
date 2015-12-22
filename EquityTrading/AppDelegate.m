@@ -21,7 +21,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    _loginUser = [[NSMutableDictionary alloc] init];
+    _loginUser = [NSMutableDictionary dictionary];
     _window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     _window.backgroundColor = [UIColor whiteColor];
     
@@ -46,10 +46,10 @@
     
    // _tabBarController.viewControllers =[[NSArray alloc] initWithObjects:fisrtVC,proVC,myVC,tranferVC, nil];
     
-    NSArray *tbNormalArray = @[[UIImage imageNamed:@"11"],[UIImage imageNamed:@"22"],[UIImage imageNamed:@"44"]];
+    NSArray *tbNormalArray = @[[UIImage imageNamed:@"1"],[UIImage imageNamed:@"2"],[UIImage imageNamed:@"3"]];
     [_tabBarController setTabBarItemsImage:tbNormalArray];
     
-    NSArray *tbHighlightArray = @[[UIImage imageNamed:@"1"],[UIImage imageNamed:@"2"],[UIImage imageNamed:@"4"]];
+    NSArray *tbHighlightArray = @[[UIImage imageNamed:@"11"],[UIImage imageNamed:@"22"],[UIImage imageNamed:@"33"]];
     [_tabBarController setItemSelectedImages:tbHighlightArray];
     
     NSMutableArray *txtArr=[NSMutableArray arrayWithObjects:@"首页",@"我的资产",@"更多",nil];
@@ -58,7 +58,8 @@
     self.tabBarController.delegate = (id <UITabBarControllerDelegate>)self;
     
     [_tabBarController.tabBar setBackgroundColor:[ConMethods colorWithHexString:@"eeeeee"]];
-    [_tabBarController.tabBar setTintColor:[ConMethods colorWithHexString:@"fe8103"]];
+    //[_tabBarController.tabBar setTintColor:[ConMethods colorWithHexString:@"fe8103"]];
+    [_tabBarController.tabBar setTintColor:[ConMethods colorWithHexString:@"c40000"]];
     
     self.window.rootViewController = _tabBarController;
 }

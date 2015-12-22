@@ -465,7 +465,7 @@
                 kuiLabel.text = [NSString stringWithFormat:@"%@元",[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_LJYK"] ];
                 [backView addSubview:kuiLabel];
                 //盈亏比例
-                
+                /*
                 UILabel *biliLabTip = [[UILabel alloc] initWithFrame:CGRectMake( ScreenWidth/2 - 10, 63, 52, 13)];
                 biliLabTip.font = [UIFont systemFontOfSize:13];
                 [biliLabTip setTextColor:[ConMethods colorWithHexString:@"999999"]];
@@ -482,6 +482,7 @@
                 
                 biliLabel.text = [NSString stringWithFormat:@"%.2f%@",bili,@"%"];
                 [backView addSubview:biliLabel];
+                 */
                 [cell.contentView addSubview:backView];
             }
             // return cell;
@@ -537,7 +538,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     NSArray *titleTip = @[@"总资产(元)",@"股权市值(元)",@"可取资金(元)",@"冻结资金(元)",@"昨日收益(元)",@"累计总收益(元)",@"累计待收益(元)"];
    // NSArray *charTip = @[[arraydata objectForKey:@"FID_ZZC"],[arraydata objectForKey:@"FID_KYZJ"],[arraydata objectForKey:@"FID_KQZJ"],[arraydata objectForKey:@"FID_DJJE"],[arraydata objectForKey:@"FID_ZXSZ"],[arraydata objectForKey:@"FID_OFSS_JZ"],[arraydata objectForKey:@"FID_QTZC"]];
     
-     NSArray *charTip = @[[arraydata objectForKey:@"zzc"],[arraydata objectForKey:@"gqZsz"],[arraydata objectForKey:@"kqzj"],[arraydata objectForKey:@"djje"],[arraydata objectForKey:@"zrljsy"],[arraydata objectForKey:@"jrljzsy"],[arraydata objectForKey:@"jrljdsy"]];
+     NSArray *charTip = @[[arraydata objectForKey:@"zzc"],[arraydata objectForKey:@"zsz"],[arraydata objectForKey:@"kqzj"],[arraydata objectForKey:@"djje"],[arraydata objectForKey:@"zrljsy"],[arraydata objectForKey:@"jrljzsy"],[arraydata objectForKey:@"jrljdsy"]];
     
     
     for (int i = 0; i < 7;i++) {
@@ -640,7 +641,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         
         labReal.font = [UIFont systemFontOfSize:14];
         if (i == 0) {
-            labReal.textColor = [ConMethods colorWithHexString:@"fe8103"];
+            labReal.textColor = [ConMethods colorWithHexString:@"c40000"];
         } else {
         labReal.textColor = [ConMethods colorWithHexString:@"333333"];
         }
