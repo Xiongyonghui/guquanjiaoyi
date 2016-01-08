@@ -22,6 +22,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     _loginUser = [NSMutableDictionary dictionary];
+    _userInfoUpdate = [NSMutableDictionary dictionary];
+    _userMoney = [NSMutableDictionary dictionary];
+    
     _window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     _window.backgroundColor = [UIColor whiteColor];
     

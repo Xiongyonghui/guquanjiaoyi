@@ -631,7 +631,7 @@
                 [tipLabel setTextAlignment:NSTextAlignmentCenter];
                 [tipLabel setTextColor:[ConMethods colorWithHexString:@"404040"]];
                 tipLabel.backgroundColor = [UIColor clearColor];
-                [tipLabel setText:@"您还没有订单记录哦~"];
+                [tipLabel setText:@"您还没有记录哦~"];
                 [cellBackView addSubview:tipLabel];
                 [cell.contentView addSubview:cellBackView];
             }
@@ -754,15 +754,19 @@
                     valueLabelTip.font = [UIFont systemFontOfSize:14];
                     [valueLabelTip setTextColor:[ConMethods colorWithHexString:@"333333"]];
                     valueLabelTip.textAlignment = NSTextAlignmentLeft;
-                    NSString *abc;
                     
+                    
+                    
+                    NSString *abc; 
+                      abc = [NSString stringWithFormat:@"%.2f",[[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_WTJG"] doubleValue]*[[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_WTSL"] integerValue]];
+                    /*
                     if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_WTLB"] isEqualToString:@"15"]) {
                          abc = [NSString stringWithFormat:@"%.2f",[[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_WTJG"] doubleValue]*[[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_WTSL"] integerValue]];
                     } else  {
                     
                         abc = [NSString stringWithFormat:@"%.2f",[[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_WTJE"] doubleValue]];
                     }
-                    
+                    */
                    
                     
                     NSRange range1 = [abc rangeOfString:@"."];//匹配得到的下标
@@ -843,7 +847,7 @@
                 [tipLabel setTextAlignment:NSTextAlignmentCenter];
                 [tipLabel setTextColor:[ConMethods colorWithHexString:@"404040"]];
                 tipLabel.backgroundColor = [UIColor clearColor];
-                [tipLabel setText:@"您还没有订单记录哦~"];
+                [tipLabel setText:@"您还没有成交记录哦~"];
                 [cellBackView addSubview:tipLabel];
                 [cell.contentView addSubview:cellBackView];
             }
@@ -968,8 +972,8 @@
                     valueLabelTip.font = [UIFont systemFontOfSize:14];
                     [valueLabelTip setTextColor:[ConMethods colorWithHexString:@"333333"]];
                     valueLabelTip.textAlignment = NSTextAlignmentLeft;
-                   // NSString *abc  = [NSString stringWithFormat:@"%.2f",[[[finishDataList objectAtIndex:indexPath.row] objectForKey:@"FID_WTJG"] doubleValue]*[[[finishDataList objectAtIndex:indexPath.row] objectForKey:@"FID_WTSL"] doubleValue]];
-                    
+                    NSString *abc  = [NSString stringWithFormat:@"%.2f",[[[finishDataList objectAtIndex:indexPath.row] objectForKey:@"FID_WTJG"] doubleValue]*[[[finishDataList objectAtIndex:indexPath.row] objectForKey:@"FID_WTSL"] doubleValue]];
+                    /*
                     NSString *abc;
                     
                     if ([[[finishDataList objectAtIndex:indexPath.row] objectForKey:@"FID_WTLB"] isEqualToString:@"15"]) {
@@ -978,7 +982,7 @@
                         
                         abc = [NSString stringWithFormat:@"%.2f",[[[finishDataList objectAtIndex:indexPath.row] objectForKey:@"FID_WTJE"] doubleValue]];
                     }
-                    
+                    */
 
                     
                     
@@ -1037,7 +1041,7 @@
                 [tipLabel setTextAlignment:NSTextAlignmentCenter];
                 [tipLabel setTextColor:[ConMethods colorWithHexString:@"404040"]];
                 tipLabel.backgroundColor = [UIColor clearColor];
-                [tipLabel setText:@"您还没有订单记录哦~"];
+                [tipLabel setText:@"您还没有申报记录哦~"];
                 [cellBackView addSubview:tipLabel];
                 [cell.contentView addSubview:cellBackView];
             }
@@ -1163,8 +1167,8 @@
                     valueLabelTip.font = [UIFont systemFontOfSize:14];
                     [valueLabelTip setTextColor:[ConMethods colorWithHexString:@"333333"]];
                     valueLabelTip.textAlignment = NSTextAlignmentLeft;
-                   // NSString *abc  = [NSString stringWithFormat:@"%.2f",[[[waitDataList objectAtIndex:indexPath.row] objectForKey:@"FID_WTJG"] doubleValue]*[[[waitDataList objectAtIndex:indexPath.row] objectForKey:@"FID_WTSL"] doubleValue]];
-                    
+                    NSString *abc  = [NSString stringWithFormat:@"%.2f",[[[waitDataList objectAtIndex:indexPath.row] objectForKey:@"FID_WTJG"] doubleValue]*[[[waitDataList objectAtIndex:indexPath.row] objectForKey:@"FID_WTSL"] doubleValue]];
+                    /*
                     NSString *abc;
                     
                     if ([[[waitDataList objectAtIndex:indexPath.row] objectForKey:@"FID_WTLB"] isEqualToString:@"15"]) {
@@ -1173,7 +1177,7 @@
                         
                         abc = [NSString stringWithFormat:@"%.2f",[[[waitDataList objectAtIndex:indexPath.row] objectForKey:@"FID_WTJE"] doubleValue]];
                     }
-                    
+                    */
 
                     
                     NSRange range1 = [abc rangeOfString:@"."];//匹配得到的下标
@@ -1254,7 +1258,7 @@
                 [tipLabel setTextAlignment:NSTextAlignmentCenter];
                 [tipLabel setTextColor:[ConMethods colorWithHexString:@"404040"]];
                 tipLabel.backgroundColor = [UIColor clearColor];
-                [tipLabel setText:@"您还没有订单记录哦~"];
+                [tipLabel setText:@"您还没有撤销记录哦~"];
                 [cellBackView addSubview:tipLabel];
                 [cell.contentView addSubview:cellBackView];
             }
@@ -1380,8 +1384,8 @@
                     valueLabelTip.font = [UIFont systemFontOfSize:14];
                     [valueLabelTip setTextColor:[ConMethods colorWithHexString:@"333333"]];
                     valueLabelTip.textAlignment = NSTextAlignmentLeft;
-                   // NSString *abc  = [NSString stringWithFormat:@"%.2f",[[[shipDataList objectAtIndex:indexPath.row] objectForKey:@"FID_WTJG"] doubleValue]*[[[shipDataList objectAtIndex:indexPath.row] objectForKey:@"FID_WTSL"] doubleValue]];
-                    
+                    NSString *abc  = [NSString stringWithFormat:@"%.2f",[[[shipDataList objectAtIndex:indexPath.row] objectForKey:@"FID_WTJG"] doubleValue]*[[[shipDataList objectAtIndex:indexPath.row] objectForKey:@"FID_WTSL"] doubleValue]];
+                    /*
                     NSString *abc;
                     
                     if ([[[shipDataList objectAtIndex:indexPath.row] objectForKey:@"FID_WTLB"] isEqualToString:@"15"]) {
@@ -1390,7 +1394,7 @@
                         
                         abc = [NSString stringWithFormat:@"%.2f",[[[shipDataList objectAtIndex:indexPath.row] objectForKey:@"FID_WTJE"] doubleValue]];
                     }
-                    
+                    */
 
                     
                     
@@ -1513,9 +1517,9 @@
 {
     if (buttonIndex != 0) {
         if ([bagFlag isEqualToString:@"1"]) {
-            [self requestSelselectMethods:[[dataList objectAtIndex:alertView.tag] objectForKey:@"FID_WTH"] withwtfs:[[dataList objectAtIndex:alertView.tag] objectForKey:@"FID_WTH"]];
+            [self requestSelselectMethods:[[dataList objectAtIndex:alertView.tag] objectForKey:@"FID_WTH"] withwtfs:[[dataList objectAtIndex:alertView.tag] objectForKey:@"FID_WTFS"]];
         } else if ([bagFlag isEqualToString:@"2"]){
-        [self requestSelselectMethods:[[waitDataList objectAtIndex:alertView.tag] objectForKey:@"FID_WTH"] withwtfs:[[waitDataList objectAtIndex:alertView.tag] objectForKey:@"FID_WTH"]];
+        [self requestSelselectMethods:[[waitDataList objectAtIndex:alertView.tag] objectForKey:@"FID_WTH"] withwtfs:[[waitDataList objectAtIndex:alertView.tag] objectForKey:@"FID_WTFS"]];
         
         }
         

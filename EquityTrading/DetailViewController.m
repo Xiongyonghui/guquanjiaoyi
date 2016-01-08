@@ -23,6 +23,8 @@
     UILabel *codeLab;
     NSDictionary *myDic;
     UIButton *jianBtn;
+    UIButton *jianCountBtn;
+    UIButton *addCountBtn;
     
     
     UITextField *priceSellLab;
@@ -35,9 +37,10 @@
     UILabel *codeSellLab;
     NSDictionary *mySellDic;
     UIButton *jianBtnSell;
-    
-    
-   
+    UIButton *jianCountBtnSell;
+    UIButton *addCountBtnSell;
+    UIButton *sureBtn;
+    UIButton *sureBtnSell;
    
     
     UIWebView *webView1;
@@ -73,7 +76,7 @@
     
     segmentedControl = [[HMSegmentedControlLast alloc] initWithFrame:CGRectMake(0, addHight + 44, ScreenWidth, 30)];
     segmentedControl.font = [UIFont systemFontOfSize:15];
-    segmentedControl.sectionTitles = @[@"股权买入",@"股权卖出",@"k线图",@"分时图"];
+    segmentedControl.sectionTitles = @[@"分时图",@"股权买入",@"股权卖出",@"k线图"];
     segmentedControl.selectedSegmentIndex = 0;
     segmentedControl.selectedTextColor = [ConMethods colorWithHexString:@"c40000"];
     segmentedControl.selectionLocation =  HMSegmentedControlSelectionLocationDown;
@@ -110,25 +113,29 @@
         
         [weakSelf.scrollView scrollRectToVisible:CGRectMake(ScreenWidth*index, 44 + addHight, ScreenWidth, scrollViewHeight) animated:NO];
         if (index == 1) {
-            if (!weakSelf.view2) {
-                [weakSelf requestSeelData:weakSelf.gqdm];
+            if (!weakSelf.view1) {
+                 [weakSelf requestData:weakSelf.gqdm];
+                
             }
             
         } else if(index == 2){
+            if (!weakSelf.view2) {
+                
+                [weakSelf requestSeelData:weakSelf.gqdm];
+            }
+
+            
+        } else if (index == 3){
             if (!webView1) {
                 [self getWebView];
             }
-        
-        } else if (index == 3){
-            if (!webView2) {
-                [self getWebViewTime];
-            }
+
         
         }
     }];
     
-    
-    [self requestData:_gqdm];
+    [self getWebViewTime];
+   
 }
 
 
@@ -141,19 +148,19 @@
        segmentedControl.selectedSegmentIndex = page;
        
         if (page == 1) {
-            if (!view2) {
-                [self requestSeelData:_gqdm];
+            if (!view1) {
+                [self requestData:_gqdm];
             }
             
         } else if(page == 2){
+           
+            if (!view2) {
+                [self requestSeelData:_gqdm];
+            }
+        } else if (page == 3){
             if (!webView1) {
                 [self getWebView];
             }
-            
-        } else if (page == 3){
-            if (!webView2) {
-                [self getWebViewTime];
-        }
     }
 }
 
@@ -163,7 +170,8 @@
     float scrollViewHeight = 0;
     scrollViewHeight = ScreenHeight  - 64 - 30;
     
-    webView1 = [[UIWebView alloc] initWithFrame:CGRectMake(ScreenWidth*2, 0, ScreenWidth, scrollViewHeight)];
+    webView1 = [[UIWebView alloc] initWithFrame:CGRectMake(ScreenWidth*3, 0, ScreenWidth, scrollViewHeight)];
+    webView1.backgroundColor = [UIColor clearColor];
     webView1.delegate = self;
 
     [[HttpMethods Instance] activityIndicate:YES tipContent:@"正在加载..." MBProgressHUD:nil target:self.view displayInterval:2.0];
@@ -180,12 +188,13 @@
     float scrollViewHeight = 0;
     scrollViewHeight = ScreenHeight  - 64 - 30;
     
-    webView2 = [[UIWebView alloc] initWithFrame:CGRectMake(ScreenWidth*3, 0, ScreenWidth, scrollViewHeight)];
+    webView2 = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, scrollViewHeight)];
+    webView2.backgroundColor = [UIColor clearColor];
     webView2.delegate = self;
     
     [[HttpMethods Instance] activityIndicate:YES tipContent:@"正在加载..." MBProgressHUD:nil target:self.view displayInterval:2.0];
     
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/page/appcharts/kline?cpdm=%@",SERVERURL,_gqdm]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/page/appcharts/timeline?cpdm=%@",SERVERURL,_gqdm]];
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [webView2 loadRequest:request];
@@ -235,7 +244,7 @@
         view2 = nil;
     }
     
-    view2 = [[UIView alloc] initWithFrame:CGRectMake(ScreenWidth, 0, ScreenWidth, ScreenHeight  - 64 - 30)];
+    view2 = [[UIView alloc] initWithFrame:CGRectMake(ScreenWidth*2, 0, ScreenWidth, ScreenHeight  - 64 - 30)];
     view2.backgroundColor = [UIColor clearColor];
     
     //股权代码
@@ -332,15 +341,45 @@
     countView.layer.borderWidth = 1;
     countView.layer.borderColor = [ConMethods colorWithHexString:@"c40000"].CGColor;
     
-    countSellLab = [[UITextField alloc] initWithFrame:CGRectMake(5,5, ScreenWidth/2 - 20, 25)];
+    
+    jianCountBtnSell = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 35, 35)];
+    [jianCountBtnSell setTitle:@"-" forState:UIControlStateNormal];
+    [jianCountBtnSell setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    jianCountBtnSell.backgroundColor = [ConMethods colorWithHexString:@"c40000"];
+    jianCountBtnSell.tag = 10003;
+    //jianBtn.enabled = NO;
+    //[jianBtn setBackgroundImage:[UIImage imageNamed:@"jian_btn"] forState:UIControlStateNormal];
+    
+    [jianCountBtnSell addTarget:self action:@selector(summitCountBtnMethods:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [countView addSubview:jianCountBtnSell];
+    
+    
+    addCountBtnSell = [[UIButton alloc]initWithFrame:CGRectMake(ScreenWidth/2 - 10 - 35, 0, 35, 35)];
+    [addCountBtnSell setTitle:@"+" forState:UIControlStateNormal];
+    [addCountBtnSell setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    addCountBtnSell.backgroundColor = [ConMethods colorWithHexString:@"c40000"];
+    
+    
+    addCountBtnSell.tag = 10004;
+    [addCountBtnSell addTarget:self action:@selector(summitCountBtnMethods:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [countView addSubview:addCountBtnSell];
+    
+    
+    countSellLab = [[UITextField alloc] initWithFrame:CGRectMake(40,10, ScreenWidth/2 - 10 - 70, 15)];
     countSellLab.font = [UIFont systemFontOfSize:14];
     [countSellLab setTextColor:[ConMethods colorWithHexString:@"333333"]];
     [countSellLab setBackgroundColor:[UIColor clearColor]];
     countSellLab.placeholder = @"请输入数量";
+    countSellLab.text = [mySellDic objectForKey:@"FID_JYJS"];
     countSellLab.delegate = self;
     countSellLab.clearButtonMode = UITextFieldViewModeWhileEditing;
     [countView addSubview:countSellLab];
     [view2 addSubview:countView];
+    
+    jianCountBtnSell.backgroundColor = [ConMethods colorWithHexString:@"9a9a9a"];
+    jianCountBtnSell.enabled = NO;
     
     //可用资金
     
@@ -354,8 +393,12 @@
     [moneySellLab setBackgroundColor:[UIColor clearColor]];
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     
-    
-    moneySellLab.text = [delegate.userMoney objectForKey:@"FID_KYZJ"];
+    if (delegate.userMoney.count > 0) {
+         moneySellLab.text = [delegate.userMoney objectForKey:@"FID_KYZJ"];
+    } else {
+     moneySellLab.text = @"0.00";
+    }
+   
     [moneyView addSubview:moneySellLab];
     [view2 addSubview:moneyView];
     
@@ -377,37 +420,37 @@
     [btn setImage:[UIImage imageNamed:@"select_0"] forState:UIControlStateNormal];
     
     [btn addTarget:self action:@selector(remberMethods:) forControlEvents:UIControlEventTouchUpInside];
-    [view2 addSubview:btn];
+   // [view2 addSubview:btn];
     
     UILabel *hasLab = [[UILabel alloc] initWithFrame:CGRectMake(25 , 310 - 60, 45, 15)];
     hasLab.text = @"我同意";
     hasLab.font = [UIFont systemFontOfSize:13];
     hasLab.textColor = [ConMethods colorWithHexString:@"333333"];
-    [view2 addSubview:hasLab];
+    //[view2 addSubview:hasLab];
     
     
     UIButton *procoalBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    procoalBtn.frame = CGRectMake(70, 310 - 60, 90, 15);
+    procoalBtn.frame = CGRectMake(60, 310 - 60, 80, 15);
     [procoalBtn setTitle:@"《认购协议》" forState:UIControlStateNormal];
     [procoalBtn setTitleColor:[ConMethods colorWithHexString:@"087dcd"] forState:UIControlStateNormal];
     procoalBtn.titleLabel.font = [UIFont systemFontOfSize:13];
     
     [procoalBtn addTarget:self action:@selector(pushVCProtocal) forControlEvents:UIControlEventTouchUpInside];
-    [view2 addSubview:procoalBtn];
+   // [view2 addSubview:procoalBtn];
     
     //支付按钮
-    UIButton *sureBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    sureBtn.frame = CGRectMake(10,330 - 60, ScreenWidth/2 - 20, 35);
-    sureBtn.backgroundColor = [ConMethods colorWithHexString:@"c40000"];
-    sureBtn.layer.masksToBounds = YES;
-    sureBtn.layer.cornerRadius = 4;
-    sureBtn.tag = 1001;
-    [sureBtn setTitle:@"确认报价" forState:UIControlStateNormal];
-    [sureBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    sureBtn.titleLabel.font = [UIFont boldSystemFontOfSize:15];
-    [sureBtn addTarget:self action:@selector(sureMehtods:) forControlEvents:UIControlEventTouchUpInside];
+    sureBtnSell = [UIButton buttonWithType:UIButtonTypeCustom];
+    sureBtnSell.frame = CGRectMake(10,330 - 60, ScreenWidth/2 - 20, 35);
+    sureBtnSell.backgroundColor = [ConMethods colorWithHexString:@"c40000"];
+    sureBtnSell.layer.masksToBounds = YES;
+    sureBtnSell.layer.cornerRadius = 4;
+    sureBtnSell.tag = 1001;
+    [sureBtnSell setTitle:@"确认报价" forState:UIControlStateNormal];
+    [sureBtnSell setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    sureBtnSell.titleLabel.font = [UIFont boldSystemFontOfSize:15];
+    [sureBtnSell addTarget:self action:@selector(sureMehtods:) forControlEvents:UIControlEventTouchUpInside];
     
-    [view2 addSubview:sureBtn];
+    [view2 addSubview:sureBtnSell];
     
     
     
@@ -484,7 +527,7 @@
     
     NSArray *arrtitle = @[@"最高成交(元)",@"最低成交(元)",@"总成交额(元)",@"总成交量(元)"];
     
-    NSArray *arrVelual = @[[_dic objectForKey:@"FID_ZGBJ"],[_dic objectForKey:@"FID_ZDBJ"],[_dic objectForKey:@"FID_CJJE"],[_dic objectForKey:@"FID_CJSL"]];
+    NSArray *arrVelual = @[[_dic objectForKey:@"FID_ZGJ"],[_dic objectForKey:@"FID_ZDJ"],[_dic objectForKey:@"FID_CJJE"],[_dic objectForKey:@"FID_CJSL"]];
     
     
     for (int i = 0; i < 4; i++) {
@@ -535,7 +578,7 @@
         view1 = nil;
     }
     
-    view1 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight  - 64 - 30)];
+    view1 = [[UIView alloc] initWithFrame:CGRectMake(ScreenWidth, 0, ScreenWidth, ScreenHeight  - 64 - 30)];
     view1.backgroundColor = [UIColor clearColor];
     
     //股权代码
@@ -632,15 +675,46 @@
     countView.layer.borderWidth = 1;
     countView.layer.borderColor = [ConMethods colorWithHexString:@"c40000"].CGColor;
     
-    countLab = [[UITextField alloc] initWithFrame:CGRectMake(5,5, ScreenWidth/2 - 20, 25)];
+    
+    jianCountBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 35, 35)];
+    [jianCountBtn setTitle:@"-" forState:UIControlStateNormal];
+    [jianCountBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    jianCountBtn.backgroundColor = [ConMethods colorWithHexString:@"c40000"];
+    jianCountBtn.tag = 10001;
+    //jianBtn.enabled = NO;
+    //[jianBtn setBackgroundImage:[UIImage imageNamed:@"jian_btn"] forState:UIControlStateNormal];
+    
+    [jianCountBtn addTarget:self action:@selector(summitCountBtnMethods:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [countView addSubview:jianCountBtn];
+    
+    
+     addCountBtn = [[UIButton alloc]initWithFrame:CGRectMake(ScreenWidth/2 - 10 - 35, 0, 35, 35)];
+    [addCountBtn setTitle:@"+" forState:UIControlStateNormal];
+    [addCountBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    addCountBtn.backgroundColor = [ConMethods colorWithHexString:@"c40000"];
+    
+    
+    addCountBtn.tag = 10002;
+    [addCountBtn addTarget:self action:@selector(summitCountBtnMethods:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [countView addSubview:addCountBtn];
+    
+    
+    countLab = [[UITextField alloc] initWithFrame:CGRectMake(40,10, ScreenWidth/2 - 10 - 70, 15)];
     countLab.font = [UIFont systemFontOfSize:14];
     [countLab setTextColor:[ConMethods colorWithHexString:@"333333"]];
     [countLab setBackgroundColor:[UIColor clearColor]];
     countLab.placeholder = @"请输入数量";
+    countLab.text = [myDic objectForKey:@"FID_JYJS"];
     countLab.delegate = self;
      countLab.clearButtonMode = UITextFieldViewModeWhileEditing;
     [countView addSubview:countLab];
     [view1 addSubview:countView];
+    
+    jianCountBtn.backgroundColor = [ConMethods colorWithHexString:@"9a9a9a"];
+    jianCountBtn.enabled = NO;
+    
     
     //可用资金
     
@@ -654,8 +728,12 @@
     [moneyLab setBackgroundColor:[UIColor clearColor]];
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     
-    
-    moneyLab.text = [delegate.userMoney objectForKey:@"FID_KYZJ"];
+    if (delegate.userMoney.count > 0) {
+       moneyLab.text = [delegate.userMoney objectForKey:@"FID_KYZJ"];
+    } else {
+     moneyLab.text = @"0.00";
+    }
+   
     [moneyView addSubview:moneyLab];
     [view1 addSubview:moneyView];
     
@@ -677,26 +755,26 @@
     [btn setImage:[UIImage imageNamed:@"select_0"] forState:UIControlStateNormal];
     
     [btn addTarget:self action:@selector(remberMethods:) forControlEvents:UIControlEventTouchUpInside];
-    [view1 addSubview:btn];
+    //[view1 addSubview:btn];
     
     UILabel *hasLab = [[UILabel alloc] initWithFrame:CGRectMake(25 , 310 - 60, 45, 15)];
     hasLab.text = @"我同意";
     hasLab.font = [UIFont systemFontOfSize:13];
     hasLab.textColor = [ConMethods colorWithHexString:@"333333"];
-    [view1 addSubview:hasLab];
+    //[view1 addSubview:hasLab];
     
     
     UIButton *procoalBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    procoalBtn.frame = CGRectMake(70, 310 - 60, 90, 15);
+    procoalBtn.frame = CGRectMake(60, 310 - 60, 80, 15);
     [procoalBtn setTitle:@"《认购协议》" forState:UIControlStateNormal];
     [procoalBtn setTitleColor:[ConMethods colorWithHexString:@"087dcd"] forState:UIControlStateNormal];
     procoalBtn.titleLabel.font = [UIFont systemFontOfSize:13];
     
     [procoalBtn addTarget:self action:@selector(pushVCProtocal) forControlEvents:UIControlEventTouchUpInside];
-    [view1 addSubview:procoalBtn];
+    //[view1 addSubview:procoalBtn];
     
     //支付按钮
-    UIButton *sureBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    sureBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     sureBtn.frame = CGRectMake(10,330 - 60, ScreenWidth/2 - 20, 35);
     sureBtn.backgroundColor = [ConMethods colorWithHexString:@"c40000"];
     sureBtn.layer.masksToBounds = YES;
@@ -784,7 +862,7 @@
     
     NSArray *arrtitle = @[@"最高成交(元)",@"最低成交(元)",@"总成交额(元)",@"总成交量(元)"];
     
-    NSArray *arrVelual = @[[_dic objectForKey:@"FID_ZGBJ"],[_dic objectForKey:@"FID_ZDBJ"],[_dic objectForKey:@"FID_CJJE"],[_dic objectForKey:@"FID_CJSL"]];
+    NSArray *arrVelual = @[[_dic objectForKey:@"FID_ZGJ"],[_dic objectForKey:@"FID_ZDJ"],[_dic objectForKey:@"FID_CJJE"],[_dic objectForKey:@"FID_CJSL"]];
     
     
     for (int i = 0; i < 4; i++) {
@@ -897,7 +975,7 @@
         [quitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         
         quitBtn.titleLabel.font = [UIFont systemFontOfSize:15];
-        quitBtn.tag = 10010;
+        quitBtn.tag = 10008;
         [quitBtn addTarget:self action:@selector(summitBtnMethods:) forControlEvents:UIControlEventTouchUpInside];
         [litleView addSubview:quitBtn];
         
@@ -998,10 +1076,10 @@
         }
     } else if(btn.tag == 10001) {
         
-        float xiaoshu = [priceLab.text floatValue] - [[myDic objectForKey:@"FID_JYJS"] floatValue];
+        float xiaoshu = [priceLab.text floatValue] - 0.1;
         
         if (xiaoshu > 0) {
-            if (xiaoshu - [[myDic objectForKey:@"FID_JYJS"] floatValue] > 0) {
+            if (xiaoshu - 0.1 > 0) {
                priceLab.text = [NSString stringWithFormat:@"%.2f",xiaoshu];
             } else {
              priceLab.text = [NSString stringWithFormat:@"%.2f",xiaoshu];
@@ -1015,17 +1093,17 @@
         }
         [self requestBuyCount];
     }else if(btn.tag == 10002){
-     priceLab.text = [NSString stringWithFormat:@"%.2f",[priceLab.text floatValue] + [[myDic objectForKey:@"FID_JYJS"] floatValue]];
+     priceLab.text = [NSString stringWithFormat:@"%.2f",[priceLab.text floatValue] + 0.1];
         if (!jianBtn.enabled) {
             jianBtn.enabled = YES;
             jianBtn.backgroundColor = [ConMethods colorWithHexString:@"c40000"];
         }
-   
+         [self requestBuyCount];
     } else if (btn.tag == 10006){
-        float xiaoshu = [priceSellLab.text floatValue] - [[mySellDic objectForKey:@"FID_JYJS"] floatValue];
+        float xiaoshu = [priceSellLab.text floatValue] - 0.1;
         
         if (xiaoshu > 0) {
-            if (xiaoshu - [[mySellDic objectForKey:@"FID_JYJS"] floatValue] > 0) {
+            if (xiaoshu - 0.1 > 0) {
                 priceSellLab.text = [NSString stringWithFormat:@"%.2f",xiaoshu];
             } else {
                 priceSellLab.text = [NSString stringWithFormat:@"%.2f",xiaoshu];
@@ -1041,15 +1119,96 @@
         
     
     } else if (btn.tag == 10007){
-        priceSellLab.text = [NSString stringWithFormat:@"%.2f",[priceSellLab.text floatValue] + [[mySellDic objectForKey:@"FID_JYJS"] floatValue]];
+        priceSellLab.text = [NSString stringWithFormat:@"%.2f",[priceSellLab.text floatValue] + 0.1];
         if (!jianBtnSell.enabled) {
             jianBtnSell.enabled = YES;
             jianBtnSell.backgroundColor = [ConMethods colorWithHexString:@"c40000"];
         }
-    
+        [self requestSellCount];
+    } else if (btn.tag == 10008) {
+        [MyBackViewSell removeFromSuperview];
+        MyBackViewSell = nil;
+    } else if(btn.tag == 10009){
+        if ([putCodeTextSell.text isEqualToString:@""]) {
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:@"请输入所要查询的代码"
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
+            
+        } else {
+            
+            [self requestSeelData:putCodeTextSell.text];
+        }
     }
 }
 
+
+-(void)summitCountBtnMethods:(UIButton *)btn {
+    if(btn.tag == 10001) {
+        
+       countLab.text = [NSString stringWithFormat:@"%d",[countLab.text intValue] - [[myDic objectForKey:@"FID_JYJS"] intValue]];
+        
+        if ([countLab.text intValue] <= [[myDic objectForKey:@"FID_JYJS"] intValue]) {
+           
+                countLab.text = [NSString stringWithFormat:@"%d",[[myDic objectForKey:@"FID_JYJS"] intValue]];
+                btn.backgroundColor = [ConMethods colorWithHexString:@"9a9a9a"];
+                btn.enabled = NO;
+            
+        }
+        if (!addCountBtn.enabled) {
+            addCountBtn.enabled = YES;
+            addCountBtn.backgroundColor = [ConMethods colorWithHexString:@"c40000"];
+        }
+        
+    }else if(btn.tag == 10002){
+        
+         countLab.text = [NSString stringWithFormat:@"%d",[countLab.text intValue] + [[myDic objectForKey:@"FID_JYJS"] intValue]];
+        
+        if ([countLab.text intValue] >= [buyLab.text intValue]) {
+            countLab.text = buyLab.text;
+            btn.backgroundColor = [ConMethods colorWithHexString:@"9a9a9a"];
+            btn.enabled = NO;
+        }
+       
+        if (!jianCountBtn.enabled) {
+            jianCountBtn.enabled = YES;
+            jianCountBtn.backgroundColor = [ConMethods colorWithHexString:@"c40000"];
+        }
+    } else if (btn.tag == 10003){
+        
+        countSellLab.text = [NSString stringWithFormat:@"%d",[countSellLab.text intValue] - [[mySellDic objectForKey:@"FID_JYJS"] intValue]];
+        
+        if ([countSellLab.text intValue] <= [[mySellDic objectForKey:@"FID_JYJS"] intValue]) {
+            
+            countSellLab.text = [NSString stringWithFormat:@"%d",[[mySellDic objectForKey:@"FID_JYJS"] intValue]];
+            btn.backgroundColor = [ConMethods colorWithHexString:@"9a9a9a"];
+            btn.enabled = NO;
+            
+        }
+        if (!addCountBtnSell.enabled) {
+            addCountBtnSell.enabled = YES;
+            addCountBtnSell.backgroundColor = [ConMethods colorWithHexString:@"c40000"];
+        }
+        
+    } else if (btn.tag == 10004){
+        
+        countSellLab.text = [NSString stringWithFormat:@"%d",[countSellLab.text intValue] + [[mySellDic objectForKey:@"FID_JYJS"] intValue]];
+        
+        if ([countSellLab.text intValue] >= [buySellLab.text intValue]) {
+            countSellLab.text = buySellLab.text;
+            btn.backgroundColor = [ConMethods colorWithHexString:@"9a9a9a"];
+            btn.enabled = NO;
+        }
+        
+        if (!jianCountBtnSell.enabled) {
+            jianCountBtnSell.enabled = YES;
+            jianCountBtnSell.backgroundColor = [ConMethods colorWithHexString:@"c40000"];
+        }
+    }
+
+
+}
 
 
 - (IBAction)remberMethods:(UIButton *)sender {
@@ -1197,12 +1356,16 @@
         if ([[responseObject objectForKey:@"success"] boolValue] == YES){
             NSLog(@"JSON: %@", responseObject);
             
-            [self.navigationController popViewControllerAnimated:YES];
+            //[self.navigationController popViewControllerAnimated:YES];
             [[HttpMethods Instance] activityIndicate:NO
-                                          tipContent:@"加载完成"
+                                          tipContent:@"售出报价成功"
                                        MBProgressHUD:nil
                                               target:self.navigationController.view
                                      displayInterval:3];
+            
+             [self requestSeelData:codeSellLab.text];
+            
+            
         } else {
             
             
@@ -1249,12 +1412,13 @@
         if ([[responseObject objectForKey:@"success"] boolValue] == YES){
             NSLog(@"JSON: %@", responseObject);
             
-            [self.navigationController popViewControllerAnimated:YES];
+            //[self.navigationController popViewControllerAnimated:YES];
             [[HttpMethods Instance] activityIndicate:NO
-                                          tipContent:@"加载完成"
+                                          tipContent:@"购买报价成功"
                                        MBProgressHUD:nil
                                               target:self.navigationController.view
                                      displayInterval:3];
+             //[self requestData:codeLab.text];
         } else {
             
             
@@ -1320,6 +1484,64 @@
         } else {
             [self requestBuyCount];
         }
+    } else if (textField == countLab){
+        
+        if ([buyLab.text intValue] == 0) {
+            countLab.text = @"0";
+            addCountBtn.enabled = NO;
+            addCountBtn.backgroundColor = [ConMethods colorWithHexString:@"9a9a9a"];
+            jianCountBtn.enabled = NO;
+            jianCountBtn.backgroundColor = [ConMethods colorWithHexString:@"9a9a9a"];
+            
+        } else {
+        
+          if ([countLab.text intValue] < [[myDic objectForKey:@"FID_JYJS"] intValue]) {
+              countLab.text = [NSString stringWithFormat:@"%.2f",[[myDic objectForKey:@"FID_JYJS"] floatValue]];
+              addCountBtn.enabled = YES;
+              addCountBtn.backgroundColor = [ConMethods colorWithHexString:@"c40000"];
+              jianCountBtn.enabled = NO;
+              jianCountBtn.backgroundColor = [ConMethods colorWithHexString:@"9a9a9a"];
+    
+          } else if([countLab.text intValue] < [buyLab.text intValue]){
+          
+              countLab.text = buyLab.text;
+              jianCountBtn.enabled = YES;
+              jianCountBtn.backgroundColor = [ConMethods colorWithHexString:@"c40000"];
+              addCountBtn.enabled = NO;
+              addCountBtn.backgroundColor = [ConMethods colorWithHexString:@"9a9a9a"];
+          
+          }
+        }
+    } else if (textField == countSellLab){
+        if ([buySellLab.text intValue] == 0) {
+            countSellLab.text = @"0";
+            addCountBtnSell.enabled = NO;
+            addCountBtnSell.backgroundColor = [ConMethods colorWithHexString:@"9a9a9a"];
+            jianCountBtnSell.enabled = NO;
+            jianCountBtnSell.backgroundColor = [ConMethods colorWithHexString:@"9a9a9a"];
+            
+        } else {
+            
+            if ([countSellLab.text intValue] < [[mySellDic objectForKey:@"FID_JYJS"] intValue]) {
+                countSellLab.text = [NSString stringWithFormat:@"%.2f",[[mySellDic objectForKey:@"FID_JYJS"] floatValue]];
+              
+                addCountBtnSell.enabled = YES;
+                addCountBtnSell.backgroundColor = [ConMethods colorWithHexString:@"c40000"];
+                jianCountBtnSell.enabled = NO;
+                jianCountBtnSell.backgroundColor = [ConMethods colorWithHexString:@"9a9a9a"];
+                
+            } else if([countSellLab.text intValue] < [buySellLab.text intValue]){
+                
+                countSellLab.text = buySellLab.text;
+                jianCountBtnSell.enabled = YES;
+                jianCountBtnSell.backgroundColor = [ConMethods colorWithHexString:@"c40000"];
+                addCountBtnSell.enabled = NO;
+                addCountBtnSell.backgroundColor = [ConMethods colorWithHexString:@"9a9a9a"];
+                
+                
+            }
+        }
+    
     }
     
 }
@@ -1351,6 +1573,19 @@
                                               target:self.view
                                      displayInterval:3];
             
+            if ([buySellLab.text intValue] == 0) {
+                addCountBtnSell.enabled = NO;
+                sureBtnSell.enabled = NO;
+                addCountBtnSell.backgroundColor = [ConMethods colorWithHexString:@"9a9a9a"];
+                sureBtnSell.backgroundColor = [ConMethods colorWithHexString:@"9a9a9a"];
+               
+           
+            } else {
+                addCountBtnSell.enabled = YES;
+                sureBtnSell.enabled = YES;
+                addCountBtnSell.backgroundColor = [ConMethods colorWithHexString:@"c40000"];
+                sureBtnSell.backgroundColor = [ConMethods colorWithHexString:@"c40000"];
+            }
             
             
         } else {
@@ -1407,7 +1642,20 @@
                                               target:self.view
                                      displayInterval:3];
             
-           
+            if ([buyLab.text intValue] == 0) {
+                addCountBtn.enabled = NO;
+                sureBtn.enabled = NO;
+                addCountBtn.backgroundColor = [ConMethods colorWithHexString:@"9a9a9a"];
+                sureBtn.backgroundColor = [ConMethods colorWithHexString:@"9a9a9a"];
+                
+                
+            } else {
+                addCountBtn.enabled = YES;
+                sureBtn.enabled = YES;
+                addCountBtn.backgroundColor = [ConMethods colorWithHexString:@"c40000"];
+                sureBtn.backgroundColor = [ConMethods colorWithHexString:@"c40000"];
+            }
+
             
         } else {
             

@@ -26,6 +26,7 @@
 @property (strong, nonatomic)CPVTabViewController *tabBarController;
 @property (strong, nonatomic) NSMutableDictionary *loginUser;
 @property (strong, nonatomic) NSMutableDictionary *userMoney;
+@property (strong, nonatomic) NSMutableDictionary *userInfoUpdate;
 @property (strong, nonatomic) NSString *loginStr;
 
 @end

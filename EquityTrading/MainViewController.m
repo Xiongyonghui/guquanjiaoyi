@@ -466,9 +466,19 @@
                     [backView addSubview:dayLabel];
                     
                     UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(55, 43, ScreenWidth/2 - 10 - 55, 14)];
+                    
+                    
+                    if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_ZSP"] doubleValue] <= [[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_ZXJ"] doubleValue]) {
+                        dateLabel.textColor = [ConMethods colorWithHexString:@"bd0100"];
+                    } else {
+                     dateLabel.textColor = [UIColor greenColor];
+                    
+                    }
+                    
+                    
                     dateLabel.text = [NSString stringWithFormat:@"%.2f元",[[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_ZXJ"] doubleValue]];
                     dateLabel.font = [UIFont systemFontOfSize:14];
-                    dateLabel.textColor = [ConMethods colorWithHexString:@"333333"];
+                   
 
                     [backView addSubview:dateLabel];
 
@@ -499,7 +509,7 @@
                     
                     
                     UILabel *moneyLabel = [[UILabel alloc] initWithFrame:CGRectMake(55, 63, ScreenWidth/2 - 55 , 14)];
-                    moneyLabel.text = [NSString stringWithFormat:@"%@元",[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_ZSP"]];
+                    moneyLabel.text = [NSString stringWithFormat:@"%.2f元",[[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_ZSP"] doubleValue]];
                     moneyLabel.font = [UIFont systemFontOfSize:14];
                     moneyLabel.textColor = [ConMethods colorWithHexString:@"333333"];
                     // moneyLabel.textAlignment = NSTextAlignmentCenter;
@@ -631,32 +641,32 @@
                     [kuiLabTip setTextColor:[ConMethods colorWithHexString:@"999999"]];
                     
                     kuiLabTip.text = @"累计盈亏";
-                    [backView addSubview:kuiLabTip];
+                    //[backView addSubview:kuiLabTip];
                     
                     UILabel *kuiLabel = [[UILabel alloc] initWithFrame:CGRectMake(65, 62, ScreenWidth/2 - 75, 13)];
                     kuiLabel.font = [UIFont systemFontOfSize:13];
                     [kuiLabel setTextColor:[ConMethods colorWithHexString:@"333333"]];
                     kuiLabel.text = [NSString stringWithFormat:@"%@元",[[dataListPast objectAtIndex:indexPath.row] objectForKey:@"FID_LJYK"] ];
-                    [backView addSubview:kuiLabel];
+                   // [backView addSubview:kuiLabel];
 //盈亏比例
-                    /*
-                    UILabel *biliLabTip = [[UILabel alloc] initWithFrame:CGRectMake( ScreenWidth/2 - 10, 63, 52, 13)];
+                    
+                    UILabel *biliLabTip = [[UILabel alloc] initWithFrame:CGRectMake(10, 63, 52, 13)];
                     biliLabTip.font = [UIFont systemFontOfSize:13];
                     [biliLabTip setTextColor:[ConMethods colorWithHexString:@"999999"]];
                     
-                    biliLabTip.text = @"盈亏比例";
+                    biliLabTip.text = @"浮动盈亏";
                     [backView addSubview:biliLabTip];
                     
-                    UILabel *biliLabel = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth/2 - 10 + 55, 62, ScreenWidth/2 - 20 - 45, 13)];
+                    UILabel *biliLabel = [[UILabel alloc] initWithFrame:CGRectMake(65,63, ScreenWidth - 75, 13)];
                     biliLabel.font = [UIFont systemFontOfSize:13];
                     [biliLabel setTextColor:[ConMethods colorWithHexString:@"333333"]];
                     
-                    float bili = [[[dataListPast objectAtIndex:indexPath.row] objectForKey:@"FID_LJYK"] floatValue]/[[[dataListPast objectAtIndex:indexPath.row] objectForKey:@"FID_TZJE"] floatValue]*100;
+                   // float bili = [[[dataListPast objectAtIndex:indexPath.row] objectForKey:@"FID_LJYK"] floatValue]/[[[dataListPast objectAtIndex:indexPath.row] objectForKey:@"FID_TZJE"] floatValue]*100;
                     
                     
-                    biliLabel.text = [NSString stringWithFormat:@"%.2f%@",bili,@"%"];
+                    biliLabel.text = [NSString stringWithFormat:@"%.2f元",[[[dataListPast objectAtIndex:indexPath.row] objectForKey:@"FID_FDYK"] floatValue]];
                     [backView addSubview:biliLabel];
-                     */
+                    
                     [cell.contentView addSubview:backView];
                 }
            

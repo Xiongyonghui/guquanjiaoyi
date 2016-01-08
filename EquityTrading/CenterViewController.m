@@ -34,7 +34,8 @@
         addHight = 0;
     }
 
-    arrTitle = @[@"手机认证",@"登录密码",@"交易密码"];
+   // arrTitle = @[@"手机认证",@"登录密码",@"交易密码"];
+    arrTitle = @[@"手机认证",@"交易密码"];
     
     table = [[UITableView alloc] initWithFrame:CGRectMake(0, addHight + 44, ScreenWidth,ScreenHeight - 64)];
     [table setDelegate:self];
@@ -71,8 +72,10 @@
     }
     
     cell.textLabel.text = [arrTitle objectAtIndex:indexPath.row];
-    
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    if (indexPath.row == 1) {
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }
+   
     
     return cell;
 }
@@ -89,13 +92,15 @@
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tbleView deselectRowAtIndexPath:indexPath animated:YES];
-    
+    /*
     if (indexPath.row == 1) {
        
         ChangeLoginPWViewController *vc = [[ChangeLoginPWViewController alloc] init];
         [self.navigationController pushViewController:vc animated:YES];
         
-    } else if(indexPath.row == 2){
+    } else 
+     */
+     if(indexPath.row == 1){
         ChangerPassWordViewController *vc = [[ChangerPassWordViewController alloc] init];
         [self.navigationController pushViewController:vc animated:YES];
     

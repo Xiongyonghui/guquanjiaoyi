@@ -96,10 +96,12 @@
 		047C3BFD1BE35E1300EAEF67 /* MyTransferSuccessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 047C3BF41BE35E1300EAEF67 /* MyTransferSuccessViewController.m */; };
 		047C3BFE1BE35E1300EAEF67 /* MyTransferSuccessViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 047C3BF51BE35E1300EAEF67 /* MyTransferSuccessViewController.xib */; };
 		A1F1A7B31C27D73800170CF5 /* HMSegmentedControlLast.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F1A7B21C27D73800170CF5 /* HMSegmentedControlLast.m */; };
+		A1FC4B141C3CADE8009199B4 /* InfoPersonlViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FC4B121C3CADE8009199B4 /* InfoPersonlViewController.m */; };
+		A1FC4B151C3CADE8009199B4 /* InfoPersonlViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1FC4B131C3CADE8009199B4 /* InfoPersonlViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		040B2D491BDF111600A2F1FE /* EquityTrading.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EquityTrading.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		040B2D491BDF111600A2F1FE /* 高交所.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "高交所.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		040B2D4D1BDF111600A2F1FE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		040B2D4F1BDF111600A2F1FE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		040B2D501BDF111600A2F1FE /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -257,6 +259,9 @@
 		047C3BF51BE35E1300EAEF67 /* MyTransferSuccessViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyTransferSuccessViewController.xib; sourceTree = "<group>"; };
 		A1F1A7B11C27D73800170CF5 /* HMSegmentedControlLast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HMSegmentedControlLast.h; sourceTree = "<group>"; };
 		A1F1A7B21C27D73800170CF5 /* HMSegmentedControlLast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HMSegmentedControlLast.m; sourceTree = "<group>"; };
+		A1FC4B111C3CADE8009199B4 /* InfoPersonlViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoPersonlViewController.h; sourceTree = "<group>"; };
+		A1FC4B121C3CADE8009199B4 /* InfoPersonlViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfoPersonlViewController.m; sourceTree = "<group>"; };
+		A1FC4B131C3CADE8009199B4 /* InfoPersonlViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InfoPersonlViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -285,7 +290,7 @@
 		040B2D4A1BDF111600A2F1FE /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				040B2D491BDF111600A2F1FE /* EquityTrading.app */,
+				040B2D491BDF111600A2F1FE /* 高交所.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -565,6 +570,9 @@
 		047C3BD71BE3505800EAEF67 /* 我的账户跳转界面 */ = {
 			isa = PBXGroup;
 			children = (
+				A1FC4B111C3CADE8009199B4 /* InfoPersonlViewController.h */,
+				A1FC4B121C3CADE8009199B4 /* InfoPersonlViewController.m */,
+				A1FC4B131C3CADE8009199B4 /* InfoPersonlViewController.xib */,
 				047C3BE21BE3512A00EAEF67 /* MoneyAccountViewController.h */,
 				047C3BE31BE3512A00EAEF67 /* MoneyAccountViewController.m */,
 				047C3BE41BE3512A00EAEF67 /* MoneyAccountViewController.xib */,
@@ -629,7 +637,7 @@
 			);
 			name = EquityTrading;
 			productName = EquityTrading;
-			productReference = 040B2D491BDF111600A2F1FE /* EquityTrading.app */;
+			productReference = 040B2D491BDF111600A2F1FE /* 高交所.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -643,6 +651,7 @@
 				TargetAttributes = {
 					040B2D481BDF111600A2F1FE = {
 						CreatedOnToolsVersion = 7.1;
+						DevelopmentTeam = 53XD6SNPMQ;
 					};
 				};
 			};
@@ -685,6 +694,7 @@
 				04103EFF1BEAF8A2007C90E2 /* DayDealViewController.xib in Resources */,
 				046590911BE1EE450071601F /* AboutViewController.xib in Resources */,
 				047C3BE91BE3512A00EAEF67 /* MoneyAccountViewController.xib in Resources */,
+				A1FC4B151C3CADE8009199B4 /* InfoPersonlViewController.xib in Resources */,
 				040B2D591BDF111600A2F1FE /* Assets.xcassets in Resources */,
 				041A21AC1BE0995700216EEE /* sdRefeshView_arrow@2x.png in Resources */,
 				0417EA971BE85A85000F2525 /* TransferDetailViewController.xib in Resources */,
@@ -749,6 +759,7 @@
 				046590971BE1EE8A0071601F /* WebDetailViewController.m in Sources */,
 				040B2DA41BDF152300A2F1FE /* AFNetworkReachabilityManager.m in Sources */,
 				040B2D7D1BDF14CB00A2F1FE /* ConMethods.m in Sources */,
+				A1FC4B141C3CADE8009199B4 /* InfoPersonlViewController.m in Sources */,
 				04103EFE1BEAF8A2007C90E2 /* DayDealViewController.m in Sources */,
 				040B2DC11BDF155000A2F1FE /* UIImageView+AFNetworking.m in Sources */,
 				040B2DA01BDF152300A2F1FE /* README.md in Sources */,
@@ -859,13 +870,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Fujian Apex Software Co., Ltd.";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: CHINA BEIJING EQUITY EXCHANGE CO.,LTD (4S5SE8M26V)";
 				INFOPLIST_FILE = EquityTrading/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = inHouse.com.apex.testXiong;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "0ffdd4f0-1ee2-434a-83cf-2632bb87ec0b";
+				PRODUCT_BUNDLE_IDENTIFIER = BeijiaosuoByXiong;
+				PRODUCT_NAME = "高交所";
+				PROVISIONING_PROFILE = "e030903b-9973-4895-a648-f7e83e4a8242";
 			};
 			name = Debug;
 		};
@@ -874,13 +885,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Fujian Apex Software Co., Ltd.";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: CHINA BEIJING EQUITY EXCHANGE CO.,LTD (4S5SE8M26V)";
 				INFOPLIST_FILE = EquityTrading/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = inHouse.com.apex.testXiong;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "0ffdd4f0-1ee2-434a-83cf-2632bb87ec0b";
+				PRODUCT_BUNDLE_IDENTIFIER = BeijiaosuoByXiong;
+				PRODUCT_NAME = "高交所";
+				PROVISIONING_PROFILE = "e030903b-9973-4895-a648-f7e83e4a8242";
 			};
 			name = Release;
 		};

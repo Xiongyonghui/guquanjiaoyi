@@ -16,6 +16,7 @@
 #import "CenterViewController.h"
 #import "RechargeViewController.h"
 #import "WithdrawViewController.h"
+#import "InfoPersonlViewController.h"
 
 
 @interface MyViewController ()
@@ -53,7 +54,7 @@
             
            
             [self requestMethods];
-               
+            [self requestUpdateInfoMethods];
                 
             
             
@@ -78,6 +79,50 @@
     
 }
 
+
+//更新个人数据方法
+-(void)requestUpdateInfoMethods {
+   
+    NSDictionary *parameters = @{};
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    //manager.responseSerializer.acceptableContentTypes =  [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];//设置相应内容类型
+    
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    
+    [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERupdateUserInfo] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        if ([[responseObject objectForKey:@"success"] boolValue]){
+            NSLog(@"JSON: %@", responseObject);
+          
+          
+            AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+            delegate.userInfoUpdate = [responseObject objectForKey:@"object"];
+            
+            
+        } else {
+            
+            
+            NSLog(@"JSON: %@", responseObject);
+            NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
+            
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        [[HttpMethods Instance] activityIndicate:NO
+                                      tipContent:notNetworkConnetTip
+                                   MBProgressHUD:nil
+                                          target:self.view
+                                 displayInterval:3];
+        
+        NSLog(@"Error: %@", error);
+    }];
+    
+    
+}
 
 //请求数据方法
 -(void)requestMethods {
@@ -191,14 +236,14 @@
     
     //累计收益
     /*
-    //accumulatedLab.text = [NSString stringWithFormat:@"%.2f",[[arraydata objectForKey:@"jrljzsy"] floatValue]];
+    //accumulatedLab.text = [NSString stringWithFormat:@"%.2f",[[arraydata objectForKey:@"FID_DJJE"] floatValue]];
     // accumulatedLab.text =[NSString stringWithFormat:@"%.2f",[[arraydata objectForKey:@"jrljzsy"] floatValue]];
-    
-    if ([[arraydata objectForKey:@"FID_ZXSZ"] isEqualToString:@"0"]) {
+    */
+    if ([[arraydata objectForKey:@"FID_DJJE"] isEqualToString:@"0"]) {
         accumulatedLab.text = @"0.00";
     } else {
         
-        NSString *strrljzsy = [NSString stringWithFormat:@"%.2f",[[arraydata objectForKey:@"FID_ZXSZ"] doubleValue]];
+        NSString *strrljzsy = [NSString stringWithFormat:@"%.2f",[[arraydata objectForKey:@"FID_DJJE"] doubleValue]];
         
         NSRange range = [strrljzsy rangeOfString:@"."];//匹配得到的下标
         
@@ -211,10 +256,10 @@
         NSString *string1 = [strrljzsy substringFromIndex:range.location];
         
         NSString *str1 = [strrljzsy substringToIndex:range.location];
-        */
-        incomeLab.text = [arraydata objectForKey:@"FID_DJJE"];
+     
+        incomeLab.text = [NSString stringWithFormat:@"%@%@",[PublicMethod AddComma:str1],string1];
         
-   // }
+    }
 }
 
 
@@ -420,6 +465,24 @@
         nameTitle.font = [UIFont systemFontOfSize:17];
         [view addSubview:nameTitle];
         
+        
+        UIButton *userBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        userBtn.frame = CGRectMake(ScreenWidth - 70, 11, 60, 22);
+        // [userBtn setBackgroundImage:[UIImage imageNamed:@"my_info"] forState:UIControlStateNormal];
+        [userBtn setTitle:@"账户信息" forState:UIControlStateNormal];
+        [userBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        userBtn.titleLabel.font = [UIFont systemFontOfSize:13];
+        
+        [userBtn addTarget:self action:@selector(pushToUserInfoVC) forControlEvents:UIControlEventTouchUpInside];
+        [view addSubview:userBtn];
+        
+        
+        
+        
+        
+        
+        
+        
         UILabel *totalTip = [[UILabel alloc] initWithFrame:CGRectMake(20,40 + 10, (ScreenWidth - 20)/2, 14)];
         totalTip.font = [UIFont systemFontOfSize:13];
         //totalTip.textAlignment = NSTextAlignmentCenter;
@@ -534,6 +597,18 @@
 }
 
 
+-(void)pushToUserInfoVC{
+    
+    
+    InfoPersonlViewController *vc = [[InfoPersonlViewController alloc] init];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+    
+    
+}
+
+
+
 
 
 - (void)tableView:(UITableView *)tbleView
@@ -554,24 +629,29 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
             
             
         }else if (indexPath.row == 2) {
-            DayDealViewController *vc = [[DayDealViewController alloc] init];
+            
+            MonthlyTurnoverViewController *vc = [[MonthlyTurnoverViewController alloc] init];
             vc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:vc animated:YES];
+           
             
         }
     } else if (indexPath.section == 1){
         if (indexPath.row == 0){
             
-            MonthlyTurnoverViewController *vc = [[MonthlyTurnoverViewController alloc] init];
-            vc.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:vc animated:YES];
-        }else if (indexPath.row == 1){
             MoneyInfoViewController *vc = [[MoneyInfoViewController alloc] init];
             vc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:vc animated:YES];
             
-        } else {
+           
+        }else if (indexPath.row == 1){
             CenterViewController *vc = [[CenterViewController alloc] init];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+            
+            
+        } else {
+            DayDealViewController *vc = [[DayDealViewController alloc] init];
             vc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:vc animated:YES];
             

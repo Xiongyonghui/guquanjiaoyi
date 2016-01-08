@@ -96,7 +96,7 @@
         addHight = 0;
     }
     
-    NSArray *segmentedArray = [[NSArray alloc]initWithObjects:@"我的资产",@"我的投资产品",nil];
+    NSArray *segmentedArray = [[NSArray alloc]initWithObjects:@"我的资产",@"我的持仓",nil];
     segmented = [[UISegmentedControl alloc]initWithItems:segmentedArray];
     
     
@@ -465,24 +465,24 @@
                 kuiLabel.text = [NSString stringWithFormat:@"%@元",[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_LJYK"] ];
                 [backView addSubview:kuiLabel];
                 //盈亏比例
-                /*
+                
                 UILabel *biliLabTip = [[UILabel alloc] initWithFrame:CGRectMake( ScreenWidth/2 - 10, 63, 52, 13)];
                 biliLabTip.font = [UIFont systemFontOfSize:13];
                 [biliLabTip setTextColor:[ConMethods colorWithHexString:@"999999"]];
                 
-                biliLabTip.text = @"盈亏比例";
+                biliLabTip.text = @"浮动盈亏";
                 [backView addSubview:biliLabTip];
                 
                 UILabel *biliLabel = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth/2 - 10 + 55, 62, ScreenWidth/2 - 20 - 45, 13)];
                 biliLabel.font = [UIFont systemFontOfSize:13];
                 [biliLabel setTextColor:[ConMethods colorWithHexString:@"333333"]];
                 
-                float bili = [[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_LJYK"] floatValue]/[[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_TZJE"] floatValue]*100;
+               // float bili = [[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_LJYK"] floatValue]/[[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_TZJE"] floatValue]*100;
                 
                 
-                biliLabel.text = [NSString stringWithFormat:@"%.2f%@",bili,@"%"];
+                biliLabel.text = [NSString stringWithFormat:@"%.2f元",[[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_FDYK"] doubleValue]];
                 [backView addSubview:biliLabel];
-                 */
+                 
                 [cell.contentView addSubview:backView];
             }
             // return cell;

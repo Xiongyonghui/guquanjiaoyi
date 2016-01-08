@@ -50,14 +50,14 @@
     
     _imgView.frame = CGRectMake((ScreenWidth - 80)/2, 20, 80, 80);
     
-    _versonLab.text = @"添金投:v1.0.0";
+    _versonLab.text = @"高交所:v1.0.0";
     
     
     UILabel *lablast = [[UILabel alloc] initWithFrame:CGRectMake(15, ScreenHeight -25 - 14, ScreenWidth - 30, 13)];
     lablast.text = @"津ICP备08102316号";
     lablast.textAlignment = NSTextAlignmentCenter;
     lablast.font = [UIFont systemFontOfSize:13];
-    [self.view addSubview:lablast];
+   // [self.view addSubview:lablast];
     
     
     
@@ -65,7 +65,7 @@
     lab.text = @"版权所有 © 天津股权交易所";
     lab.textAlignment = NSTextAlignmentCenter;
     lab.font = [UIFont systemFontOfSize:12];
-    [self.view addSubview:lab];
+   // [self.view addSubview:lab];
     
 
     

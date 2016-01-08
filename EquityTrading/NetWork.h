@@ -14,7 +14,15 @@
 
 //股权交易外网地址
 //#define SERVERURL @"http://218.66.59.169:8401"
-#define SERVERURL @"http://36.250.12.200:8080/APP"
+//#define SERVERURL @"http://36.250.12.200:8080/APP"
+
+#define SERVERURL @"http://test.fjgjs.net:8080/APP"
+
+
+//股权app公司环境地址
+//#define SERVERURL @"http://192.168.1.84:8082"
+
+
 
 
 // 红色背景图 c40000
@@ -35,6 +43,12 @@
 
 //#define SERVERURL @"http://118.242.27.51:8080"
 //192.168.1.110:8801
+
+/*
+ 000000001009 000000
+ 000000001021 000000
+ */
+
 
 //连接失败提示语
 #define notNetworkConnetTip @"网络不稳定，请检查网络是否连接；或者服务器是否开启。"
@@ -74,6 +88,12 @@
 #define USERfundslist @"/app/zjgl/index/myfunds/fundslist"
 //我的资产
 #define USERwdzc @"/app/wdzh/wdzc/index"
+
+//个人信息
+#define USERwdyhk @"/app/wdzh/wdyhk/index"
+
+#define USERupdateUserInfo @"/app/wdzh/account/updateUserInfo"
+
 
 //充值
 #define USERapplySaveMoneySubmit @"/app/zjgl/index/transAccount/applySaveMoneySubmit"
